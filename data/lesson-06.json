@@ -1,0 +1,84 @@
+{
+  "id": "06", "title": "Action / Intervention", "stageId": "CORE-STAGE-2", "tier": "CORE", "importance": "normal", "questionCount": 5, "passScore": 4,
+  "conceptTags": [
+    { "id": "action", "label": "Action" }, { "id": "intervention", "label": "Intervention" },
+    { "id": "evaluation_vs_action", "label": "EvaluationとAction" }, { "id": "connected_action", "label": "Evaluationに接続したAction" }
+  ],
+  "confusionTags": ["evaluation_vs_action", "action_not_executable", "action_not_connected", "unnecessary_intervention"],
+  "content": {
+    "summary": "Evaluationを受けて次に行うActionを選び、状態へ直接働きかけるInterventionと区別します。",
+    "objectives": ["EvaluationとActionを区別できる", "ActionとInterventionの違いを理解する", "Evaluation結果に対応する実行可能なActionを選べる", "ObservationだけをActionと誤認しない", "不必要に強いInterventionを避ける"],
+    "definition": "ActionはEvaluationを受けて実行する処理です。InterventionはActionのうち、対象の状態を変えるために直接働きかけるものです。",
+    "examples": ["Evaluation：学習時間がTarget未達。Action：原因確認のため開始時刻を記録する。Intervention：翌週から開始時刻を30分早める。"],
+    "commonMistakes": ["『未達である』というEvaluationをActionと呼ぶ。", "追加Observationを状態変更のInterventionと混同する。", "原因や影響を確認せず最も強い介入を選ぶ。"],
+    "keyPoints": ["Evaluationは判断、Actionは実行である", "すべてのActionがInterventionではない", "ActionはEvaluation結果とPurposeへ接続する", "必要十分な強さのActionを選ぶ"],
+    "flow": [{ "label": "Evaluation", "caption": "状態への判断" }, { "label": "Action", "caption": "次に実行する処理" }, { "label": "Intervention", "caption": "状態へ直接働きかける" }]
+  },
+  "quiz": { "questions": [
+    {
+      "id": "q01", "conceptId": "intervention", "questionType": "single_choice", "assessmentFocus": "Recognition", "prompt": "ActionとInterventionの関係として最も適切なものはどれですか？",
+      "options": [
+        { "id": "a", "label": "すべてのActionは必ず状態を直接変えるInterventionである", "feedback": "追加観測や原因確認など、直接介入しないActionもあります。" },
+        { "id": "b", "label": "InterventionはActionのうち、対象状態を変えるために直接働きかけるもの", "feedback": "Actionの部分集合としてInterventionを区別しています。" },
+        { "id": "c", "label": "Actionは判断、Interventionは観測である", "feedback": "Actionは実行であり、Interventionも実行の一種です。" },
+        { "id": "d", "label": "両者は常に同じ意味で区別不要である", "feedback": "直接介入かどうかを分けると影響とリスクを判断できます。" }
+      ], "correctOptionId": "b", "explanation": "Interventionは状態を変える意図を持つActionです。"
+    },
+    {
+      "id": "q02", "conceptId": "evaluation_vs_action", "questionType": "classification", "assessmentFocus": "Example / Classification", "prompt": "Evaluation『応答時間がTargetを2時間超過』を受けたActionはどれですか？",
+      "options": [
+        { "id": "a", "label": "Targetを2時間超過している", "feedback": "Evaluationの言い換えです。" },
+        { "id": "b", "label": "次の20件について受付から担当割当までの時間を記録する", "feedback": "原因確認へ進む実行可能なActionです。" },
+        { "id": "c", "label": "初回応答時間は5時間だった", "feedback": "Observationです。" },
+        { "id": "d", "label": "直近30件の応答時間中央値", "feedback": "Stateです。" }
+      ], "correctOptionId": "b", "explanation": "Evaluation後に実行され、次の判断材料を作る処理がActionです。"
+    },
+    {
+      "id": "q03", "conceptId": "connected_action", "questionType": "single_choice", "assessmentFocus": "Discrimination", "prompt": "Evaluation『学習時間は未達。開始が遅い日ほど短い』に最も接続したInterventionはどれですか？",
+      "options": [
+        { "id": "a", "label": "翌週は学習開始時刻を30分早める", "feedback": "Evaluationで示された開始時刻へ直接働きかけます。" },
+        { "id": "b", "label": "新しいノートを購入する", "feedback": "開始の遅さとの接続がありません。" },
+        { "id": "c", "label": "Targetを35分へ下げる", "feedback": "状態改善ではなく基準を現状へ合わせています。" },
+        { "id": "d", "label": "学習時間が短いともう一度判断する", "feedback": "Evaluationを繰り返すだけで実行がありません。" }
+      ], "correctOptionId": "a", "explanation": "Actionは判明したGapや原因候補へ接続させます。"
+    },
+    {
+      "id": "q04", "conceptId": "intervention", "questionType": "error_detection", "assessmentFocus": "Error Detection", "prompt": "在庫が安全水準を1個下回っただけで、全商品の販売を1か月停止する設計です。最も重要な問題は何ですか？",
+      "options": [
+        { "id": "a", "label": "在庫をEvaluationしている", "feedback": "安全水準との比較は必要です。" },
+        { "id": "b", "label": "Gapに対してInterventionが過剰で、影響と必要性を釣り合わせていない", "feedback": "必要以上に強い介入は副作用を増やします。" },
+        { "id": "c", "label": "販売という業務を扱っている", "feedback": "対象業務自体は問題ではありません。" },
+        { "id": "d", "label": "期間を明示している", "feedback": "明示は有用ですが、介入強度の妥当性が問題です。" }
+      ], "correctOptionId": "b", "explanation": "InterventionはEvaluationの深刻度と目的に応じた必要十分な強さにします。"
+    },
+    {
+      "id": "q05", "conceptId": "connected_action", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement", "prompt": "体重StateがTarget未達ですが、原因候補がまだありません。次のActionとして適切なのはどれですか？",
+      "options": [
+        { "id": "a", "label": "直ちに食事を半分にする", "feedback": "根拠なしに強いInterventionを選んでいます。" },
+        { "id": "b", "label": "1週間の食事量と活動量を追加Observationし、原因候補を確認する", "feedback": "強い介入前に判断材料を得るActionです。" },
+        { "id": "c", "label": "未達というEvaluationを削除する", "feedback": "問題を隠すだけです。" },
+        { "id": "d", "label": "Targetを現在体重へ変更する", "feedback": "Purposeを満たさずにGapを消しています。" }
+      ], "correctOptionId": "b", "explanation": "不確実性が高い場合、まず原因確認のActionを選べます。"
+    }
+  ] },
+  "miniBuilder": {
+    "theme": "学習時間がTarget未達のときの次の一手", "title": "EvaluationにActionを接続する", "builderType": "guided", "mode": "constrained",
+    "intro": "Evaluation『平均35分でTarget 60分未達。開始が遅い日に短い』に対応するActionを選択してください。",
+    "steps": [
+      { "id": "actionChoice", "type": "single_choice", "label": "① Action / Intervention", "prompt": "評価結果と原因候補へ接続した実行可能な候補はどれですか？", "options": [
+        { "id": "action_connected", "label": "翌週、学習開始時刻を30分早める" },
+        { "id": "action_evaluation", "label": "学習時間はTarget未達だと判断する" },
+        { "id": "action_vague", "label": "もっと頑張る" },
+        { "id": "action_unconnected", "label": "学習用のペンを新しくする" },
+        { "id": "action_excessive", "label": "睡眠を毎日3時間削って学習する" }
+      ] }
+    ],
+    "acceptableConnections": [{ "id": "evaluation-action", "selections": { "actionChoice": "action_connected" } }],
+    "weaknessRules": [
+      { "stepId": "actionChoice", "triggerOptionIds": ["action_evaluation"], "code": "evaluation_vs_action", "message": "EvaluationをActionとして選んでいます。" },
+      { "stepId": "actionChoice", "triggerOptionIds": ["action_vague"], "code": "action_not_executable", "message": "誰が何を行うか実行可能な形になっていません。" },
+      { "stepId": "actionChoice", "triggerOptionIds": ["action_unconnected"], "code": "action_not_connected", "message": "Evaluationで示された問題へ接続していません。" },
+      { "stepId": "actionChoice", "triggerOptionIds": ["action_excessive"], "code": "unnecessary_intervention", "message": "目的に対して介入が過剰です。" }
+    ]
+  }
+}

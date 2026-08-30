@@ -1,0 +1,124 @@
+{
+  "id": "05",
+  "title": "評価ルール（Evaluation Rule）",
+  "stageId": "CORE-STAGE-2",
+  "tier": "CORE",
+  "importance": "normal",
+  "questionCount": 5,
+  "passScore": 4,
+  "conceptTags": [
+    { "id": "evaluation_rule", "label": "Evaluation Rule" },
+    { "id": "state_vs_evaluation", "label": "StateとEvaluation" },
+    { "id": "reproducible_evaluation", "label": "再現可能なEvaluation" },
+    { "id": "threshold_basis", "label": "Thresholdの根拠" }
+  ],
+  "confusionTags": ["state_vs_evaluation", "evaluation_without_rule", "evaluation_not_reproducible", "unsupported_threshold"],
+  "content": {
+    "summary": "StateをTargetや基準と比較し、同じ入力なら原則同じ判断になるEvaluation Ruleを設計します。",
+    "objectives": [
+      "StateとEvaluationを区別できる",
+      "何を基準に判断するかを説明できる",
+      "再現可能なEvaluation Ruleを選べる",
+      "曖昧な主観だけのEvaluationを避けられる",
+      "Thresholdの根拠と観測Factを分離できる"
+    ],
+    "definition": "Evaluation Ruleは、StateをTarget・Threshold・基準と比較し、どの条件でどの判断にするかを定めるRuleです。",
+    "examples": ["State：7日平均学習時間35分。Target：60分。Rule：35分 < 60分ならTarget未達。"],
+    "commonMistakes": [
+      "Stateそのものを『良い』『悪い』というEvaluationとして保存する。",
+      "比較基準なしに担当者の感覚だけで判定する。",
+      "根拠のないThresholdを観測Factのように扱う。"
+    ],
+    "keyPoints": [
+      "Stateは判断への入力で、EvaluationはRuleを適用した結果である",
+      "Ruleは比較対象と判定条件を明示する",
+      "Thresholdの値と、その値を採用した根拠を分ける"
+    ],
+    "flow": [
+      { "label": "State", "caption": "Evaluationへの入力" },
+      { "label": "Evaluation Rule", "caption": "Targetや基準と比較" },
+      { "label": "Evaluation", "caption": "条件に基づく判断" }
+    ]
+  },
+  "quiz": {
+    "questions": [
+      {
+        "id": "q01", "conceptId": "evaluation_rule", "questionType": "single_choice", "assessmentFocus": "Recognition",
+        "prompt": "Evaluation Ruleの役割として最も適切なものはどれですか？",
+        "options": [
+          { "id": "a", "label": "取得したObservationをすべて保存する", "feedback": "これはObservationの保存であり、判断条件ではありません。" },
+          { "id": "b", "label": "Stateを基準と比較し、どの条件でどの判断にするか定める", "feedback": "入力・比較基準・判定条件を分離したRuleです。" },
+          { "id": "c", "label": "Evaluation後に実行するActionを列挙する", "feedback": "Action選択はEvaluation Ruleの後段です。" },
+          { "id": "d", "label": "Targetを達成できるよう現在値を書き換える", "feedback": "Stateの改変はEvaluationではありません。" }
+        ],
+        "correctOptionId": "b", "explanation": "Evaluation RuleはStateを基準と比較し、再現可能な判断へ変換します。"
+      },
+      {
+        "id": "q02", "conceptId": "state_vs_evaluation", "questionType": "classification", "assessmentFocus": "Example / Classification",
+        "prompt": "『直近7日の平均学習時間35分、Target 60分』に対するEvaluationはどれですか？",
+        "options": [
+          { "id": "a", "label": "直近7日の平均学習時間は35分である", "feedback": "これはStateの内容です。" },
+          { "id": "b", "label": "35分は60分未満なのでTarget未達である", "feedback": "StateをTargetと比較したEvaluationです。" },
+          { "id": "c", "label": "学習開始を30分早める", "feedback": "これはActionです。" },
+          { "id": "d", "label": "今日の学習時間を計測する", "feedback": "これはObservationです。" }
+        ],
+        "correctOptionId": "b", "explanation": "State、Evaluation、Action、Observationを責務で区別します。"
+      },
+      {
+        "id": "q03", "conceptId": "reproducible_evaluation", "questionType": "single_choice", "assessmentFocus": "Discrimination",
+        "prompt": "問い合わせ応答時間を判定するRuleとして最も再現可能なのはどれですか？",
+        "options": [
+          { "id": "a", "label": "担当者が遅いと感じたら未達", "feedback": "担当者の感覚で判定が変わります。" },
+          { "id": "b", "label": "直近30件の中央値がTarget 3時間を超えたら未達", "feedback": "同じStateとTargetなら同じ判定になります。" },
+          { "id": "c", "label": "忙しい日は達成扱いにする", "feedback": "『忙しい』の条件が定義されていません。" },
+          { "id": "d", "label": "結果を見てから適切な基準を決める", "feedback": "結果に合わせてRuleが変わり、再現できません。" }
+        ],
+        "correctOptionId": "b", "explanation": "対象State、比較値、条件が明示されたRuleは再現可能です。"
+      },
+      {
+        "id": "q04", "conceptId": "threshold_basis", "questionType": "error_detection", "assessmentFocus": "Error Detection",
+        "prompt": "チームが『満足度80点未満は失敗。80という値は客観的Factだ』と説明しました。最も重要な問題は何ですか？",
+        "options": [
+          { "id": "a", "label": "数値をThresholdに使っている", "feedback": "数値Threshold自体は有効です。" },
+          { "id": "b", "label": "80点を採用した根拠と、観測された満足度Factを混同している", "feedback": "Thresholdは設計判断であり、その根拠を別に示す必要があります。" },
+          { "id": "c", "label": "満足度を観測している", "feedback": "測定方法が明確なら観測できます。" },
+          { "id": "d", "label": "未満という比較演算を使っている", "feedback": "比較条件として問題ありません。" }
+        ],
+        "correctOptionId": "b", "explanation": "観測Factと、Thresholdを選んだ設計上の根拠は別の情報です。"
+      },
+      {
+        "id": "q05", "conceptId": "evaluation_rule", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement",
+        "prompt": "State『在庫12個』、安全在庫『20個』があります。次のEvaluationとして適切なのはどれですか？",
+        "options": [
+          { "id": "a", "label": "12個をもう一度記録する", "feedback": "Stateの複製で、Evaluationではありません。" },
+          { "id": "b", "label": "在庫は少ない気がすると判断する", "feedback": "利用可能な基準を使っていません。" },
+          { "id": "c", "label": "12 < 20のため安全在庫を8個下回ると判定する", "feedback": "Stateを明示された基準と比較しています。" },
+          { "id": "d", "label": "直ちに100個発注する", "feedback": "Evaluationを飛ばした強いActionです。" }
+        ],
+        "correctOptionId": "c", "explanation": "まずStateとThresholdの差を再現可能にEvaluationします。"
+      }
+    ]
+  },
+  "miniBuilder": {
+    "theme": "学習時間の達成状態を判定する",
+    "title": "StateへEvaluation Ruleを接続する",
+    "builderType": "guided", "mode": "constrained",
+    "intro": "State『7日平均35分』とTarget『60分』に適用するRuleを選択してください。",
+    "steps": [
+      { "id": "evaluationRule", "type": "single_choice", "label": "① Evaluation Rule", "prompt": "再現可能で、根拠を確認できるRuleはどれですか？", "options": [
+        { "id": "rule_target", "label": "7日平均がTarget 60分未満なら未達、60分以上なら達成" },
+        { "id": "rule_subjective", "label": "本人が頑張ったと感じたら達成" },
+        { "id": "rule_state", "label": "7日平均学習時間は35分" },
+        { "id": "rule_none", "label": "比較基準を決めず、その都度担当者が達成か判断する" },
+        { "id": "rule_unsupported", "label": "理由はないが90分未満なら失敗" }
+      ] }
+    ],
+    "acceptableConnections": [{ "id": "state-rule-evaluation", "selections": { "evaluationRule": "rule_target" } }],
+    "weaknessRules": [
+      { "stepId": "evaluationRule", "triggerOptionIds": ["rule_state"], "code": "state_vs_evaluation", "message": "StateそのものをEvaluation Ruleとして選んでいます。" },
+      { "stepId": "evaluationRule", "triggerOptionIds": ["rule_none"], "code": "evaluation_without_rule", "message": "比較基準と判定条件が定義されていません。" },
+      { "stepId": "evaluationRule", "triggerOptionIds": ["rule_subjective"], "code": "evaluation_not_reproducible", "message": "同じ入力でも判定者の感覚で結果が変わります。" },
+      { "stepId": "evaluationRule", "triggerOptionIds": ["rule_unsupported"], "code": "unsupported_threshold", "message": "Targetや根拠に接続されていないThresholdです。" }
+    ]
+  }
+}

@@ -38,7 +38,8 @@ async function loadTrainingData() {
     validateLesson(lesson, entry.id);
     return lesson;
   }));
-  const loadedStages = await Promise.all((catalog.stages || []).filter((entry) => entry.path).map(async (entry) => {
+  const loadedStages = await Promise.all((catalog.stages || []).map(async (entry) => {
+    if (!entry.path) return { ...entry, stageId: entry.id };
     const response = await fetch(entry.path);
     if (!response.ok) throw new Error(`Stage ${entry.id} could not be loaded`);
     const stage = await response.json();
@@ -163,6 +164,10 @@ function renderHome() {
       ? `Quiz Passには${currentLesson.passScore}/${currentLesson.questionCount}以上が必要です。`
       : `${currentLesson.tier} Lesson ${currentLesson.id}から始めます。`;
     nextHref = `#/lesson/${currentLesson.id}`;
+  } else if (stage && !stage.exam) {
+    nextTitle = `${stage.title} Stage Examは未実装`;
+    nextDescription = "このStageのLesson学習は完了しています。Stage Examは次工程で追加します。";
+    nextHref = null;
   } else if (stage && !examPassed) {
     nextTitle = stageProgress.examStatus === "review_required" ? `${stage.title} Stage Examを再受験する` : `${stage.title} Stage Examに進む`;
     nextDescription = `${stage.title}の概念を横断して確認します。`;
@@ -487,6 +492,10 @@ function renderStageNotFound(stageId) {
   setScreen(`<section class="screen narrow"><p class="eyebrow">STAGE NOT FOUND</p><h1>${escapeHtml(stageId)}は未実装です</h1><p>現在利用できるStageから続けてください。</p><div class="button-row"><a class="button" href="#/home">Homeへ戻る</a></div></section>`);
 }
 
+function renderStageFeatureNotFound(stage, feature) {
+  setScreen(`<section class="screen narrow"><p class="eyebrow">${escapeHtml(stage.stageId)} · NOT IMPLEMENTED</p><h1>${escapeHtml(stage.title)} ${escapeHtml(feature)}は未実装です</h1><p>このStageで利用可能なLesson学習を続けてください。</p><div class="button-row"><a class="button" href="#/home">Homeへ戻る</a></div></section>`);
+}
+
 function renderLessonNotFound(lessonId) {
   setScreen(`<section class="screen narrow"><p class="eyebrow">LESSON NOT FOUND</p><h1>Lesson ${escapeHtml(lessonId)}は未実装です</h1><p>現在利用できるLessonから学習を続けてください。</p><div class="button-row"><a class="button" href="#/home">Homeへ戻る</a></div></section>`);
 }
@@ -519,6 +528,8 @@ function route() {
   } else {
     const stage = stages.get(parsed.stageId);
     if (!stage) renderStageNotFound(parsed.stageId);
+    else if (["stage-exam", "stage-result"].includes(parsed.screen) && !stage.exam) renderStageFeatureNotFound(stage, "Stage Exam");
+    else if (["stage-builder", "stage-weakness"].includes(parsed.screen) && !stage.guidedBuilder) renderStageFeatureNotFound(stage, "Guided Builder");
     else if (parsed.screen === "stage-exam") renderStageExam(stage);
     else if (parsed.screen === "stage-result") renderStageExamResult(stage);
     else if (parsed.screen === "stage-builder") renderStageBuilder(stage);

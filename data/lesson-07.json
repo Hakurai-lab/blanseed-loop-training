@@ -1,0 +1,87 @@
+{
+  "id": "07", "title": "Result / Feedback", "stageId": "CORE-STAGE-2", "tier": "CORE", "importance": "normal", "questionCount": 5, "passScore": 4,
+  "conceptTags": [
+    { "id": "result", "label": "Result" }, { "id": "result_vs_evaluation", "label": "ResultとEvaluation" },
+    { "id": "re_observation", "label": "Re-Observation" }, { "id": "feedback_loop", "label": "Feedback Loop" }
+  ],
+  "confusionTags": ["result_vs_evaluation", "missing_re_observation", "feedback_loop_missing", "result_not_observable"],
+  "content": {
+    "summary": "Action後のResultを再観測し、判断可能な情報としてLoopへ戻すFeedbackを学びます。",
+    "objectives": ["Action後のResultを観察可能な情報として扱える", "Resultと成功・失敗のEvaluationを区別できる", "ResultをRe-Observationへ接続できる", "FeedbackがLoop成立に必要な理由を理解する", "一方向Workflowとの違いを確認できる"],
+    "definition": "ResultはAction後に生じた変化や出来事です。FeedbackはResultをRe-Observationし、次のStateと判断へ戻す接続です。",
+    "examples": ["Intervention：開始を30分早める。Result：翌週の平均学習時間52分。Evaluation：35分から改善したがTarget 60分未達。"],
+    "commonMistakes": ["『改善した』というEvaluationをResultそのものとして保存する。", "Action実行を記録して終了し、結果を再観測しない。", "元のPurposeと無関係な結果だけを観測する。"],
+    "keyPoints": ["Resultは観測可能なAction後の情報である", "成功・失敗はResultへのEvaluationである", "Re-ObservationがResultを次のStateへ戻す", "Actionで終了すると一方向Workflowになる"],
+    "flow": [{ "label": "Action", "caption": "状態へ働きかける" }, { "label": "Result / Re-Observation", "caption": "Action後を観測" }, { "label": "Feedback", "caption": "次の判断へ戻す" }]
+  },
+  "quiz": { "questions": [
+    {
+      "id": "q01", "conceptId": "result", "questionType": "single_choice", "assessmentFocus": "Recognition", "prompt": "Action後のResultとして最も適切な説明はどれですか？",
+      "options": [
+        { "id": "a", "label": "Actionが成功したという最終判断", "feedback": "成功はResultへのEvaluationです。" },
+        { "id": "b", "label": "Action後に生じ、再観測できる変化や出来事", "feedback": "判断前の観測可能な情報としてResultを扱います。" },
+        { "id": "c", "label": "Actionを実行する前のTarget", "feedback": "Targetは望む状態です。" },
+        { "id": "d", "label": "次回実行するActionの予定", "feedback": "予定はResultではありません。" }
+      ], "correctOptionId": "b", "explanation": "Resultと、そのResultへのEvaluationを分離します。"
+    },
+    {
+      "id": "q02", "conceptId": "result_vs_evaluation", "questionType": "classification", "assessmentFocus": "Example / Classification", "prompt": "開始時刻を30分早めた翌週のResultはどれですか？",
+      "options": [
+        { "id": "a", "label": "翌週の平均学習時間は52分だった", "feedback": "Action後に再観測されたResultです。" },
+        { "id": "b", "label": "介入は成功した", "feedback": "成功というEvaluationです。" },
+        { "id": "c", "label": "Target 60分を達成したい", "feedback": "Targetの表明です。" },
+        { "id": "d", "label": "次週はさらに30分早める", "feedback": "次のInterventionです。" }
+      ], "correctOptionId": "a", "explanation": "Resultは観測値、成功・未達はその値へのEvaluationです。"
+    },
+    {
+      "id": "q03", "conceptId": "re_observation", "questionType": "single_choice", "assessmentFocus": "Discrimination", "prompt": "Webフォームを短縮した後、Feedbackとして最も接続しているRe-Observationはどれですか？",
+      "options": [
+        { "id": "a", "label": "短縮作業が完了したか確認する", "feedback": "Action実行の確認で、目的の結果を観測していません。" },
+        { "id": "b", "label": "変更後の完了率を変更前と同じ定義で再計測する", "feedback": "Actionが目的のStateへ与えたResultを比較できます。" },
+        { "id": "c", "label": "別のページの色を確認する", "feedback": "対象Purposeとの接続がありません。" },
+        { "id": "d", "label": "フォームをさらに短くする", "feedback": "結果を観測せずActionを重ねています。" }
+      ], "correctOptionId": "b", "explanation": "Re-ObservationはActionが働きかけた対象を同じ尺度で再観測します。"
+    },
+    {
+      "id": "q04", "conceptId": "feedback_loop", "questionType": "error_detection", "assessmentFocus": "Error Detection", "prompt": "在庫を確認し、少なければ発注し、『発注済み』を記録して終了します。最も重要な問題は何ですか？",
+      "options": [
+        { "id": "a", "label": "最初に在庫を観測している", "feedback": "最初のObservationは必要です。" },
+        { "id": "b", "label": "納品後の在庫を再観測せず、ActionのResultが次の判断へ戻らない", "feedback": "一方向Workflowで止まりFeedback Loopが閉じません。" },
+        { "id": "c", "label": "発注というActionを使っている", "feedback": "在庫不足へのActionとして妥当です。" },
+        { "id": "d", "label": "処理終了を明示している", "feedback": "終了そのものではなくResult未観測が問題です。" }
+      ], "correctOptionId": "b", "explanation": "Action後の対象状態を再観測して次のStateへ戻す必要があります。"
+    },
+    {
+      "id": "q05", "conceptId": "feedback_loop", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement", "prompt": "通知を減らすIntervention後、集中時間へのFeedback Loopを成立させる次の処理はどれですか？",
+      "options": [
+        { "id": "a", "label": "通知設定を変更した記録だけ残す", "feedback": "Actionの実行記録だけでResultがありません。" },
+        { "id": "b", "label": "変更後1週間の中断回数と集中時間を同じ方法で再観測し、Stateを更新する", "feedback": "Resultが次のStateと判断へ戻ります。" },
+        { "id": "c", "label": "集中できた気がすると記録する", "feedback": "観測可能なResultではなく主観的Evaluationです。" },
+        { "id": "d", "label": "結果を待たず、すべての通知を永久停止する", "feedback": "Feedbackなしに介入を強めています。" }
+      ], "correctOptionId": "b", "explanation": "同じ対象をRe-Observationし、Resultを次のStateへ反映します。"
+    }
+  ] },
+  "miniBuilder": {
+    "theme": "学習開始を早めた後のFeedback", "title": "ResultをRe-Observationへ接続する", "builderType": "guided", "mode": "constrained",
+    "intro": "Intervention『翌週、開始時刻を30分早める』の後に観測するResultと対象を選択してください。",
+    "steps": [
+      { "id": "result", "type": "single_choice", "label": "① Result", "prompt": "Action後の観測可能なResultはどれですか？", "options": [
+        { "id": "result_observable", "label": "翌週の平均学習時間は52分だった" },
+        { "id": "result_evaluation", "label": "介入は成功した" },
+        { "id": "result_vague", "label": "少し良くなった気がする" }
+      ] },
+      { "id": "reObservation", "type": "single_choice", "label": "② Re-Observation", "prompt": "次のStateへ戻すため再観測する対象はどれですか？", "options": [
+        { "id": "reobserve_learning", "label": "変更後の開始時刻と学習時間を同じ方法で記録する" },
+        { "id": "reobserve_action", "label": "アラーム設定を変更した事実だけ確認する" },
+        { "id": "reobserve_unrelated", "label": "使ったペンの色を記録する" }
+      ] }
+    ],
+    "acceptableConnections": [{ "id": "result-feedback", "selections": { "result": "result_observable", "reObservation": "reobserve_learning" } }],
+    "weaknessRules": [
+      { "stepId": "result", "triggerOptionIds": ["result_evaluation"], "code": "result_vs_evaluation", "message": "成功というEvaluationをResultとして選んでいます。" },
+      { "stepId": "result", "triggerOptionIds": ["result_vague"], "code": "result_not_observable", "message": "Resultが同じ方法で再観測できる情報になっていません。" },
+      { "stepId": "reObservation", "triggerOptionIds": ["reobserve_action"], "code": "missing_re_observation", "message": "Action実行だけを確認し、対象状態を再観測していません。" },
+      { "stepId": "reObservation", "triggerOptionIds": ["reobserve_unrelated"], "code": "feedback_loop_missing", "message": "Purposeと無関係な観測で、Resultが次の判断へ戻りません。" }
+    ]
+  }
+}

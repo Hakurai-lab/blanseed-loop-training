@@ -7,6 +7,12 @@
       "tier": "CORE",
       "lessonIds": ["01", "02", "03", "04"],
       "path": "./data/stage-01.json"
+    },
+    {
+      "id": "CORE-STAGE-2",
+      "title": "判断と行動",
+      "tier": "CORE",
+      "lessonIds": ["05", "06", "07", "08"]
     }
   ],
   "lessons": [
@@ -25,6 +31,22 @@
     {
       "id": "04",
       "path": "./data/lesson-04.json"
+    },
+    {
+      "id": "05",
+      "path": "./data/lesson-05.json"
+    },
+    {
+      "id": "06",
+      "path": "./data/lesson-06.json"
+    },
+    {
+      "id": "07",
+      "path": "./data/lesson-07.json"
+    },
+    {
+      "id": "08",
+      "path": "./data/lesson-08.json"
     }
   ]
 }

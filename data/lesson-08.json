@@ -1,0 +1,84 @@
+{
+  "id": "08", "title": "State Update", "stageId": "CORE-STAGE-2", "tier": "CORE", "importance": "normal", "questionCount": 5, "passScore": 4,
+  "conceptTags": [
+    { "id": "state_update", "label": "State Update" }, { "id": "observation_vs_state_update", "label": "ObservationとState Update" },
+    { "id": "history_vs_state", "label": "HistoryとState" }, { "id": "re_evaluation", "label": "Re-Evaluation" }
+  ],
+  "confusionTags": ["observation_vs_state_update", "state_not_updated", "history_vs_state", "missing_re_evaluation"],
+  "content": {
+    "summary": "新しいObservationを既存Stateへ反映し、更新された現在状態からEvaluationへ戻します。",
+    "objectives": ["新しいObservationからStateを更新できる", "古いStateを使い続ける問題を理解する", "State Update後に再Evaluationする流れを理解する", "履歴追加とState Updateを区別できる", "Loopが継続する構造を理解する"],
+    "definition": "State Updateは、新しいObservationを既定の集計・整理Ruleで現在のStateへ反映し、Evaluation可能な最新状態を作る処理です。",
+    "examples": ["Old State：7日平均35分。New Observations：今週の学習記録。Updated State：7日平均52分。次にTarget 60分と再Evaluation。"],
+    "commonMistakes": ["新しいObservationを履歴へ追加するだけでStateを更新しない。", "一部の新しい値だけで、定義済みStateの集計Ruleを変える。", "State更新後にEvaluationへ戻らず終了する。"],
+    "keyPoints": ["Observation追加とState Updateは別の処理である", "Stateは同じ定義・集計Ruleで更新する", "Updated StateをEvaluationへ入力する", "State UpdateがFeedbackを次の判断へ接続する"],
+    "flow": [{ "label": "New Observation", "caption": "Action後の情報" }, { "label": "State Update", "caption": "現在状態へ反映" }, { "label": "Re-Evaluation", "caption": "次の判断へ戻る" }]
+  },
+  "quiz": { "questions": [
+    {
+      "id": "q01", "conceptId": "state_update", "questionType": "single_choice", "assessmentFocus": "Recognition", "prompt": "State Updateの役割として最も適切なものはどれですか？",
+      "options": [
+        { "id": "a", "label": "新しいObservationを履歴末尾へ追加するだけ", "feedback": "History追加だけでは現在Stateが更新されません。" },
+        { "id": "b", "label": "新しいObservationを定義済みRuleで反映し、Evaluation可能な最新Stateを作る", "feedback": "Feedbackを次の判断へ戻す処理です。" },
+        { "id": "c", "label": "Evaluation結果に合わせてObservationを書き換える", "feedback": "観測Factを改変してはいけません。" },
+        { "id": "d", "label": "古いStateを保存して処理を終了する", "feedback": "現在状態を表せずLoopが続きません。" }
+      ], "correctOptionId": "b", "explanation": "State Updateは新しいObservationから最新の判断入力を作ります。"
+    },
+    {
+      "id": "q02", "conceptId": "observation_vs_state_update", "questionType": "classification", "assessmentFocus": "Example / Classification", "prompt": "Old State『直近7日平均35分』へ新しい学習記録を反映したUpdated Stateはどれですか？",
+      "options": [
+        { "id": "a", "label": "火曜日の学習時間は55分だった", "feedback": "単一のNew Observationです。" },
+        { "id": "b", "label": "対象7日を更新して再計算した平均52分、Target差-8分", "feedback": "同じState定義で新しいObservationを反映しています。" },
+        { "id": "c", "label": "学習時間が改善した", "feedback": "Updated StateへのEvaluationです。" },
+        { "id": "d", "label": "来週はさらに開始を早める", "feedback": "次のActionです。" }
+      ], "correctOptionId": "b", "explanation": "個別Observationを集計Ruleへ取り込み、State全体を更新します。"
+    },
+    {
+      "id": "q03", "conceptId": "history_vs_state", "questionType": "single_choice", "assessmentFocus": "Discrimination", "prompt": "問い合わせ履歴を使うState Updateとして適切なのはどれですか？",
+      "options": [
+        { "id": "a", "label": "新しい応答時刻を一覧へ追加し、古い中央値を表示し続ける", "feedback": "Historyは増えていますがStateが古いままです。" },
+        { "id": "b", "label": "対象となる直近30件を更新し、応答時間中央値とTarget差を再計算する", "feedback": "定義したStateを最新Observationで更新しています。" },
+        { "id": "c", "label": "最も遅い1件だけを新しいStateとする", "feedback": "既存のState定義を変えています。" },
+        { "id": "d", "label": "履歴をすべて削除して新しい1件だけ残す", "feedback": "必要な集計対象を失います。" }
+      ], "correctOptionId": "b", "explanation": "Historyは材料、Stateは目的に沿って整理された現在状態です。"
+    },
+    {
+      "id": "q04", "conceptId": "state_update", "questionType": "error_detection", "assessmentFocus": "Error Detection", "prompt": "Action後の売上を毎日記録していますが、Dashboardの月平均はAction前の値で固定されています。最も重要な問題は何ですか？",
+      "options": [
+        { "id": "a", "label": "売上を毎日Observationしている", "feedback": "継続観測は必要です。" },
+        { "id": "b", "label": "New ObservationがStateへ反映されず、ActionのResultを再Evaluationできない", "feedback": "Feedbackが次の判断へ戻らず一方向で止まります。" },
+        { "id": "c", "label": "Dashboardを使用している", "feedback": "表示手段自体は問題ではありません。" },
+        { "id": "d", "label": "月平均という集計を使っている", "feedback": "Purposeに合えば月平均は妥当です。" }
+      ], "correctOptionId": "b", "explanation": "State UpdateがなければResultを反映した次のEvaluationができません。"
+    },
+    {
+      "id": "q05", "conceptId": "re_evaluation", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement", "prompt": "介入後の記録からStateが『7日平均52分、Target 60分』へ更新されました。次に行うことはどれですか？",
+      "options": [
+        { "id": "a", "label": "更新できたのでLoopを終了する", "feedback": "更新したStateが次の判断へ戻っていません。" },
+        { "id": "b", "label": "52分を60分と比較して再Evaluationし、次のActionが必要か判断する", "feedback": "Updated StateをEvaluationへ戻してLoopを継続します。" },
+        { "id": "c", "label": "52分をTargetとして上書きする", "feedback": "Purposeを満たさずGapを消しています。" },
+        { "id": "d", "label": "Action前の35分だけを再表示する", "feedback": "新しいResultを無視しています。" }
+      ], "correctOptionId": "b", "explanation": "Observation→State Update→Evaluation→Actionの循環へ戻します。"
+    }
+  ] },
+  "miniBuilder": {
+    "theme": "介入後の学習時間Stateを更新する", "title": "Old StateとNew ObservationをUpdated Stateへ変える", "builderType": "guided", "mode": "constrained",
+    "intro": "Old State『7日平均35分』と、介入後7日間の新しい記録から適切なUpdated Stateを選択してください。",
+    "steps": [
+      { "id": "updatedState", "type": "single_choice", "label": "① Updated State", "prompt": "Feedbackを次のEvaluationへ戻せる更新はどれですか？", "options": [
+        { "id": "state_updated", "label": "対象7日を更新し、平均52分・前回差+17分・Target差-8分へ再計算する" },
+        { "id": "state_observation", "label": "最新日の学習時間は55分だった" },
+        { "id": "state_history", "label": "新しい7件を履歴へ追加し、Stateは35分のままにする" },
+        { "id": "state_old", "label": "新しい記録を使わず、以前の平均35分を現在Stateとして使い続ける" },
+        { "id": "state_no_evaluation", "label": "平均52分だけ保存し、Targetとの比較には戻さない" }
+      ] }
+    ],
+    "acceptableConnections": [{ "id": "observation-state-update", "selections": { "updatedState": "state_updated" } }],
+    "weaknessRules": [
+      { "stepId": "updatedState", "triggerOptionIds": ["state_observation"], "code": "observation_vs_state_update", "message": "単一ObservationをUpdated Stateとして選んでいます。" },
+      { "stepId": "updatedState", "triggerOptionIds": ["state_history"], "code": "history_vs_state", "message": "Historyへの追加とState Updateを混同しています。" },
+      { "stepId": "updatedState", "triggerOptionIds": ["state_old"], "code": "state_not_updated", "message": "新しいObservationがStateへ反映されていません。" },
+      { "stepId": "updatedState", "triggerOptionIds": ["state_no_evaluation"], "code": "missing_re_evaluation", "message": "Updated StateがTargetとの再Evaluationへ接続されていません。" }
+    ]
+  }
+}
