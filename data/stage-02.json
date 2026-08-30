@@ -1,0 +1,165 @@
+{
+  "stageId": "CORE-STAGE-2",
+  "title": "判断と行動",
+  "tier": "CORE",
+  "lessonIds": ["05", "06", "07", "08"],
+  "exam": {
+    "title": "CORE Stage 2 Exam｜判断と行動",
+    "questionCount": 10,
+    "passScore": 8,
+    "criticalConcepts": [
+      { "id": "evaluation_vs_action", "label": "Evaluation vs Action" },
+      { "id": "feedback_re_observation", "label": "Re-Observation / Feedback Loop" },
+      { "id": "state_update_re_evaluation", "label": "State Update → Re-Evaluation" }
+    ],
+    "questions": [
+      {
+        "id": "q01", "conceptId": "evaluation_rule", "questionType": "single_choice", "assessmentFocus": "Recognition",
+        "prompt": "Evaluation Ruleに最低限必要な要素はどれですか？",
+        "options": [
+          { "id": "a", "label": "State、比較基準、判定条件", "feedback": "入力と基準と条件があれば判断を再現できます。" },
+          { "id": "b", "label": "Observationの件数だけ", "feedback": "件数だけでは判定条件がありません。" },
+          { "id": "c", "label": "実行したいActionの一覧", "feedback": "ActionはEvaluationの後段です。" },
+          { "id": "d", "label": "担当者の経験年数", "feedback": "判定Ruleそのものではありません。" }
+        ], "correctOptionId": "a", "explanation": "Evaluation RuleはStateを明示した基準と条件で判断へ変換します。"
+      },
+      {
+        "id": "q02", "conceptId": "feedback_loop", "questionType": "single_choice", "assessmentFocus": "Recognition",
+        "prompt": "ActionをFeedback Loopへ接続する処理として最も重要なのはどれですか？",
+        "options": [
+          { "id": "a", "label": "Action実行を完了として記録する", "feedback": "実行確認だけでは対象状態のResultが分かりません。" },
+          { "id": "b", "label": "Action後の対象を再観測し、Stateを更新して次のEvaluationへ戻す", "feedback": "結果が次の判断へ戻りLoopが閉じます。" },
+          { "id": "c", "label": "同じActionを結果に関係なく繰り返す", "feedback": "Feedbackを利用しない反復です。" },
+          { "id": "d", "label": "Targetを現在値へ変更する", "feedback": "状態改善なしにGapを消しています。" }
+        ], "correctOptionId": "b", "explanation": "Re-Observation、State Update、Re-EvaluationがFeedbackを次へ接続します。"
+      },
+      {
+        "id": "q03", "conceptId": "state_vs_evaluation", "questionType": "classification", "assessmentFocus": "Discrimination",
+        "prompt": "配送品質について、StateではなくEvaluationを表すものはどれですか？",
+        "options": [
+          { "id": "a", "label": "直近100件の定時到着率は91%", "feedback": "集計された現在Stateです。" },
+          { "id": "b", "label": "Target 95%に対して4ポイント未達", "feedback": "StateをTargetと比較したEvaluationです。" },
+          { "id": "c", "label": "各便の到着時刻一覧", "feedback": "Observation Historyです。" },
+          { "id": "d", "label": "遅延便へ優先ルートを適用する", "feedback": "Actionです。" }
+        ], "correctOptionId": "b", "explanation": "Stateは入力、基準との比較結果がEvaluationです。"
+      },
+      {
+        "id": "q04", "conceptId": "evaluation_vs_action", "criticalConceptId": "evaluation_vs_action", "questionType": "classification", "assessmentFocus": "Discrimination",
+        "prompt": "Evaluation『室温が上限28℃を2℃超過』に対するActionはどれですか？",
+        "options": [
+          { "id": "a", "label": "上限を2℃超過している", "feedback": "Evaluationの反復です。" },
+          { "id": "b", "label": "冷房設定を1℃下げる", "feedback": "Evaluationを受けて状態へ働きかけるActionです。" },
+          { "id": "c", "label": "現在の室温は30℃", "feedback": "ObservationまたはStateです。" },
+          { "id": "d", "label": "上限は28℃", "feedback": "比較基準です。" }
+        ], "correctOptionId": "b", "explanation": "Evaluationは判断、Actionは判断を受けた実行です。"
+      },
+      {
+        "id": "q05", "conceptId": "result_vs_evaluation", "questionType": "classification", "assessmentFocus": "Discrimination",
+        "prompt": "メール件名を変更した後のResultはどれですか？",
+        "options": [
+          { "id": "a", "label": "変更後7日間の開封率は42%", "feedback": "Action後に観測されたResultです。" },
+          { "id": "b", "label": "件名変更は成功した", "feedback": "ResultへのEvaluationです。" },
+          { "id": "c", "label": "次回は本文も変更する", "feedback": "次のActionです。" },
+          { "id": "d", "label": "開封率50%を目指す", "feedback": "Targetです。" }
+        ], "correctOptionId": "a", "explanation": "観測値であるResultと成功・失敗のEvaluationを分けます。"
+      },
+      {
+        "id": "q06", "conceptId": "intervention", "questionType": "single_choice", "assessmentFocus": "Discrimination",
+        "prompt": "Evaluation『解約増加、原因は未特定』の直後に選ぶActionとして最も適切なのはどれですか？",
+        "options": [
+          { "id": "a", "label": "全顧客の料金を半額にする", "feedback": "原因不明の段階では強すぎるInterventionです。" },
+          { "id": "b", "label": "解約理由と利用状況を追加観測して原因候補を確認する", "feedback": "介入前に判断材料を増やすActionです。" },
+          { "id": "c", "label": "解約増加というEvaluationを削除する", "feedback": "問題を隠すだけです。" },
+          { "id": "d", "label": "Targetを現在の解約率へ変更する", "feedback": "Purposeを満たさずGapを消しています。" }
+        ], "correctOptionId": "b", "explanation": "不確実性が高いときは追加観測も有効なActionです。"
+      },
+      {
+        "id": "q07", "conceptId": "evaluation_rule", "questionType": "error_detection", "assessmentFocus": "Error Detection",
+        "prompt": "工場が『不良率は担当者が高いと感じたら未達』というRuleを使っています。問題は何ですか？",
+        "options": [
+          { "id": "a", "label": "不良率を観測している", "feedback": "不良率は有効なObservationです。" },
+          { "id": "b", "label": "比較Thresholdがなく、同じStateでも判定が変わる", "feedback": "Ruleが再現可能ではありません。" },
+          { "id": "c", "label": "担当者が業務に関わる", "feedback": "関与自体は問題ではありません。" },
+          { "id": "d", "label": "未達という語を使う", "feedback": "語ではなく判定条件が問題です。" }
+        ], "correctOptionId": "b", "explanation": "同じ入力へ原則同じ結果を返す比較基準と条件が必要です。"
+      },
+      {
+        "id": "q08", "conceptId": "feedback_loop", "criticalConceptId": "feedback_re_observation", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement",
+        "prompt": "検索画面を高速化した後、Feedback Loopを成立させる次の処理はどれですか？",
+        "options": [
+          { "id": "a", "label": "改修完了を記録して終了する", "feedback": "ActionのResultを観測していません。" },
+          { "id": "b", "label": "変更後の応答時間と離脱率を同じ方法で再観測する", "feedback": "性能と利用結果を次のStateへ戻せます。" },
+          { "id": "c", "label": "結果を待たず追加改修する", "feedback": "FeedbackなしにActionを重ねています。" },
+          { "id": "d", "label": "変更前データを新しいResultとして複製する", "feedback": "Action後を観測していません。" }
+        ], "correctOptionId": "b", "explanation": "Action後の対象をRe-ObservationしてFeedbackを得ます。"
+      },
+      {
+        "id": "q09", "conceptId": "state_update", "questionType": "error_detection", "assessmentFocus": "Error Detection",
+        "prompt": "新しい配送時間を保存していますが、Stateの直近30件中央値は更新されません。問題は何ですか？",
+        "options": [
+          { "id": "a", "label": "配送時間を保存している", "feedback": "Observation Historyの保存は必要です。" },
+          { "id": "b", "label": "Historyだけ増え、現在StateがAction後のResultを反映していない", "feedback": "古いStateでは次のEvaluationを誤ります。" },
+          { "id": "c", "label": "中央値をStateに使っている", "feedback": "目的に合えば中央値は妥当です。" },
+          { "id": "d", "label": "30件を対象にしている", "feedback": "対象件数より更新欠落が問題です。" }
+        ], "correctOptionId": "b", "explanation": "新しいObservationを定義済みRuleでStateへ反映します。"
+      },
+      {
+        "id": "q10", "conceptId": "re_evaluation", "criticalConceptId": "state_update_re_evaluation", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement",
+        "prompt": "介入後のStateが『エラー率2.5%、Target 2%以下』へ更新されました。次は何をしますか？",
+        "options": [
+          { "id": "a", "label": "State更新を完了としてLoopを終了する", "feedback": "更新結果が次の判断へ戻りません。" },
+          { "id": "b", "label": "2.5%を2%と再比較し、次のActionが必要かEvaluationする", "feedback": "Updated Stateを次の判断へ戻します。" },
+          { "id": "c", "label": "Targetを2.5%へ変更する", "feedback": "改善なしにGapを消しています。" },
+          { "id": "d", "label": "介入前Stateだけを表示する", "feedback": "新しいResultを無視しています。" }
+        ], "correctOptionId": "b", "explanation": "State Update後は同じRuleでRe-EvaluationしLoopを継続します。"
+      }
+    ]
+  },
+  "guidedBuilder": {
+    "builderId": "core-stage-2-guided-builder",
+    "title": "Stage 2 Guided Builder｜判断と行動",
+    "theme": "学習時間を改善する",
+    "builderType": "guided", "mode": "constrained",
+    "intro": "Stage 1で作ったStateから、Evaluation・Action・Result・Re-Observation・State Updateを接続してください。",
+    "steps": [
+      { "id": "evaluationRule", "competencyId": "evaluation", "type": "single_choice", "label": "Step 1｜Evaluation Rule", "prompt": "State『7日平均35分』、Target『60分』をどう評価しますか？", "options": [
+        { "id": "evaluation_connected", "label": "35分 < 60分なのでTarget未達" },
+        { "id": "evaluation_state", "label": "7日平均は35分" },
+        { "id": "evaluation_vague", "label": "本人が足りないと感じたら未達" }
+      ] },
+      { "id": "action", "competencyId": "action", "type": "single_choice", "label": "Step 2｜Action / Intervention", "prompt": "未達で開始が遅いという結果へ接続するActionはどれですか？", "options": [
+        { "id": "action_connected", "label": "翌週、学習開始を30分早める" },
+        { "id": "action_evaluation", "label": "Target未達ともう一度判断する" },
+        { "id": "action_unconnected", "label": "学習用のペンを交換する" }
+      ] },
+      { "id": "result", "competencyId": "feedback", "type": "single_choice", "label": "Step 3｜Result", "prompt": "Action後の観測可能なResultはどれですか？", "options": [
+        { "id": "result_observable", "label": "翌週の平均学習時間は52分だった" },
+        { "id": "result_evaluation", "label": "介入は成功した" },
+        { "id": "result_vague", "label": "少し良くなった気がする" }
+      ] },
+      { "id": "reObservation", "competencyId": "feedback", "type": "single_choice", "label": "Step 4｜Re-Observation", "prompt": "Feedbackとして何を再観測しますか？", "options": [
+        { "id": "reobserve_target", "label": "変更後の開始時刻と学習時間を同じ方法で記録する" },
+        { "id": "reobserve_action", "label": "アラーム設定を変更した事実だけ確認する" },
+        { "id": "reobserve_unrelated", "label": "使ったペンの色だけ記録する" }
+      ] },
+      { "id": "stateUpdate", "competencyId": "state", "type": "single_choice", "label": "Step 5｜State Update", "prompt": "New ObservationからStateをどう更新しますか？", "options": [
+        { "id": "state_updated", "label": "対象7日を更新し、平均52分・Target差-8分として再計算しEvaluationへ戻す" },
+        { "id": "state_old", "label": "Observationだけ保存し、Stateは35分のままにする" },
+        { "id": "state_no_evaluation", "label": "平均52分を保存するがTargetとの比較には戻さない" }
+      ] }
+    ],
+    "acceptableConnections": [{ "id": "stage-2-feedback-loop", "selections": { "evaluationRule": "evaluation_connected", "action": "action_connected", "result": "result_observable", "reObservation": "reobserve_target", "stateUpdate": "state_updated" } }],
+    "weaknessRules": [
+      { "stepId": "evaluationRule", "triggerOptionIds": ["evaluation_state"], "code": "state_vs_evaluation", "message": "StateをEvaluationとして選んでいます。" },
+      { "stepId": "evaluationRule", "triggerOptionIds": ["evaluation_vague"], "code": "evaluation_without_rule", "message": "比較条件がなく判定を再現できません。" },
+      { "stepId": "action", "triggerOptionIds": ["action_evaluation"], "code": "evaluation_vs_action", "message": "EvaluationをActionとして選んでいます。" },
+      { "stepId": "action", "triggerOptionIds": ["action_unconnected"], "code": "action_not_connected", "message": "Evaluationで示された問題へ接続していません。" },
+      { "stepId": "result", "triggerOptionIds": ["result_evaluation"], "code": "result_vs_evaluation", "message": "成功というEvaluationをResultとして選んでいます。" },
+      { "stepId": "result", "triggerOptionIds": ["result_vague"], "code": "result_not_observable", "message": "Resultが再観測可能な情報ではありません。" },
+      { "stepId": "reObservation", "triggerOptionIds": ["reobserve_action"], "code": "missing_re_observation", "message": "Action実行だけを確認し、対象状態を再観測していません。" },
+      { "stepId": "reObservation", "triggerOptionIds": ["reobserve_unrelated"], "code": "feedback_loop_missing", "message": "Purposeと無関係な観測でFeedbackが次の判断へ戻りません。" },
+      { "stepId": "stateUpdate", "triggerOptionIds": ["state_old"], "code": "state_not_updated", "message": "新しいObservationがStateへ反映されていません。" },
+      { "stepId": "stateUpdate", "triggerOptionIds": ["state_no_evaluation"], "code": "missing_re_evaluation", "message": "Updated Stateが次のEvaluationへ接続されていません。" }
+    ]
+  }
+}

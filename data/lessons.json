@@ -12,7 +12,8 @@
       "id": "CORE-STAGE-2",
       "title": "判断と行動",
       "tier": "CORE",
-      "lessonIds": ["05", "06", "07", "08"]
+      "lessonIds": ["05", "06", "07", "08"],
+      "path": "./data/stage-02.json"
     }
   ],
   "lessons": [
