@@ -60,18 +60,9 @@ export function applyQuizResult(state, quizResult, { lessonId, attemptId }) {
   });
 }
 
-export function detectBuilderWeakness(fields, steps) {
-  const definitions = steps.map((step) => ({
-    field: step.id,
-    correctOptionId: step.correctOptionId,
-    code: step.id === "reObservation" ? "feedback_loop_missing" : `${step.id}_incorrect`,
-    message: step.id === "reObservation"
-      ? "一方向のWorkflowになっており、Feedback Loopが成立していない可能性があります。"
-      : `${step.label.replace(/^① |^② |^③ /, "")}の選択がLoopの目的に接続していません。`
-  }));
-
-  return definitions
-    .filter(({ field, correctOptionId }) => fields[field] !== correctOptionId)
+export function detectBuilderWeakness(fields, weaknessRules) {
+  return weaknessRules
+    .filter((rule) => !rule.acceptableOptionIds.includes(fields[rule.stepId]))
     .map(({ code, message }) => ({ code, message }));
 }
 

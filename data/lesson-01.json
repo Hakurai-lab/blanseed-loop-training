@@ -1,27 +1,52 @@
 {
   "id": "01",
+  "title": "Loopとは何か",
+  "stageId": "stage-01",
+  "tier": "CORE",
+  "importance": "normal",
   "questionCount": 5,
   "passScore": 4,
-  "title": "Loopとは何か",
-  "summary": "観測し、行動し、その結果をもう一度観測する。Loopを成立させる最小構造を学びます。",
-  "sections": [
-    {
-      "heading": "Loopの最小構造",
-      "body": "Loopは、状態を観測して終わりではありません。観測結果をもとにActionを選び、そのAction後の状態をもう一度観測することで、次の判断につながります。"
-    },
-    {
-      "heading": "Workflowとの違い",
-      "body": "処理が一方向に進んで終了するだけならWorkflowです。結果が再びObservationへ戻り、次のActionを変えられるとき、Feedback Loopが成立します。"
-    }
+  "conceptTags": [
+    { "id": "loop_structure", "label": "Loopの構造" },
+    { "id": "observation", "label": "Observation" },
+    { "id": "action", "label": "Action" },
+    { "id": "re_observation", "label": "Re-Observation" },
+    { "id": "feedback_loop", "label": "Feedback Loop" }
   ],
-  "concepts": {
-    "loop_structure": "Loopの構造",
-    "observation": "Observation",
-    "action": "Action",
-    "re_observation": "Re-Observation",
-    "feedback_loop": "Feedback Loop"
+  "confusionTags": [
+    "loop_vs_workflow",
+    "repetition_vs_feedback",
+    "observation_without_action",
+    "missing_re_observation"
+  ],
+  "content": {
+    "summary": "観測し、行動し、その結果をもう一度観測する。Loopを成立させる最小構造を学びます。",
+    "objectives": [
+      "Loopを構成する3つの要素を説明できる",
+      "Loopと一方向のWorkflowを区別できる",
+      "Feedback Loopに欠けている接続を発見できる"
+    ],
+    "definition": "Loopとは、状態を観測し、その結果をもとにActionを行い、Action後の状態を再観測して次の判断へ戻す構造です。",
+    "examples": [
+      "在庫数を確認し、少なければ発注し、納品後の在庫数を再確認する。"
+    ],
+    "commonMistakes": [
+      "決められた処理を順番に実行して終了するだけのWorkflowをLoopと考える。",
+      "Action後の結果を再観測せず、効果を確認しない。"
+    ],
+    "keyPoints": [
+      "Observationの結果がActionの選択につながる",
+      "Action後に同じ対象をRe-Observationする",
+      "Re-Observationの結果を次の判断へ戻す"
+    ],
+    "flow": [
+      { "label": "Observation", "caption": "状態を観測" },
+      { "label": "Action", "caption": "状態へ働きかける" },
+      { "label": "Re-Observation", "caption": "結果を再観測" }
+    ]
   },
-  "questions": [
+  "quiz": {
+    "questions": [
     {
       "id": "q01",
       "conceptId": "loop_structure",
@@ -97,13 +122,18 @@
       "correctOptionId": "b",
       "explanation": "開始時刻変更後の勉強時間をRe-Observationすることで、Actionの効果を判断し、次のActionへつなげられます。"
     }
-  ],
+    ]
+  },
   "miniBuilder": {
     "theme": "勉強時間を増やす",
+    "title": "Loopを成立させる",
+    "builderType": "guided",
     "mode": "constrained",
+    "intro": "候補を選び、Observation・Action・Re-Observationをつないでください。",
     "steps": [
       {
         "id": "observation",
+        "type": "single_choice",
         "label": "① Observation",
         "prompt": "Loopの最初に、何を観測しますか？",
         "correctOptionId": "daily_study_minutes",
@@ -115,6 +145,7 @@
       },
       {
         "id": "action",
+        "type": "single_choice",
         "label": "② Action",
         "prompt": "勉強時間が目標より短かった場合、何をしますか？",
         "correctOptionId": "start_earlier",
@@ -126,6 +157,7 @@
       },
       {
         "id": "reObservation",
+        "type": "single_choice",
         "label": "③ Re-Observation",
         "prompt": "Action後に、何をもう一度観測しますか？",
         "correctOptionId": "next_day_study_minutes",
@@ -134,6 +166,36 @@
           { "id": "changed_schedule", "label": "開始時刻を変更したという事実だけを確認する" },
           { "id": "book_price", "label": "使用している参考書の価格を確認する" }
         ]
+      }
+    ],
+    "acceptableConnections": [
+      {
+        "id": "primary-loop",
+        "selections": {
+          "observation": "daily_study_minutes",
+          "action": "start_earlier",
+          "reObservation": "next_day_study_minutes"
+        }
+      }
+    ],
+    "weaknessRules": [
+      {
+        "stepId": "observation",
+        "acceptableOptionIds": ["daily_study_minutes"],
+        "code": "observation_incorrect",
+        "message": "Observationの選択がLoopの目的に接続していません。"
+      },
+      {
+        "stepId": "action",
+        "acceptableOptionIds": ["start_earlier"],
+        "code": "action_incorrect",
+        "message": "Actionの選択がObservation結果に接続していません。"
+      },
+      {
+        "stepId": "reObservation",
+        "acceptableOptionIds": ["next_day_study_minutes"],
+        "code": "feedback_loop_missing",
+        "message": "一方向のWorkflowになっており、Feedback Loopが成立していない可能性があります。"
       }
     ]
   }

@@ -1,0 +1,9 @@
+{
+  "curriculumSize": 20,
+  "lessons": [
+    {
+      "id": "01",
+      "path": "./data/lesson-01.json"
+    }
+  ]
+}

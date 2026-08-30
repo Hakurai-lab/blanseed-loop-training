@@ -1,4 +1,5 @@
 const STORAGE_KEY = "blanseed-loop-training-v1";
+const LEGACY_DEFAULT_LESSON_ID = "01";
 const LESSON_STATUSES = new Set(["unstarted", "learning", "completed"]);
 const RETENTION_STATES = new Set(["unassessed", "weak", "review", "stable"]);
 const RETENTION_LEVELS = new Set(["R0", "R1", "R2", "R3"]);
@@ -6,9 +7,7 @@ let latestStorageError = null;
 
 const initialState = () => ({
   version: 1,
-  lessonProgress: {
-    "01": { lessonStatus: "unstarted", quizPassed: false, bestScore: 0, attempts: 0 }
-  },
+  lessonProgress: {},
   conceptStates: {},
   questionHistory: [],
   builderProjects: [],
@@ -36,7 +35,6 @@ function normalizeLessonProgress(value) {
     };
   });
 
-  normalized["01"] ??= initialState().lessonProgress["01"];
   return normalized;
 }
 
@@ -62,7 +60,7 @@ function normalizeQuestionHistory(value) {
   if (!Array.isArray(value)) return [];
   return value.flatMap((entry, index) => {
     if (!isRecord(entry) || typeof entry.questionId !== "string") return [];
-    const lessonId = asString(entry.lessonId, "01");
+    const lessonId = asString(entry.lessonId, LEGACY_DEFAULT_LESSON_ID);
     const answeredAt = asString(entry.answeredAt);
     return [{
       lessonId,
@@ -80,16 +78,14 @@ function normalizeBuilderProjects(value) {
   if (!Array.isArray(value)) return [];
   return value.flatMap((project) => {
     if (!isRecord(project) || typeof project.id !== "string") return [];
-    const fields = isRecord(project.fields) ? project.fields : {};
+    const fields = isRecord(project.fields)
+      ? Object.fromEntries(Object.entries(project.fields).filter(([, fieldValue]) => typeof fieldValue === "string"))
+      : {};
     return [{
       id: project.id,
-      lessonId: asString(project.lessonId, "01"),
+      lessonId: asString(project.lessonId, LEGACY_DEFAULT_LESSON_ID),
       theme: asString(project.theme),
-      fields: {
-        observation: asString(fields.observation),
-        action: asString(fields.action),
-        reObservation: asString(fields.reObservation)
-      },
+      fields,
       status: project.status === "completed" ? "completed" : "needs_review",
       createdAt: asString(project.createdAt),
       ...(typeof project.updatedAt === "string" ? { updatedAt: project.updatedAt } : {})
@@ -104,7 +100,7 @@ function normalizeWeaknessEvents(value) {
     return [{
       code: event.code,
       message: asString(event.message),
-      lessonId: asString(event.lessonId, "01"),
+      lessonId: asString(event.lessonId, LEGACY_DEFAULT_LESSON_ID),
       builderId: event.builderId,
       detectedAt: asString(event.detectedAt)
     }];
