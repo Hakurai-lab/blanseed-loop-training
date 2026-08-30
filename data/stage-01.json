@@ -1,0 +1,175 @@
+{
+  "stageId": "CORE-STAGE-1",
+  "title": "目的と状態",
+  "tier": "CORE",
+  "lessonIds": ["01", "02", "03", "04"],
+  "exam": {
+    "title": "CORE Stage 1 Exam｜目的と状態",
+    "questionCount": 10,
+    "passScore": 8,
+    "criticalConcepts": [
+      { "id": "observation_vs_evaluation", "label": "Observation vs Evaluation" },
+      { "id": "feedback_re_observation", "label": "Feedback Loop / Re-Observation" }
+    ],
+    "questions": [
+      {
+        "id": "q01", "conceptId": "loop_structure", "questionType": "single_choice", "assessmentFocus": "Recognition",
+        "prompt": "Loopと一方向Workflowを分ける最も重要な特徴はどれですか？",
+        "options": [
+          { "id": "a", "label": "同じ作業を毎日繰り返す", "feedback": "繰り返しだけでは結果が次の判断へ戻りません。" },
+          { "id": "b", "label": "処理を決められた順番で完了する", "feedback": "順番に完了するだけなら一方向Workflowです。" },
+          { "id": "c", "label": "Action後の結果を再観測し、次の判断へ戻す", "feedback": "結果が次の判断へ戻ることでFeedback Loopが閉じます。" },
+          { "id": "d", "label": "観測データを長期間保存する", "feedback": "保存だけではActionとFeedbackが接続されません。" }
+        ],
+        "correctOptionId": "c", "explanation": "LoopにはAction後のRe-Observationと、次の判断へ戻る接続が必要です。"
+      },
+      {
+        "id": "q02", "conceptId": "state", "questionType": "single_choice", "assessmentFocus": "Recognition",
+        "prompt": "Stateの説明として最も適切なものはどれですか？",
+        "options": [
+          { "id": "a", "label": "取得したObservationを目的に合わせて整理し、Evaluationに使える形にした現在状態", "feedback": "Stateの役割を正しく表しています。" },
+          { "id": "b", "label": "将来実行するActionの一覧", "feedback": "Action計画はStateではありません。" },
+          { "id": "c", "label": "Target Stateへ到達したという判断", "feedback": "これはEvaluationに近い表現です。" },
+          { "id": "d", "label": "取得できるObservationを加工せずすべて並べた履歴", "feedback": "生ログの一覧は、目的に沿って整理されたStateとは限りません。" }
+        ],
+        "correctOptionId": "a", "explanation": "StateはObservationを整理し、後続のEvaluationが利用できる現在状態です。"
+      },
+      {
+        "id": "q03", "conceptId": "current_target", "questionType": "classification", "assessmentFocus": "Discrimination",
+        "prompt": "配達時間を改善する設計で、Current StateとTarget Stateの組として適切なのはどれですか？",
+        "options": [
+          { "id": "a", "label": "Current：もっと速く届けたい／Target：配送ルートを変える", "feedback": "Currentは願望、TargetはActionになっています。" },
+          { "id": "b", "label": "Current：直近30件の中央値52分／Target：8週間後に中央値40分以下", "feedback": "同じ尺度で現在と目標を比較できます。" },
+          { "id": "c", "label": "Current：ドライバーを増やす／Target：顧客満足を上げる", "feedback": "CurrentはActionで、Targetは観測可能ではありません。" },
+          { "id": "d", "label": "Current：道路が混む／Target：毎朝会議する", "feedback": "比較可能な状態の組ではありません。" }
+        ],
+        "correctOptionId": "b", "explanation": "CurrentとTargetは同じ観測尺度で比較できる状態として表します。"
+      },
+      {
+        "id": "q04", "conceptId": "observation_evaluation_boundary", "criticalConceptId": "observation_vs_evaluation", "questionType": "classification", "assessmentFocus": "Discrimination",
+        "prompt": "店舗の待ち時間について、判断を含まないObservationはどれですか？",
+        "options": [
+          { "id": "a", "label": "今日12時の待ち時間は18分だった", "feedback": "取得された値だけを示すObservationです。" },
+          { "id": "b", "label": "待ち時間が長すぎる", "feedback": "基準に対するEvaluationです。" },
+          { "id": "c", "label": "受付方法を改善する必要がある", "feedback": "必要性の判断を含んでいます。" },
+          { "id": "d", "label": "スタッフ配置が悪い", "feedback": "原因に対する判断でありObservationではありません。" }
+        ],
+        "correctOptionId": "a", "explanation": "Observationは取得されたFactを判断語と分離して表します。"
+      },
+      {
+        "id": "q05", "conceptId": "target_state", "questionType": "single_choice", "assessmentFocus": "Discrimination",
+        "prompt": "『問い合わせ対応を改善する』ためのTarget Stateはどれですか？",
+        "options": [
+          { "id": "a", "label": "FAQを作成する", "feedback": "改善のためのActionです。" },
+          { "id": "b", "label": "担当者へ研修を行う", "feedback": "これもActionです。" },
+          { "id": "c", "label": "6週間後に初回応答時間の中央値を3時間以下にする", "feedback": "期限と観測尺度があるTarget Stateです。" },
+          { "id": "d", "label": "できるだけ早く返答する", "feedback": "達成を観測できる条件がありません。" }
+        ],
+        "correctOptionId": "c", "explanation": "Target StateはActionではなく、到達を観測・比較できる状態です。"
+      },
+      {
+        "id": "q06", "conceptId": "observation_vs_state", "questionType": "classification", "assessmentFocus": "Discrimination",
+        "prompt": "睡眠改善のEvaluationへ入力するStateとして最も適切なのはどれですか？",
+        "options": [
+          { "id": "a", "label": "昨夜は6時間20分眠った", "feedback": "単一時点のObservationです。" },
+          { "id": "b", "label": "直近7日の平均睡眠時間、前週差、目標7時間との差", "feedback": "Observationを目的に沿って整理したStateです。" },
+          { "id": "c", "label": "今夜は早く寝る", "feedback": "将来のActionです。" },
+          { "id": "d", "label": "睡眠が足りない気がする", "feedback": "基準が明確でないEvaluationです。" }
+        ],
+        "correctOptionId": "b", "explanation": "Evaluationに必要な集計とTargetとの差を持つ表現がStateです。"
+      },
+      {
+        "id": "q07", "conceptId": "evaluation_input", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement",
+        "prompt": "State『直近7日の返品率4.8%、Target 3.0%以下』があります。次の処理として適切なのはどれですか？",
+        "options": [
+          { "id": "a", "label": "StateをTargetと比較し、1.8ポイント超過とEvaluationする", "feedback": "StateをEvaluationの入力として使っています。" },
+          { "id": "b", "label": "Stateを削除して今日の返品だけを見る", "feedback": "定義したStateをEvaluationに利用していません。" },
+          { "id": "c", "label": "比較せず改善Actionをランダムに選ぶ", "feedback": "Action選択の根拠となるEvaluationがありません。" },
+          { "id": "d", "label": "Targetを現在値4.8%へ変更する", "feedback": "差を消すためにTargetを変えており、Evaluationになりません。" }
+        ],
+        "correctOptionId": "a", "explanation": "StateはTargetやRuleと比較され、Evaluationの入力になります。"
+      },
+      {
+        "id": "q08", "conceptId": "state_update", "questionType": "error_detection", "assessmentFocus": "Error Detection",
+        "prompt": "毎日の在庫数は記録されていますが、画面のStateは1か月前の週平均のままです。問題は何ですか？",
+        "options": [
+          { "id": "a", "label": "Observationの件数が多い", "feedback": "件数ではなくState更新の欠落が問題です。" },
+          { "id": "b", "label": "新しいObservationがStateへ反映されず、現在状態をEvaluationできない", "feedback": "Stateが古いと現在状態への判断を誤ります。" },
+          { "id": "c", "label": "在庫数を数値で記録している", "feedback": "在庫数は適切なObservationになり得ます。" },
+          { "id": "d", "label": "週平均を使用している", "feedback": "目的に合えば週平均は妥当なStateです。" }
+        ],
+        "correctOptionId": "b", "explanation": "新しいObservationを同じ集計RuleでStateへ反映する必要があります。"
+      },
+      {
+        "id": "q09", "conceptId": "current_target", "questionType": "error_detection", "assessmentFocus": "Error Detection",
+        "prompt": "チームが『Current：集中力がない、Target：通知を切る』と設計しました。最も重要な問題は何ですか？",
+        "options": [
+          { "id": "a", "label": "Currentが観測可能なFactでなく、TargetがActionになっている", "feedback": "現在と目標の状態を比較できない設計です。" },
+          { "id": "b", "label": "通知という言葉を使っている", "feedback": "用語自体は問題ではありません。" },
+          { "id": "c", "label": "Targetが短すぎる", "feedback": "文章量ではなく責務の混同が問題です。" },
+          { "id": "d", "label": "CurrentとTargetを同時に決めている", "feedback": "同時に検討すること自体は問題ではありません。" }
+        ],
+        "correctOptionId": "a", "explanation": "CurrentとTargetは観測可能で比較できる状態として定義します。"
+      },
+      {
+        "id": "q10", "conceptId": "feedback_loop", "criticalConceptId": "feedback_re_observation", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement",
+        "prompt": "Webページの読了率を上げるため文章を短くしました。Feedback Loopを成立させる次の処理はどれですか？",
+        "options": [
+          { "id": "a", "label": "変更作業を完了として記録し終了する", "feedback": "Action後の結果が観測されない一方向Workflowです。" },
+          { "id": "b", "label": "文章をさらに短くする", "feedback": "結果を確認せずActionを重ねています。" },
+          { "id": "c", "label": "変更後の読了率を同じ方法で再観測し、Stateを更新して次の判断へ戻す", "feedback": "Re-Observationが次の判断へ接続されています。" },
+          { "id": "d", "label": "変更前の読了率をもう一度コピーする", "feedback": "Action後の状態を観測していません。" }
+        ],
+        "correctOptionId": "c", "explanation": "Action後に同じ対象を再観測し、更新したStateを次の判断へ戻します。"
+      }
+    ]
+  },
+  "guidedBuilder": {
+    "builderId": "core-stage-1-guided-builder",
+    "title": "Stage 1 Guided Builder｜目的と状態",
+    "theme": "学習時間を改善する",
+    "builderType": "guided",
+    "mode": "constrained",
+    "intro": "1つのテーマについてPurpose・Current・Target・Observation・Stateを接続してください。",
+    "steps": [
+      { "id": "purpose", "competencyId": "purpose", "type": "single_choice", "label": "Step 1｜Purpose", "prompt": "この設計で実現したい目的を選んでください。", "options": [
+        { "id": "purpose_outcome", "label": "限られた生活時間の中で、継続可能な学習時間を確保する" },
+        { "id": "purpose_action", "label": "毎朝30分早くアラームを鳴らす" },
+        { "id": "purpose_vague", "label": "とにかく頑張る" }
+      ] },
+      { "id": "currentState", "competencyId": "current_target", "type": "single_choice", "label": "Step 2｜Current State", "prompt": "現在状態として適切な情報を選んでください。", "options": [
+        { "id": "current_measured", "label": "直近7日の平均学習時間は1日25分" },
+        { "id": "current_target", "label": "4週間後に1日平均45分にする" },
+        { "id": "current_judgement", "label": "最近あまり勉強できていない" }
+      ] },
+      { "id": "targetState", "competencyId": "current_target", "type": "single_choice", "label": "Step 3｜Target State", "prompt": "Currentと比較可能なTargetを選んでください。", "options": [
+        { "id": "target_observable", "label": "4週間後に直近7日の平均学習時間を1日45分以上にする" },
+        { "id": "target_action", "label": "毎晩スマートフォンを別室へ置く" },
+        { "id": "target_vague", "label": "もっとたくさん勉強する" }
+      ] },
+      { "id": "observation", "competencyId": "observation", "type": "single_choice", "label": "Step 4｜Observation", "prompt": "Stateを更新するために取得するObservationを選んでください。", "options": [
+        { "id": "observation_fact", "label": "各学習セッションの開始時刻と終了時刻" },
+        { "id": "observation_evaluation", "label": "今日は十分に勉強できたという判断" },
+        { "id": "observation_state", "label": "直近7日の平均学習時間と目標差" }
+      ] },
+      { "id": "state", "competencyId": "state", "type": "single_choice", "label": "Step 5｜State", "prompt": "Observationから作るEvaluation可能なStateを選んでください。", "options": [
+        { "id": "state_evaluable", "label": "直近7日の平均学習時間、前週差、45分目標との差" },
+        { "id": "state_raw", "label": "全セッションの開始・終了時刻を加工せず並べた一覧" },
+        { "id": "state_observation", "label": "今日の学習時間は32分" }
+      ] }
+    ],
+    "acceptableConnections": [{ "id": "stage-1-learning-time", "selections": { "purpose": "purpose_outcome", "currentState": "current_measured", "targetState": "target_observable", "observation": "observation_fact", "state": "state_evaluable" } }],
+    "weaknessRules": [
+      { "stepId": "purpose", "triggerOptionIds": ["purpose_action"], "code": "purpose_as_action", "message": "Purposeではなく具体的なActionが選ばれています。" },
+      { "stepId": "purpose", "triggerOptionIds": ["purpose_vague"], "code": "purpose_as_action", "message": "Purposeが曖昧で、設計判断の基準になりません。" },
+      { "stepId": "currentState", "triggerOptionIds": ["current_target"], "code": "current_target_confusion", "message": "Target StateをCurrent Stateとして選んでいます。" },
+      { "stepId": "currentState", "triggerOptionIds": ["current_judgement"], "code": "observation_vs_evaluation", "message": "観測可能なCurrentではなく判断が選ばれています。" },
+      { "stepId": "targetState", "triggerOptionIds": ["target_action"], "code": "current_target_confusion", "message": "Target StateではなくActionが選ばれています。" },
+      { "stepId": "targetState", "triggerOptionIds": ["target_vague"], "code": "target_not_observable", "message": "Targetが観測・比較可能な状態になっていません。" },
+      { "stepId": "observation", "triggerOptionIds": ["observation_evaluation"], "code": "observation_vs_evaluation", "message": "取得FactではなくEvaluationがObservationとして選ばれています。" },
+      { "stepId": "observation", "triggerOptionIds": ["observation_state"], "code": "observation_vs_state", "message": "加工済みStateを個別Observationとして選んでいます。" },
+      { "stepId": "state", "triggerOptionIds": ["state_observation"], "code": "observation_vs_state", "message": "単一ObservationをStateとして選んでいます。" },
+      { "stepId": "state", "triggerOptionIds": ["state_raw"], "code": "state_not_evaluable", "message": "生ログのままでTargetとの差をEvaluationできません。" }
+    ]
+  }
+}

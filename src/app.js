@@ -1,11 +1,22 @@
 import { getStorageError, loadState, saveState, updateState } from "./store.js";
-import { applyQuizResult, detectBuilderWeakness, saveBuilderResult, scoreQuiz } from "./training.js";
+import {
+  applyQuizResult,
+  applyStageExamResult,
+  detectBuilderWeakness,
+  evaluateStageExam,
+  saveBuilderResult,
+  saveStageBuilderResult,
+  scoreQuiz
+} from "./training.js";
 
 const app = document.querySelector("#app");
 let curriculum;
 let lessons = new Map();
+let stages = new Map();
 let quizSession = { lessonId: null, index: 0, answers: {}, attemptId: null };
 let latestQuizResult = null;
+let stageExamSession = { stageId: null, index: 0, answers: {}, attemptId: null };
+let latestStageExamResult = null;
 
 const escapeHtml = (value = "") => String(value)
   .replaceAll("&", "&amp;")
@@ -27,7 +38,14 @@ async function loadTrainingData() {
     validateLesson(lesson, entry.id);
     return lesson;
   }));
-  return { ...catalog, loadedLessons };
+  const loadedStages = await Promise.all((catalog.stages || []).filter((entry) => entry.path).map(async (entry) => {
+    const response = await fetch(entry.path);
+    if (!response.ok) throw new Error(`Stage ${entry.id} could not be loaded`);
+    const stage = await response.json();
+    validateStage(stage, entry.id);
+    return stage;
+  }));
+  return { ...catalog, loadedLessons, loadedStages };
 }
 
 function validateLesson(lesson, expectedId) {
@@ -37,6 +55,16 @@ function validateLesson(lesson, expectedId) {
   }
   if (!Array.isArray(lesson.quiz.questions) || lesson.quiz.questions.length !== lesson.questionCount) {
     throw new Error(`Lesson ${expectedId} question count does not match its quiz data`);
+  }
+}
+
+function validateStage(stage, expectedId) {
+  const required = ["stageId", "title", "lessonIds", "exam", "guidedBuilder"];
+  if (required.some((key) => stage[key] === undefined) || stage.stageId !== expectedId) {
+    throw new Error(`Stage ${expectedId} does not match the Training Engine schema`);
+  }
+  if (!Array.isArray(stage.exam.questions) || stage.exam.questions.length !== stage.exam.questionCount) {
+    throw new Error(`Stage ${expectedId} question count does not match its exam data`);
   }
 }
 
@@ -68,6 +96,20 @@ function getLatestBuilder(state, lessonId) {
   return state.builderProjects.filter((project) => project.lessonId === lessonId).at(-1);
 }
 
+function getStageProgress(state, stageId) {
+  return state.stageProgress[stageId] || {
+    status: "available",
+    examStatus: "available",
+    builderStatus: "pending",
+    bestScore: 0,
+    attempts: 0
+  };
+}
+
+function getLatestStageBuilder(state, stageId) {
+  return state.stageBuilderProjects.filter((project) => project.stageId === stageId).at(-1);
+}
+
 function syncStorageAlert(message = getStorageError()) {
   const existing = document.querySelector("#storage-alert");
   if (!message) {
@@ -92,32 +134,46 @@ function setScreen(markup) {
 function renderHome() {
   const state = loadState();
   const availableLessons = [...lessons.values()];
-  const currentLesson = availableLessons.find((lesson) => !getProgress(state, lesson.id).quizPassed) || availableLessons.at(-1);
-  if (!currentLesson) return renderError("利用可能なLessonがありません");
+  const availableStages = [...stages.values()];
+  const stageIsComplete = (item) => {
+    const itemProgress = getStageProgress(state, item.stageId);
+    return ["passed", "passed_with_review"].includes(itemProgress.examStatus) && itemProgress.builderStatus === "completed";
+  };
+  const stage = availableStages.find((item) => !stageIsComplete(item)) || availableStages.at(-1);
+  const stageLessons = stage ? stage.lessonIds.map((id) => lessons.get(id)).filter(Boolean) : availableLessons;
+  const currentLesson = stageLessons.find((lesson) => !getProgress(state, lesson.id).quizPassed);
+  const displayLesson = currentLesson || stageLessons.at(-1) || availableLessons.at(-1);
+  if (!displayLesson) return renderError("利用可能なLessonがありません");
 
-  const progress = getProgress(state, currentLesson.id);
+  const progress = getProgress(state, displayLesson.id);
   const passedLessons = availableLessons.filter((lesson) => getProgress(state, lesson.id).quizPassed).length;
-  const latestBuilder = getLatestBuilder(state, currentLesson.id);
   const weakConcepts = Object.entries(state.conceptStates)
     .filter(([, concept]) => concept.retentionState === "weak")
     .map(([id]) => getConceptLabel(id));
-  const lessonCompleted = progress.lessonStatus === "completed";
-  const quizPassed = progress.quizPassed;
-  const builderCompleted = latestBuilder?.status === "completed";
-  const stage = curriculum.stages?.find((item) => item.id === currentLesson.stageId);
-
-  let nextTitle = lessonCompleted ? `${currentLesson.title}を復習して再挑戦する` : `${currentLesson.title}を学ぶ`;
-  let nextDescription = lessonCompleted
-    ? `Quiz Passには${currentLesson.passScore}/${currentLesson.questionCount}以上が必要です。`
-    : `${currentLesson.tier} Lesson ${currentLesson.id}から始めます。`;
-  let nextHref = `#/lesson/${currentLesson.id}`;
-  if (quizPassed && !builderCompleted) {
-    nextTitle = "Guided Builderに取り組む";
-    nextDescription = `${currentLesson.title}を設計実践で確認します。`;
-    nextHref = `#/builder/${currentLesson.id}`;
-  } else if (quizPassed && builderCompleted) {
-    nextTitle = "次のLessonは未実装";
-    nextDescription = "現在利用できるTraining Loopは完了しています。";
+  const stageProgress = stage ? getStageProgress(state, stage.stageId) : null;
+  const examPassed = ["passed", "passed_with_review"].includes(stageProgress?.examStatus);
+  const stageComplete = examPassed && stageProgress?.builderStatus === "completed";
+  let nextTitle;
+  let nextDescription;
+  let nextHref;
+  if (currentLesson) {
+    const currentProgress = getProgress(state, currentLesson.id);
+    nextTitle = currentProgress.lessonStatus === "completed" ? `${currentLesson.title}を復習して再挑戦する` : `${currentLesson.title}を学ぶ`;
+    nextDescription = currentProgress.lessonStatus === "completed"
+      ? `Quiz Passには${currentLesson.passScore}/${currentLesson.questionCount}以上が必要です。`
+      : `${currentLesson.tier} Lesson ${currentLesson.id}から始めます。`;
+    nextHref = `#/lesson/${currentLesson.id}`;
+  } else if (stage && !examPassed) {
+    nextTitle = stageProgress.examStatus === "review_required" ? `${stage.title} Stage Examを再受験する` : `${stage.title} Stage Examに進む`;
+    nextDescription = `${stage.title}の概念を横断して確認します。`;
+    nextHref = `#/stage/${stage.stageId}/exam`;
+  } else if (stage && stageProgress.builderStatus !== "completed") {
+    nextTitle = `${stage.title} Guided Builderに進む`;
+    nextDescription = "PurposeからStateまでを1つのテーマで接続します。";
+    nextHref = `#/stage/${stage.stageId}/builder`;
+  } else {
+    nextTitle = `${stage.title} Stage 完了`;
+    nextDescription = "次のStageは未実装です。Retention Stableとは別に記録されています。";
     nextHref = null;
   }
 
@@ -127,7 +183,7 @@ function renderHome() {
         <p class="eyebrow">FOUNDATION TRAINING</p>
         <h1>Loopを設計できる力を、ひとつずつ。</h1>
         <p class="lead">Lessonで理解し、Quizで確かめ、Builderで使う。Training Loopをひとつずつ完成させましょう。</p>
-        <div class="button-row"><a class="button" href="#/lesson/${currentLesson.id}">${lessonCompleted ? `Lesson ${currentLesson.id}を復習する` : `Lesson ${currentLesson.id}を始める`}</a></div>
+        <div class="button-row">${nextHref ? `<a class="button" href="${nextHref}">${escapeHtml(nextTitle)}</a>` : `<span class="tag">Stage Complete</span>`}</div>
       </div>
 
       <div class="grid">
@@ -143,8 +199,9 @@ function renderHome() {
           <p class="eyebrow">CURRENT POSITION</p>
           <div class="stat"><strong>${passedLessons}</strong><span>/ ${curriculum.curriculumSize} Lessons Passed</span></div>
           <div class="progress" aria-label="CORE Lesson進捗"><span style="width:${Math.round((passedLessons / curriculum.curriculumSize) * 100)}%"></span></div>
-          <p class="muted">${stage ? `${escapeHtml(stage.id)}｜${escapeHtml(stage.title)}<br>` : ""}Current: Lesson ${currentLesson.id}<br>Quiz Best: ${progress.bestScore} / ${currentLesson.questionCount}<br>Guided Builder: ${builderCompleted ? "completed" : latestBuilder ? "needs review" : "unstarted"}</p>
-          ${quizPassed && builderCompleted ? `<p><strong>次のLessonは未実装です。</strong></p>` : ""}
+          <p class="muted">${stage ? `${escapeHtml(stage.stageId)}｜${escapeHtml(stage.title)}<br>` : ""}Current: ${currentLesson ? `Lesson ${currentLesson.id}` : stageComplete ? "Stage Complete" : "Stage Assessment"}<br>Quiz Best: ${progress.bestScore} / ${displayLesson.questionCount}</p>
+          ${stage ? `<hr><p><strong>${escapeHtml(stage.tier)}｜${escapeHtml(stage.title)}</strong><br>Lessons：${stage.lessonIds.filter((id) => getProgress(state, id).quizPassed).length} / ${stage.lessonIds.length}<br>Stage Exam：${stageProgress.examStatus === "passed" ? "Passed" : stageProgress.examStatus === "passed_with_review" ? "Passed with Review" : stageProgress.examStatus === "review_required" ? "Review" : stageProgress.examStatus === "learning" ? "Learning" : "Pending"}<br>Stage Builder：${stageProgress.builderStatus === "completed" ? "Completed" : "Pending"}</p>` : ""}
+          ${stageComplete ? `<p><strong>次のStageは未実装です。</strong></p>` : ""}
         </section>
       </div>
     </section>
@@ -293,6 +350,143 @@ function renderWeakness(lesson) {
   `);
 }
 
+function getStageExamConfig(stage) {
+  return {
+    passScore: stage.exam.passScore,
+    questionCount: stage.exam.questionCount,
+    criticalConcepts: stage.exam.criticalConcepts
+  };
+}
+
+function renderStageExam(stage) {
+  if (stageExamSession.stageId !== stage.stageId || latestStageExamResult) {
+    stageExamSession = { stageId: stage.stageId, index: 0, answers: {}, attemptId: createAttemptId() };
+    latestStageExamResult = null;
+  }
+  updateState((state) => {
+    const progress = getStageProgress(state, stage.stageId);
+    if (["available", "review_required"].includes(progress.status)) {
+      progress.status = "learning";
+      progress.examStatus = "learning";
+    }
+    state.stageProgress[stage.stageId] = progress;
+  });
+  const question = stage.exam.questions[stageExamSession.index];
+  setScreen(`
+    <section class="screen narrow">
+      <p class="eyebrow">${escapeHtml(stage.stageId)} · STAGE EXAM</p>
+      <div class="step-indicator">Question ${stageExamSession.index + 1} / ${stage.exam.questionCount}</div>
+      <form class="question" id="stage-exam-form">
+        <h1>${escapeHtml(question.prompt)}</h1>
+        <div class="options">${question.options.map((option) => `<label class="option"><input type="radio" name="answer" value="${escapeHtml(option.id)}" required><span>${escapeHtml(option.label)}</span></label>`).join("")}</div>
+        <div class="button-row"><button class="button" type="submit">${stageExamSession.index === stage.exam.questionCount - 1 ? "採点する" : "次の問題"}</button></div>
+      </form>
+    </section>
+  `);
+  document.querySelector("#stage-exam-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    stageExamSession.answers[question.id] = new FormData(event.currentTarget).get("answer");
+    if (stageExamSession.index < stage.exam.questionCount - 1) {
+      stageExamSession.index += 1;
+      renderStageExam(stage);
+      return;
+    }
+    latestStageExamResult = evaluateStageExam(stage.exam.questions, stageExamSession.answers, getStageExamConfig(stage));
+    updateState((state) => applyStageExamResult(state, latestStageExamResult, { stageId: stage.stageId, attemptId: stageExamSession.attemptId }));
+    navigate(`#/stage/${stage.stageId}/result`);
+  });
+}
+
+function getLatestStageExamResult(stage) {
+  const state = loadState();
+  const progress = getStageProgress(state, stage.stageId);
+  const attemptId = progress.lastAttemptId;
+  if (!attemptId) return null;
+  const attempt = state.stageExamHistory.filter((item) => item.stageId === stage.stageId && item.attemptId === attemptId);
+  if (attempt.length !== stage.exam.questionCount) return null;
+  const answers = Object.fromEntries(attempt.map((item) => [item.questionId, item.selected]));
+  return evaluateStageExam(stage.exam.questions, answers, getStageExamConfig(stage));
+}
+
+function renderStageExamResult(stage) {
+  const result = latestStageExamResult && stageExamSession.stageId === stage.stageId
+    ? latestStageExamResult
+    : getLatestStageExamResult(stage);
+  if (!result) return navigate(`#/stage/${stage.stageId}/exam`);
+  const statusLabels = {
+    passed: "Passed — Stageの概念を区別できています",
+    passed_with_review: "Passed with Review — Critical Conceptを確認しましょう",
+    review_required: "Review Required — Stage Lessonを復習しましょう"
+  };
+  const canBuild = ["passed", "passed_with_review"].includes(result.status);
+  setScreen(`
+    <section class="screen narrow">
+      <p class="eyebrow">${escapeHtml(stage.stageId)} · EXAM RESULT</p>
+      <h1>${escapeHtml(statusLabels[result.status])}</h1>
+      <div class="score-ring"><div><strong>${result.score}</strong><span> / ${stage.exam.questionCount}</span></div></div>
+      <p class="notice ${result.status === "passed" ? "notice-success" : "notice-warning"}">Status：${escapeHtml(result.status)}。基本合格は${stage.exam.passScore}/${stage.exam.questionCount}以上です。</p>
+      ${result.missedCriticalConcepts.length ? `<p class="notice notice-warning">Critical Concept Review：${result.missedCriticalConcepts.map((id) => escapeHtml(stage.exam.criticalConcepts.find((concept) => concept.id === id)?.label || id)).join("、")}</p>` : ""}
+      <p class="muted">Stage ExamはLesson CompletionおよびRetention Stateとは別に保存されます。</p>
+      <ul class="result-list">${result.results.map(({ question, selected, correct }) => {
+        const selectedOption = question.options.find((option) => option.id === selected);
+        return `<li class="result-item ${correct ? "correct" : "incorrect"}"><p><strong>${correct ? "正解" : "要Review"}：</strong>${escapeHtml(question.prompt)}</p><p><strong>選んだ回答：</strong>${escapeHtml(selectedOption?.label || "未回答")}</p><p class="muted">${escapeHtml(selectedOption?.feedback || "")}</p>${correct ? "" : `<p><strong>正解理由：</strong>${escapeHtml(question.explanation)}</p>`}</li>`;
+      }).join("")}</ul>
+      <div class="button-row">${canBuild ? `<a class="button" href="#/stage/${stage.stageId}/builder">Stage Guided Builderへ進む</a>` : `<a class="button" href="#/stage/${stage.stageId}/exam">再受験する</a>`}<a class="button button-secondary" href="#/home">Homeへ戻る</a></div>
+    </section>
+  `);
+}
+
+function renderStageBuilder(stage) {
+  const builder = stage.guidedBuilder;
+  const state = loadState();
+  const existingBuilder = getLatestStageBuilder(state, stage.stageId);
+  const fields = existingBuilder?.fields || {};
+  setScreen(`
+    <section class="screen narrow">
+      <p class="eyebrow">${escapeHtml(stage.stageId)} · GUIDED BUILDER</p>
+      <h1>${escapeHtml(builder.title)}</h1>
+      <div class="card card-accent"><p class="eyebrow">THEME</p><h2>${escapeHtml(builder.theme)}</h2><p>${escapeHtml(builder.intro)}</p></div>
+      <form id="stage-builder-form" class="card">
+        ${builder.steps.map((step) => renderBuilderStep(step, fields[step.id])).join("")}
+        <button class="button button-block" type="submit">構造を確認する</button>
+      </form>
+    </section>
+  `);
+  document.querySelector("#stage-builder-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const submittedFields = Object.fromEntries(builder.steps.map((step) => [step.id, form.get(step.id)]));
+    const weaknesses = detectBuilderWeakness(submittedFields, builder.weaknessRules);
+    updateState((nextState) => saveStageBuilderResult(nextState, submittedFields, weaknesses, {
+      stageId: stage.stageId,
+      builder,
+      builderProjectId: existingBuilder?.id
+    }));
+    navigate(`#/stage/${stage.stageId}/weakness`);
+  });
+}
+
+function renderStageBuilderWeakness(stage) {
+  const state = loadState();
+  const project = getLatestStageBuilder(state, stage.stageId);
+  if (!project) return navigate(`#/stage/${stage.stageId}/builder`);
+  const weaknesses = state.stageBuilderWeaknessEvents.filter((event) => event.builderProjectId === project.id);
+  const completed = project.status === "completed";
+  setScreen(`
+    <section class="screen narrow">
+      <p class="eyebrow">${escapeHtml(stage.stageId)} · BUILDER RESULT</p>
+      <h1>${completed ? `${escapeHtml(stage.title)} Guided Builderが完成しました` : "構造にReview項目があります"}</h1>
+      <p class="notice ${completed ? "notice-success" : "notice-danger"}">${completed ? "PurposeからStateまでの5要素が適切に接続されています。" : `${weaknesses.length}件のWeaknessを保存しました。`}</p>
+      ${completed ? `<div class="loop-flow stage-flow">${stage.guidedBuilder.steps.map((step) => `<div class="loop-node">${escapeHtml(step.label.replace(/^Step \d+｜/, ""))}</div>`).join("")}</div><p class="muted">Stage CompleteはRetention Stableとは別の状態です。</p>` : `<ul class="review-list">${weaknesses.map((item) => `<li><span class="tag weak">${escapeHtml(item.code)}</span><p>${escapeHtml(item.message)}</p></li>`).join("")}</ul>`}
+      <div class="button-row"><a class="button" href="#/home">Homeへ戻る</a><a class="button button-secondary" href="#/stage/${stage.stageId}/builder">Builderを修正する</a></div>
+    </section>
+  `);
+}
+
+function renderStageNotFound(stageId) {
+  setScreen(`<section class="screen narrow"><p class="eyebrow">STAGE NOT FOUND</p><h1>${escapeHtml(stageId)}は未実装です</h1><p>現在利用できるStageから続けてください。</p><div class="button-row"><a class="button" href="#/home">Homeへ戻る</a></div></section>`);
+}
+
 function renderLessonNotFound(lessonId) {
   setScreen(`<section class="screen narrow"><p class="eyebrow">LESSON NOT FOUND</p><h1>Lesson ${escapeHtml(lessonId)}は未実装です</h1><p>現在利用できるLessonから学習を続けてください。</p><div class="button-row"><a class="button" href="#/home">Homeへ戻る</a></div></section>`);
 }
@@ -303,8 +497,10 @@ function renderError(message = "コンテンツを読み込めませんでした
 
 function parseRoute(hash) {
   if (!hash || hash === "#/home") return { screen: "home" };
-  const match = hash.match(/^#\/(lesson|quiz|result|builder|weakness)\/([^/]+)$/);
-  return match ? { screen: match[1], lessonId: decodeURIComponent(match[2]) } : { screen: "home" };
+  const lessonMatch = hash.match(/^#\/(lesson|quiz|result|builder|weakness)\/([^/]+)$/);
+  if (lessonMatch) return { screen: lessonMatch[1], lessonId: decodeURIComponent(lessonMatch[2]) };
+  const stageMatch = hash.match(/^#\/stage\/([^/]+)\/(exam|result|builder|weakness)$/);
+  return stageMatch ? { screen: `stage-${stageMatch[2]}`, stageId: decodeURIComponent(stageMatch[1]) } : { screen: "home" };
 }
 
 function route() {
@@ -312,7 +508,7 @@ function route() {
   const parsed = parseRoute(hash);
   if (parsed.screen === "home") {
     renderHome();
-  } else {
+  } else if (parsed.lessonId) {
     const lesson = lessons.get(parsed.lessonId);
     if (!lesson) renderLessonNotFound(parsed.lessonId);
     else if (parsed.screen === "lesson") renderLesson(lesson);
@@ -320,6 +516,13 @@ function route() {
     else if (parsed.screen === "result") renderResult(lesson);
     else if (parsed.screen === "builder") renderBuilder(lesson);
     else renderWeakness(lesson);
+  } else {
+    const stage = stages.get(parsed.stageId);
+    if (!stage) renderStageNotFound(parsed.stageId);
+    else if (parsed.screen === "stage-exam") renderStageExam(stage);
+    else if (parsed.screen === "stage-result") renderStageExamResult(stage);
+    else if (parsed.screen === "stage-builder") renderStageBuilder(stage);
+    else renderStageBuilderWeakness(stage);
   }
   const state = loadState();
   state.currentPosition = hash;
@@ -332,6 +535,7 @@ async function start() {
     app.append(document.querySelector("#loading-template").content.cloneNode(true));
     curriculum = await loadTrainingData();
     lessons = new Map(curriculum.loadedLessons.map((lesson) => [lesson.id, lesson]));
+    stages = new Map(curriculum.loadedStages.map((stage) => [stage.stageId, stage]));
     window.addEventListener("blanseed:storage-error", (event) => syncStorageAlert(event.detail));
     window.addEventListener("hashchange", route);
     route();

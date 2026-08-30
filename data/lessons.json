@@ -5,7 +5,8 @@
       "id": "CORE-STAGE-1",
       "title": "目的と状態",
       "tier": "CORE",
-      "lessonIds": ["01", "02", "03", "04"]
+      "lessonIds": ["01", "02", "03", "04"],
+      "path": "./data/stage-01.json"
     }
   ],
   "lessons": [
