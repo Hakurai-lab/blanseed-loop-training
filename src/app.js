@@ -92,32 +92,30 @@ function setScreen(markup) {
 function renderHome() {
   const state = loadState();
   const availableLessons = [...lessons.values()];
-  const currentLesson = availableLessons.find((lesson) => getProgress(state, lesson.id).lessonStatus !== "completed") || availableLessons.at(-1);
+  const currentLesson = availableLessons.find((lesson) => !getProgress(state, lesson.id).quizPassed) || availableLessons.at(-1);
   if (!currentLesson) return renderError("利用可能なLessonがありません");
 
   const progress = getProgress(state, currentLesson.id);
-  const completedLessons = availableLessons.filter((lesson) => getProgress(state, lesson.id).lessonStatus === "completed").length;
+  const passedLessons = availableLessons.filter((lesson) => getProgress(state, lesson.id).quizPassed).length;
   const latestBuilder = getLatestBuilder(state, currentLesson.id);
   const weakConcepts = Object.entries(state.conceptStates)
     .filter(([, concept]) => concept.retentionState === "weak")
     .map(([id]) => getConceptLabel(id));
-  const latestWeakAnswer = [...state.questionHistory].reverse().find((answer) => !answer.correct && lessons.has(answer.lessonId));
-  const reviewLessonId = latestWeakAnswer?.lessonId || currentLesson.id;
   const lessonCompleted = progress.lessonStatus === "completed";
+  const quizPassed = progress.quizPassed;
   const builderCompleted = latestBuilder?.status === "completed";
+  const stage = curriculum.stages?.find((item) => item.id === currentLesson.stageId);
 
-  let nextTitle = `${currentLesson.title}を学ぶ`;
-  let nextDescription = `${currentLesson.tier} Lesson ${currentLesson.id}から始めます。`;
+  let nextTitle = lessonCompleted ? `${currentLesson.title}を復習して再挑戦する` : `${currentLesson.title}を学ぶ`;
+  let nextDescription = lessonCompleted
+    ? `Quiz Passには${currentLesson.passScore}/${currentLesson.questionCount}以上が必要です。`
+    : `${currentLesson.tier} Lesson ${currentLesson.id}から始めます。`;
   let nextHref = `#/lesson/${currentLesson.id}`;
-  if (weakConcepts.length) {
-    nextTitle = "弱いConceptを確認する";
-    nextDescription = `${weakConcepts.length}件のReview候補があります。`;
-    nextHref = `#/result/${reviewLessonId}`;
-  } else if (lessonCompleted && !builderCompleted) {
+  if (quizPassed && !builderCompleted) {
     nextTitle = "Guided Builderに取り組む";
     nextDescription = `${currentLesson.title}を設計実践で確認します。`;
     nextHref = `#/builder/${currentLesson.id}`;
-  } else if (lessonCompleted && builderCompleted) {
+  } else if (quizPassed && builderCompleted) {
     nextTitle = "次のLessonは未実装";
     nextDescription = "現在利用できるTraining Loopは完了しています。";
     nextHref = null;
@@ -137,16 +135,16 @@ function renderHome() {
           <p class="eyebrow">NEXT ACTION</p>
           <h2>${escapeHtml(nextTitle)}</h2>
           <p class="muted">${escapeHtml(nextDescription)}</p>
-          ${weakConcepts.length ? `<div>${weakConcepts.map((name) => `<span class="tag weak">${escapeHtml(name)}</span>`).join("")}</div>` : ""}
+          ${weakConcepts.length ? `<p class="muted">Review候補</p><div>${weakConcepts.map((name) => `<span class="tag weak">${escapeHtml(name)}</span>`).join("")}</div>` : ""}
           ${nextHref ? `<div class="button-row"><a class="button button-secondary" href="${nextHref}">確認する</a></div>` : ""}
         </section>
 
         <section class="card card-accent">
           <p class="eyebrow">CURRENT POSITION</p>
-          <div class="stat"><strong>${completedLessons}</strong><span>/ ${curriculum.curriculumSize} Lessons</span></div>
-          <div class="progress" aria-label="CORE Lesson進捗"><span style="width:${Math.round((completedLessons / curriculum.curriculumSize) * 100)}%"></span></div>
-          <p class="muted">Current: Lesson ${currentLesson.id}<br>Quiz Best: ${progress.bestScore} / ${currentLesson.questionCount}<br>Guided Builder: ${builderCompleted ? "completed" : latestBuilder ? "needs review" : "unstarted"}</p>
-          ${lessonCompleted && builderCompleted ? `<p><strong>次のLessonは未実装です。</strong></p>` : ""}
+          <div class="stat"><strong>${passedLessons}</strong><span>/ ${curriculum.curriculumSize} Lessons Passed</span></div>
+          <div class="progress" aria-label="CORE Lesson進捗"><span style="width:${Math.round((passedLessons / curriculum.curriculumSize) * 100)}%"></span></div>
+          <p class="muted">${stage ? `${escapeHtml(stage.id)}｜${escapeHtml(stage.title)}<br>` : ""}Current: Lesson ${currentLesson.id}<br>Quiz Best: ${progress.bestScore} / ${currentLesson.questionCount}<br>Guided Builder: ${builderCompleted ? "completed" : latestBuilder ? "needs review" : "unstarted"}</p>
+          ${quizPassed && builderCompleted ? `<p><strong>次のLessonは未実装です。</strong></p>` : ""}
         </section>
       </div>
     </section>

@@ -1,9 +1,29 @@
 {
   "curriculumSize": 20,
+  "stages": [
+    {
+      "id": "CORE-STAGE-1",
+      "title": "目的と状態",
+      "tier": "CORE",
+      "lessonIds": ["01", "02", "03", "04"]
+    }
+  ],
   "lessons": [
     {
       "id": "01",
       "path": "./data/lesson-01.json"
+    },
+    {
+      "id": "02",
+      "path": "./data/lesson-02.json"
+    },
+    {
+      "id": "03",
+      "path": "./data/lesson-03.json"
+    },
+    {
+      "id": "04",
+      "path": "./data/lesson-04.json"
     }
   ]
 }

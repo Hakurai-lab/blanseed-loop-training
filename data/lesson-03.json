@@ -1,0 +1,170 @@
+{
+  "id": "03",
+  "title": "ObservationとEvaluation",
+  "stageId": "CORE-STAGE-1",
+  "tier": "CORE",
+  "importance": "important",
+  "questionCount": 5,
+  "passScore": 5,
+  "conceptTags": [
+    { "id": "observation", "label": "Observation" },
+    { "id": "evaluation", "label": "Evaluation" },
+    { "id": "observation_evaluation_boundary", "label": "ObservationとEvaluationの境界" }
+  ],
+  "confusionTags": ["observation_vs_evaluation", "judgement_as_observation", "missing_evaluation_rule"],
+  "content": {
+    "summary": "観測された情報と、その情報に対する判断を分離します。",
+    "objectives": [
+      "ObservationとEvaluationを区別できる",
+      "判断が混入した文章をObservationとして扱わない",
+      "同じObservationでも基準によりEvaluationが変わることを理解する",
+      "Evaluationには比較対象やRuleが必要だと判断できる"
+    ],
+    "definition": "Observationは取得された情報です。EvaluationはObservationやStateを基準と比較して行う判断です。",
+    "examples": [
+      "Observation：体重75.0kg。Evaluation：目標58.0kgより17.0kg多い。",
+      "Observation：初回応答まで6時間。Evaluation：目標3時間を超過している。"
+    ],
+    "commonMistakes": [
+      "『最近太りすぎている』のような判断をObservationとして保存する。",
+      "比較基準を示さず『良い』『悪い』とEvaluationする。",
+      "Observationを取得しただけで改善判断が完了したと考える。"
+    ],
+    "keyPoints": [
+      "Observationは何が観測されたかを表す",
+      "EvaluationはObservationを基準と比較した判断である",
+      "Factと判断を分離するとRule-based評価が可能になる"
+    ],
+    "flow": [
+      { "label": "Observation", "caption": "取得された情報" },
+      { "label": "Evaluation Rule", "caption": "目標や基準と比較" },
+      { "label": "Evaluation", "caption": "基準に対する判断" }
+    ]
+  },
+  "quiz": {
+    "questions": [
+      {
+        "id": "q01",
+        "conceptId": "observation_evaluation_boundary",
+        "questionType": "single_choice",
+        "assessmentFocus": "Recognition",
+        "prompt": "ObservationとEvaluationの関係として最も適切なものはどれですか？",
+        "options": [
+          { "id": "a", "label": "Observationは判断、Evaluationは判断に使った数値である", "feedback": "役割が逆です。Observationは取得情報、Evaluationはその情報への判断です。" },
+          { "id": "b", "label": "Observationは取得された情報、Evaluationは基準と比較した判断である", "feedback": "Factと判断を分ける基本的な関係です。" },
+          { "id": "c", "label": "ObservationとEvaluationは同じ内容を別名で表したものである", "feedback": "両者を分けないと、何がFactで何が判断か追跡できません。" },
+          { "id": "d", "label": "ObservationはTarget、EvaluationはActionである", "feedback": "TargetやActionとは異なる責務です。" }
+        ],
+        "correctOptionId": "b",
+        "explanation": "ObservationとEvaluationを分離すると、取得情報と判断Ruleを独立して確認できます。"
+      },
+      {
+        "id": "q02",
+        "conceptId": "observation",
+        "questionType": "classification",
+        "assessmentFocus": "Example / Classification",
+        "prompt": "次のうち、判断を含まないObservationはどれですか？",
+        "options": [
+          { "id": "a", "label": "今日の体重は75.0kgだった", "feedback": "測定された情報だけを表しているためObservationです。" },
+          { "id": "b", "label": "最近は太りすぎている", "feedback": "『太りすぎ』は基準に対する判断でありEvaluationです。" },
+          { "id": "c", "label": "体重管理がうまくいっていない", "feedback": "『うまくいっていない』は判断です。" },
+          { "id": "d", "label": "食生活を改善する必要がある", "feedback": "必要性の判断であり、観測された情報ではありません。" }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Observationは、測定・取得された情報を判断語なしで表現します。"
+      },
+      {
+        "id": "q03",
+        "conceptId": "evaluation",
+        "questionType": "single_choice",
+        "assessmentFocus": "Discrimination",
+        "prompt": "Observation『初回応答まで6時間』に対するEvaluationとして適切なものはどれですか？",
+        "options": [
+          { "id": "a", "label": "初回応答まで6時間だった", "feedback": "Observationを言い換えただけで、基準に対する判断がありません。" },
+          { "id": "b", "label": "担当者が問い合わせへ返信した", "feedback": "発生した出来事であり、応答時間のEvaluationではありません。" },
+          { "id": "c", "label": "目標3時間に対して3時間超過している", "feedback": "Observationを明示された目標と比較したEvaluationです。" },
+          { "id": "d", "label": "問い合わせ内容は難しかった", "feedback": "別の対象への判断で、6時間というObservationを評価していません。" }
+        ],
+        "correctOptionId": "c",
+        "explanation": "Evaluationには、Observationと比較する目標またはRuleが必要です。"
+      },
+      {
+        "id": "q04",
+        "conceptId": "observation_evaluation_boundary",
+        "questionType": "error_detection",
+        "assessmentFocus": "Error Detection",
+        "prompt": "システムが『ユーザー満足度は低く、改善が必要』という値をObservationとして保存しています。最も重要な問題は何ですか？",
+        "options": [
+          { "id": "a", "label": "文章形式で保存していること", "feedback": "形式だけが問題ではありません。文章でもFactは保存できます。" },
+          { "id": "b", "label": "『低い』『改善が必要』というEvaluationがObservationへ混入していること", "feedback": "観測値と判断を分けないと、判断根拠やRuleを確認できません。" },
+          { "id": "c", "label": "満足度を観測対象にしていること", "feedback": "適切な測定方法があれば満足度も観測できます。" },
+          { "id": "d", "label": "改善を検討していること", "feedback": "改善検討自体ではなく、ObservationとEvaluationの混同が問題です。" }
+        ],
+        "correctOptionId": "b",
+        "explanation": "Observationには測定値を保存し、『低い』などの判断はEvaluationとして別に扱います。"
+      },
+      {
+        "id": "q05",
+        "conceptId": "evaluation",
+        "questionType": "scenario_judgement",
+        "assessmentFocus": "Scenario Judgement",
+        "prompt": "体重75.0kgを観測しました。目標は58.0kgです。次に行うEvaluationとして最も適切なものはどれですか？",
+        "options": [
+          { "id": "a", "label": "75.0kgという値をもう一度保存する", "feedback": "Observationの複製であり、Evaluationではありません。" },
+          { "id": "b", "label": "目標より17.0kg多いと判断する", "feedback": "ObservationをTargetと比較した再現可能なEvaluationです。" },
+          { "id": "c", "label": "太りすぎなので直ちに食事を抜く", "feedback": "曖昧な判断とActionが混ざり、Evaluationが分離されていません。" },
+          { "id": "d", "label": "身長を測定する", "feedback": "追加Observationになり得ますが、提示された目標との差をEvaluationしていません。" }
+        ],
+        "correctOptionId": "b",
+        "explanation": "Observationを明確なTargetと比較し、差をEvaluationとして表現します。"
+      }
+    ]
+  },
+  "miniBuilder": {
+    "theme": "健康データのFactと判断を分ける",
+    "title": "ObservationとEvaluationを分類する",
+    "builderType": "guided",
+    "mode": "constrained",
+    "intro": "各カードがObservationかEvaluationかを選択してください。",
+    "steps": [
+      {
+        "id": "cardWeight",
+        "type": "single_choice",
+        "label": "① カード：今日の体重は75.0kg",
+        "prompt": "このカードを分類してください。",
+        "options": [
+          { "id": "observation", "label": "Observation" },
+          { "id": "evaluation", "label": "Evaluation" }
+        ]
+      },
+      {
+        "id": "cardGap",
+        "type": "single_choice",
+        "label": "② カード：目標より17.0kg多い",
+        "prompt": "このカードを分類してください。",
+        "options": [
+          { "id": "observation", "label": "Observation" },
+          { "id": "evaluation", "label": "Evaluation" }
+        ]
+      },
+      {
+        "id": "cardResponse",
+        "type": "single_choice",
+        "label": "③ カード：初回応答まで6時間だった",
+        "prompt": "このカードを分類してください。",
+        "options": [
+          { "id": "observation", "label": "Observation" },
+          { "id": "evaluation", "label": "Evaluation" }
+        ]
+      }
+    ],
+    "acceptableConnections": [
+      { "id": "fact-judgement-classification", "selections": { "cardWeight": "observation", "cardGap": "evaluation", "cardResponse": "observation" } }
+    ],
+    "weaknessRules": [
+      { "stepId": "cardWeight", "acceptableOptionIds": ["observation"], "code": "observation_vs_evaluation", "message": "測定値だけのカードをEvaluationとして分類しています。" },
+      { "stepId": "cardGap", "acceptableOptionIds": ["evaluation"], "code": "observation_vs_evaluation", "message": "目標との差という判断をObservationとして分類しています。" },
+      { "stepId": "cardResponse", "acceptableOptionIds": ["observation"], "code": "observation_vs_evaluation", "message": "取得された応答時間をEvaluationとして分類しています。" }
+    ]
+  }
+}

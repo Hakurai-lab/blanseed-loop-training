@@ -1,7 +1,7 @@
 {
   "id": "01",
   "title": "Loopとは何か",
-  "stageId": "stage-01",
+  "stageId": "CORE-STAGE-1",
   "tier": "CORE",
   "importance": "normal",
   "questionCount": 5,

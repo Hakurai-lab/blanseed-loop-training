@@ -1,0 +1,162 @@
+{
+  "id": "02",
+  "title": "現在状態と目標状態",
+  "stageId": "CORE-STAGE-1",
+  "tier": "CORE",
+  "importance": "normal",
+  "questionCount": 5,
+  "passScore": 4,
+  "conceptTags": [
+    { "id": "current_state", "label": "Current State" },
+    { "id": "target_state", "label": "Target State" },
+    { "id": "comparable_target", "label": "比較可能なTarget" },
+    { "id": "fact_boundary", "label": "Factの境界" }
+  ],
+  "confusionTags": ["current_target_confusion", "target_not_observable", "goal_as_action", "assumption_as_fact"],
+  "content": {
+    "summary": "現在起きていることと、望む状態を分けて表現し、比較できる形にします。",
+    "objectives": [
+      "Current StateとTarget Stateを区別できる",
+      "望む状態と、そのためのActionを混同しない",
+      "比較可能で観測可能なTarget Stateを選べる",
+      "根拠のない数値をFactとして扱わない"
+    ],
+    "definition": "Current Stateは現在観測できる状態、Target Stateは到達したい比較可能な状態です。両者の差が、次のActionを考える基礎になります。",
+    "examples": [
+      "Current：直近7日間の平均学習時間は25分。Target：4週間後に直近7日平均を45分にする。",
+      "Current：月間の問い合わせ初回応答中央値は6時間。Target：次月は3時間以内にする。"
+    ],
+    "commonMistakes": [
+      "『毎日勉強する』のようなActionをTarget Stateとして書く。",
+      "測定していない現在値を、印象だけでFactとして扱う。",
+      "『もっと良くする』のように比較できないTargetを置く。"
+    ],
+    "keyPoints": [
+      "CurrentとTargetは同じ尺度で比較できるようにする",
+      "Targetは望む状態でありActionではない",
+      "未観測のCurrentは仮説として扱う"
+    ],
+    "flow": [
+      { "label": "Current State", "caption": "現在の観測可能な状態" },
+      { "label": "Gap", "caption": "CurrentとTargetの差" },
+      { "label": "Target State", "caption": "到達したい比較可能な状態" }
+    ]
+  },
+  "quiz": {
+    "questions": [
+      {
+        "id": "q01",
+        "conceptId": "current_state",
+        "questionType": "single_choice",
+        "assessmentFocus": "Recognition",
+        "prompt": "Current StateとTarget Stateの説明として最も適切なものはどれですか？",
+        "options": [
+          { "id": "a", "label": "Currentは実施予定、Targetは実施済みのActionである", "feedback": "CurrentとTargetはActionの時系列ではなく、現在と望む状態を表します。" },
+          { "id": "b", "label": "Currentは現在観測できる状態、Targetは到達したい比較可能な状態である", "feedback": "両者を同じ尺度で比較することでGapを把握できます。" },
+          { "id": "c", "label": "Currentは問題の原因、Targetは原因を除く方法である", "feedback": "原因や方法とは別に、CurrentとTargetは状態を表現します。" },
+          { "id": "d", "label": "CurrentとTargetはどちらも将来の予測である", "feedback": "Currentは現在の観測に基づき、Targetは望む将来状態です。" }
+        ],
+        "correctOptionId": "b",
+        "explanation": "Current StateとTarget Stateは、現在と望む状態を同じ尺度で比較するための組です。"
+      },
+      {
+        "id": "q02",
+        "conceptId": "target_state",
+        "questionType": "classification",
+        "assessmentFocus": "Example / Classification",
+        "prompt": "学習改善のCurrent StateとTarget Stateの組として適切なものはどれですか？",
+        "options": [
+          { "id": "a", "label": "Current：もっと勉強したい／Target：参考書を買う", "feedback": "Currentは観測された状態ではなく、TargetはActionになっています。" },
+          { "id": "b", "label": "Current：直近7日平均25分／Target：4週間後に直近7日平均45分", "feedback": "同じ尺度で現在値と望む値を比較できる組です。" },
+          { "id": "c", "label": "Current：毎朝机に向かう／Target：集中力を上げる", "feedback": "CurrentはActionで、Targetは測定可能な状態になっていません。" },
+          { "id": "d", "label": "Current：成績が悪い気がする／Target：努力する", "feedback": "Currentに根拠がなく、TargetもActionです。" }
+        ],
+        "correctOptionId": "b",
+        "explanation": "CurrentとTargetは、同じ観測対象と尺度を使うと比較可能になります。"
+      },
+      {
+        "id": "q03",
+        "conceptId": "comparable_target",
+        "questionType": "single_choice",
+        "assessmentFocus": "Discrimination",
+        "prompt": "次のうち、ActionではなくTarget Stateとして表現されているものはどれですか？",
+        "options": [
+          { "id": "a", "label": "毎日30分ランニングする", "feedback": "これは望む状態へ向けたActionです。" },
+          { "id": "b", "label": "食事記録アプリを導入する", "feedback": "これは仕組みを導入するActionです。" },
+          { "id": "c", "label": "8週間後に週平均歩数を7,000歩以上にする", "feedback": "期限と観測尺度があり、到達したい状態を表しています。" },
+          { "id": "d", "label": "健康を意識して生活する", "feedback": "行動方針であり、到達状態を比較できません。" }
+        ],
+        "correctOptionId": "c",
+        "explanation": "Target Stateは実施することではなく、Action後に実現したい観測可能な状態です。"
+      },
+      {
+        "id": "q04",
+        "conceptId": "fact_boundary",
+        "questionType": "error_detection",
+        "assessmentFocus": "Error Detection",
+        "prompt": "あるチームが『現在の応答時間は約8時間だと思うので、目標を4時間にする』と設計しました。最初に修正すべき問題は何ですか？",
+        "options": [
+          { "id": "a", "label": "応答時間ではなく問い合わせ件数をTargetにするべき", "feedback": "目的が応答改善なら、応答時間は妥当な尺度です。" },
+          { "id": "b", "label": "未測定の8時間をCurrent StateのFactとして扱っている", "feedback": "まず実測し、CurrentをFactとして確認する必要があります。" },
+          { "id": "c", "label": "Targetに数値を使っている", "feedback": "比較可能なTargetには数値が有効です。問題はCurrentの根拠です。" },
+          { "id": "d", "label": "CurrentとTargetの差が4時間ある", "feedback": "差があること自体は問題ではなく、その差が改善対象になります。" }
+        ],
+        "correctOptionId": "b",
+        "explanation": "観測していないCurrent値はFactではありません。測定するまでは仮説として扱います。"
+      },
+      {
+        "id": "q05",
+        "conceptId": "target_state",
+        "questionType": "scenario_judgement",
+        "assessmentFocus": "Scenario Judgement",
+        "prompt": "プレゼン能力を改善したい人がいます。Target Stateとして最も適切なものはどれですか？",
+        "options": [
+          { "id": "a", "label": "プレゼンの本を2冊読む", "feedback": "読書はActionであり、能力がどう変わったかを表していません。" },
+          { "id": "b", "label": "話すのが上手になる", "feedback": "望ましい方向ですが、達成を比較できません。" },
+          { "id": "c", "label": "次の3回の発表で、共通評価表の5項目中4項目以上を満たす", "feedback": "観測方法と達成条件が明確なTarget Stateです。" },
+          { "id": "d", "label": "毎週プレゼンを練習する", "feedback": "練習はActionであり、到達した状態ではありません。" }
+        ],
+        "correctOptionId": "c",
+        "explanation": "Target Stateは、到達したかを共通の観測方法で判断できる必要があります。"
+      }
+    ]
+  },
+  "miniBuilder": {
+    "theme": "学習時間を改善する",
+    "title": "CurrentとTargetを組み立てる",
+    "builderType": "guided",
+    "mode": "constrained",
+    "intro": "同じ尺度で比較できるCurrent StateとTarget Stateを選んでください。",
+    "steps": [
+      {
+        "id": "currentState",
+        "type": "single_choice",
+        "label": "① Current State",
+        "prompt": "現在の状態として適切なものはどれですか？",
+        "options": [
+          { "id": "current_measured", "label": "直近7日間の平均学習時間は25分" },
+          { "id": "current_wish", "label": "もっと長く勉強したい" },
+          { "id": "current_action", "label": "学習開始時刻を早める" }
+        ]
+      },
+      {
+        "id": "targetState",
+        "type": "single_choice",
+        "label": "② Target State",
+        "prompt": "Currentと比較できるTarget Stateはどれですか？",
+        "options": [
+          { "id": "target_comparable", "label": "4週間後に直近7日間の平均学習時間を45分にする" },
+          { "id": "target_vague", "label": "できるだけたくさん勉強する" },
+          { "id": "target_action", "label": "毎朝アラームを30分早く設定する" }
+        ]
+      }
+    ],
+    "acceptableConnections": [
+      { "id": "measured-current-target", "selections": { "currentState": "current_measured", "targetState": "target_comparable" } }
+    ],
+    "weaknessRules": [
+      { "stepId": "currentState", "acceptableOptionIds": ["current_measured"], "code": "current_target_confusion", "message": "Current Stateが観測済みの現在状態として表現されていません。" },
+      { "stepId": "targetState", "acceptableOptionIds": ["target_comparable"], "code": "target_not_observable", "message": "Target StateがCurrentと比較可能な観測状態になっていません。" }
+    ]
+  }
+}

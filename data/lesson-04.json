@@ -1,0 +1,163 @@
+{
+  "id": "04",
+  "title": "Stateとは何か",
+  "stageId": "CORE-STAGE-1",
+  "tier": "CORE",
+  "importance": "normal",
+  "questionCount": 5,
+  "passScore": 4,
+  "conceptTags": [
+    { "id": "observation", "label": "Observation" },
+    { "id": "state", "label": "State" },
+    { "id": "evaluable_state", "label": "Evaluation可能なState" },
+    { "id": "state_update", "label": "State Update" }
+  ],
+  "confusionTags": ["observation_vs_state", "state_not_evaluable", "state_as_raw_log", "overcomplicated_state"],
+  "content": {
+    "summary": "Observationを整理・加工し、Evaluationに使える現在の状態として表現します。",
+    "objectives": [
+      "ObservationとStateを区別できる",
+      "StateがEvaluationの入力になることを理解する",
+      "新しいObservationによりStateが更新されることを理解する",
+      "目的に不要な複雑さをStateへ持ち込まない"
+    ],
+    "definition": "Stateは、Observationを目的に合わせて整理・加工し、Evaluation可能な形で表した現在状態です。",
+    "examples": [
+      "Observation：今日の体重75.0kg。State：7日平均74.8kg、前週比+0.3kg、目標差+16.8kg。",
+      "Observation：個々の応答時刻。State：直近7日の初回応答中央値4.2時間。"
+    ],
+    "commonMistakes": [
+      "個々のObservationをそのまま大量に並べ、Stateと呼ぶ。",
+      "Evaluationに使わない属性までStateへ詰め込む。",
+      "新しいObservationが来てもStateを更新しない。"
+    ],
+    "keyPoints": [
+      "Observationは取得された個別情報である",
+      "Stateは目的に必要なObservationを整理した表現である",
+      "StateはEvaluationに使える粒度にする",
+      "新しいObservationを反映してStateを更新する"
+    ],
+    "flow": [
+      { "label": "Observations", "caption": "個別に取得した情報" },
+      { "label": "State Update", "caption": "整理・集計・加工" },
+      { "label": "State", "caption": "Evaluation可能な現在状態" }
+    ]
+  },
+  "quiz": {
+    "questions": [
+      {
+        "id": "q01",
+        "conceptId": "state",
+        "questionType": "single_choice",
+        "assessmentFocus": "Recognition",
+        "prompt": "ObservationとStateの関係として最も適切なものはどれですか？",
+        "options": [
+          { "id": "a", "label": "Observationは加工済み状態、Stateは個別の測定値である", "feedback": "役割が逆です。Observationは取得情報、Stateは整理・加工した状態です。" },
+          { "id": "b", "label": "Observationを目的に合わせて整理・加工したものがStateである", "feedback": "StateはEvaluationに使える現在状態を表します。" },
+          { "id": "c", "label": "ObservationとStateは常に同じ値でなければならない", "feedback": "Stateは複数Observationの集計や差分を含められます。" },
+          { "id": "d", "label": "Stateは将来行うActionの一覧である", "feedback": "Stateは現在状態であり、Action一覧ではありません。" }
+        ],
+        "correctOptionId": "b",
+        "explanation": "StateはObservationをEvaluation可能な形へ整理・加工した現在状態です。"
+      },
+      {
+        "id": "q02",
+        "conceptId": "state",
+        "questionType": "classification",
+        "assessmentFocus": "Example / Classification",
+        "prompt": "次のうち、個別ObservationではなくStateとして適切なものはどれですか？",
+        "options": [
+          { "id": "a", "label": "今日8時の体重は75.0kg", "feedback": "特定時点に取得された個別Observationです。" },
+          { "id": "b", "label": "昨日8時の体重は74.7kg", "feedback": "これも特定時点の個別Observationです。" },
+          { "id": "c", "label": "直近7日平均74.8kg、前週比+0.3kg、目標差+16.8kg", "feedback": "複数ObservationをEvaluation可能な形へ整理したStateです。" },
+          { "id": "d", "label": "明日は食事量を減らす", "feedback": "将来のActionでありStateではありません。" }
+        ],
+        "correctOptionId": "c",
+        "explanation": "Stateは、目的に関係する集計や比較値を含み、Evaluationへ入力できます。"
+      },
+      {
+        "id": "q03",
+        "conceptId": "evaluable_state",
+        "questionType": "single_choice",
+        "assessmentFocus": "Discrimination",
+        "prompt": "学習改善をEvaluationするStateとして最も適切なものはどれですか？",
+        "options": [
+          { "id": "a", "label": "これまでの全学習メモを日時順に並べた一覧", "feedback": "情報量は多いですが、目標との差を判断しにくい生ログです。" },
+          { "id": "b", "label": "直近7日平均学習時間、前週との差、目標との差", "feedback": "現在傾向とTargetとの差をEvaluationできるStateです。" },
+          { "id": "c", "label": "使ったペンの色と机の位置を含む詳細記録", "feedback": "学習時間改善に不要な属性が多く、Stateを複雑にしています。" },
+          { "id": "d", "label": "来週から毎朝勉強するという予定", "feedback": "予定されたActionであり現在Stateではありません。" }
+        ],
+        "correctOptionId": "b",
+        "explanation": "Stateには、目的のEvaluationに必要な情報だけを保持します。"
+      },
+      {
+        "id": "q04",
+        "conceptId": "evaluable_state",
+        "questionType": "error_detection",
+        "assessmentFocus": "Error Detection",
+        "prompt": "システムが1年分の応答時刻をそのままStateとして画面表示しています。最も重要な問題は何ですか？",
+        "options": [
+          { "id": "a", "label": "1年分のデータを保存していること自体が常に誤り", "feedback": "履歴保存は有用な場合があります。問題はStateとしての表現です。" },
+          { "id": "b", "label": "Evaluationに必要な集計やTargetとの差がなく、生ログのままである", "feedback": "Stateは目的に応じて整理され、判断可能である必要があります。" },
+          { "id": "c", "label": "応答時刻をObservationしている", "feedback": "応答時刻は有効なObservationです。" },
+          { "id": "d", "label": "画面に情報を表示している", "feedback": "表示自体ではなく、Stateへ加工されていない点が問題です。" }
+        ],
+        "correctOptionId": "b",
+        "explanation": "Observationの一覧とStateは異なります。StateはEvaluationに必要な形へ整理します。"
+      },
+      {
+        "id": "q05",
+        "conceptId": "state_update",
+        "questionType": "scenario_judgement",
+        "assessmentFocus": "Scenario Judgement",
+        "prompt": "新しい1日分の学習時間が記録されました。直近7日平均をStateとして使っている場合、次に行うべきことはどれですか？",
+        "options": [
+          { "id": "a", "label": "新しいObservationを保存するだけでStateは変更しない", "feedback": "Stateが古いままになり、現在状態を表せません。" },
+          { "id": "b", "label": "直近7日の対象期間を更新して平均と目標差を再計算する", "feedback": "新しいObservationを反映し、Evaluation可能なStateを更新します。" },
+          { "id": "c", "label": "過去のObservationをすべて削除する", "feedback": "State更新に必要な履歴まで失われます。" },
+          { "id": "d", "label": "平均を計算せず、今日の値だけをTargetと比較する", "feedback": "定義したStateが直近7日平均なら、同じRuleで更新する必要があります。" }
+        ],
+        "correctOptionId": "b",
+        "explanation": "Stateは新しいObservationを受けて、同じ集計Ruleで更新されます。"
+      }
+    ]
+  },
+  "miniBuilder": {
+    "theme": "学習時間のObservationからStateを作る",
+    "title": "Evaluation可能なStateを選ぶ",
+    "builderType": "guided",
+    "mode": "constrained",
+    "intro": "提示されたObservationから、目的に適したStateを選択してください。",
+    "steps": [
+      {
+        "id": "stateRepresentation",
+        "type": "single_choice",
+        "label": "① State表現",
+        "prompt": "7日分の学習時間から作るStateとして適切なものはどれですか？",
+        "options": [
+          { "id": "state_evaluable", "label": "直近7日平均、前週との差、目標との差" },
+          { "id": "state_raw_log", "label": "7日分の記録をそのまま日時順に並べた一覧" },
+          { "id": "state_action", "label": "明日から勉強開始を30分早めるという予定" }
+        ]
+      },
+      {
+        "id": "stateUpdate",
+        "type": "single_choice",
+        "label": "② State Update",
+        "prompt": "新しい学習時間が届いたとき、どう更新しますか？",
+        "options": [
+          { "id": "update_rolling", "label": "対象となる直近7日をずらし、平均と差を再計算する" },
+          { "id": "keep_old", "label": "Observationだけ追加し、Stateは変更しない" },
+          { "id": "add_details", "label": "机の位置や天気など、取得可能な属性をすべて追加する" }
+        ]
+      }
+    ],
+    "acceptableConnections": [
+      { "id": "evaluable-updatable-state", "selections": { "stateRepresentation": "state_evaluable", "stateUpdate": "update_rolling" } }
+    ],
+    "weaknessRules": [
+      { "stepId": "stateRepresentation", "acceptableOptionIds": ["state_evaluable"], "code": "observation_vs_state", "message": "個別Observationの一覧をEvaluation可能なStateとして整理できていません。" },
+      { "stepId": "stateUpdate", "acceptableOptionIds": ["update_rolling"], "code": "state_not_evaluable", "message": "新しいObservationを反映してStateを更新するRuleが成立していません。" }
+    ]
+  }
+}
