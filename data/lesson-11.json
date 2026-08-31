@@ -1,0 +1,80 @@
+{
+  "id": "11", "title": "仮説（Hypothesis）と実験（Experiment）", "stageId": "CORE-STAGE-3", "tier": "CORE", "importance": "normal", "questionCount": 5, "passScore": 4,
+  "conceptTags": [
+    { "id": "hypothesis", "label": "Hypothesis" }, { "id": "experiment", "label": "Experiment" },
+    { "id": "expected_result", "label": "Expected Result" }, { "id": "hypothesis_evaluation", "label": "支持・棄却・保留" }
+  ],
+  "confusionTags": ["hypothesis_without_test", "experiment_not_connected", "observation_not_relevant", "success_condition_missing"],
+  "content": {
+    "summary": "HypothesisをTest Action・Observation・Expected Resultへ接続し、支持・棄却・保留を判断します。",
+    "objectives": ["Hypothesisを検証対象として扱える", "HypothesisからTest Actionを作れる", "Expected Resultを設定できる", "Success ConditionとObservationを接続できる", "未検証HypothesisをKnowledgeへ昇格させない"],
+    "definition": "ExperimentはHypothesisを検証するためのTest Actionです。事前にObservation、Expected Result、Success Conditionを定め、結果から支持・棄却・保留を判断します。",
+    "examples": ["Hypothesis：開始が遅いことが学習時間不足の主因。Experiment：1週間、開始を30分早める。Observation：開始時刻と総学習時間。Expected Result：平均学習時間が増える。"],
+    "commonMistakes": ["Hypothesisと無関係なActionをExperimentと呼ぶ。", "結果を見てからSuccess Conditionを変更する。", "1回支持されたHypothesisをHuman ReviewなしにReusable Knowledgeへ昇格する。"],
+    "keyPoints": ["ExperimentはHypothesisの予測を変化として観測できるようにする", "Expected ResultとSuccess Conditionは実験前に定める", "結果は支持・棄却・保留であり絶対的証明とは限らない", "支持結果はLearning CandidateとしてHuman Reviewへ渡す"],
+    "flow": [{ "label": "Hypothesis", "caption": "検証する予測" }, { "label": "Experiment", "caption": "TestとObservation" }, { "label": "Evaluate", "caption": "支持・棄却・保留" }]
+  },
+  "quiz": { "questions": [
+    {
+      "id": "q01", "conceptId": "experiment", "questionType": "single_choice", "assessmentFocus": "Recognition", "prompt": "Hypothesisに対するExperimentの役割はどれですか？",
+      "options": [
+        { "id": "a", "label": "Hypothesisを正しいFactとして宣言する", "feedback": "Experiment前は検証対象です。" },
+        { "id": "b", "label": "予測をTest ActionとObservationへ変換し、Evidenceを得る", "feedback": "Hypothesisの支持・棄却・保留を判断できます。" },
+        { "id": "c", "label": "都合の悪いObservationを除外する", "feedback": "結果を歪め、検証になりません。" },
+        { "id": "d", "label": "結果を見てHypothesisを書き換えるだけ", "feedback": "事前の予測を検証していません。" }
+      ], "correctOptionId": "b", "explanation": "ExperimentはHypothesisを観測可能なTestへ接続します。"
+    },
+    {
+      "id": "q02", "conceptId": "experiment", "questionType": "classification", "assessmentFocus": "Example / Classification", "prompt": "Hypothesis『開始が遅いほど学習時間が短い』に接続したExperimentはどれですか？",
+      "options": [
+        { "id": "a", "label": "1週間開始を30分早め、開始時刻と総学習時間を記録する", "feedback": "仮説の要因を変え、関連する結果を観測します。" },
+        { "id": "b", "label": "新しい参考書を買い、満足度だけ記録する", "feedback": "開始時刻と学習時間の仮説に接続していません。" },
+        { "id": "c", "label": "開始が遅いことをFactとして保存する", "feedback": "検証せず原因を確定しています。" },
+        { "id": "d", "label": "何も変えずHypothesisを繰り返し読む", "feedback": "Test Actionと新しいObservationがありません。" }
+      ], "correctOptionId": "a", "explanation": "Hypothesis中の要因とExpected Resultを観測できるExperimentを選びます。"
+    },
+    {
+      "id": "q03", "conceptId": "expected_result", "questionType": "single_choice", "assessmentFocus": "Discrimination", "prompt": "上記ExperimentのExpected Resultとして適切なのはどれですか？",
+      "options": [
+        { "id": "a", "label": "開始を早めれば、比較期間より平均学習時間が増える", "feedback": "仮説が予測する観測可能な変化です。" },
+        { "id": "b", "label": "Experimentは必ず成功する", "feedback": "観測値とSuccess Conditionがありません。" },
+        { "id": "c", "label": "気分が何となく良くなる", "feedback": "主仮説との接続と測定方法が弱いです。" },
+        { "id": "d", "label": "開始時刻を30分早めた", "feedback": "Action実行の確認で、学習時間へのResultではありません。" }
+      ], "correctOptionId": "a", "explanation": "Expected ResultはHypothesisが支持される場合に観測される変化です。"
+    },
+    {
+      "id": "q04", "conceptId": "hypothesis_evaluation", "questionType": "error_detection", "assessmentFocus": "Error Detection", "prompt": "結果を見た後で『1分でも増えれば成功』とSuccess Conditionを決めました。問題は何ですか？",
+      "options": [
+        { "id": "a", "label": "数値を条件に使っている", "feedback": "数値条件自体は有効です。" },
+        { "id": "b", "label": "結果に合わせて条件を後付けし、検証判断が再現できない", "feedback": "Success Conditionは原則として実験前に決めます。" },
+        { "id": "c", "label": "学習時間を観測している", "feedback": "仮説に関連するObservationです。" },
+        { "id": "d", "label": "結果をEvaluationしている", "feedback": "評価は必要ですが、条件の後付けが問題です。" }
+      ], "correctOptionId": "b", "explanation": "事前条件により結果に都合よく判断を変えることを防ぎます。"
+    },
+    {
+      "id": "q05", "conceptId": "hypothesis_evaluation", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement", "prompt": "平均学習時間は35分から52分へ増えましたが、開始時刻はほぼ変わりませんでした。適切な判断はどれですか？",
+      "options": [
+        { "id": "a", "label": "開始時刻Hypothesisは完全に証明された", "feedback": "想定した要因が変化しておらず因果支持になりません。" },
+        { "id": "b", "label": "別要因の影響も考え、Hypothesisは保留または再設計する", "feedback": "観測が予測した経路と一致しないため追加検証が必要です。" },
+        { "id": "c", "label": "学習時間増加を無視する", "feedback": "Resultは保持し、原因判断を分けます。" },
+        { "id": "d", "label": "すぐReusable Knowledgeとして全員へ適用する", "feedback": "検証とHuman Reviewが不足しています。" }
+      ], "correctOptionId": "b", "explanation": "Resultと原因支持を分け、支持・棄却・保留を判断します。"
+    }
+  ] },
+  "miniBuilder": {
+    "theme": "学習開始時刻Hypothesisを検証する", "title": "HypothesisをExperimentへ変換する", "builderType": "guided", "mode": "constrained",
+    "intro": "Hypothesis『開始が遅いことが学習時間不足の主因』に接続する3要素を選んでください。",
+    "steps": [
+      { "id": "experiment", "type": "single_choice", "label": "① Experiment", "prompt": "Hypothesisへ接続するTest Actionはどれですか？", "options": [{ "id": "test_connected", "label": "1週間、開始を30分早める" }, { "id": "test_none", "label": "Hypothesisを正しいと記録する" }, { "id": "test_unrelated", "label": "参考書の表紙を変える" }] },
+      { "id": "observation", "type": "single_choice", "label": "② Observation", "prompt": "何を観測しますか？", "options": [{ "id": "observe_relevant", "label": "実際の開始時刻と総学習時間" }, { "id": "observe_irrelevant", "label": "使ったペンの色" }, { "id": "observe_judgement", "label": "Experimentが成功したという判断" }] },
+      { "id": "expectedResult", "type": "single_choice", "label": "③ Expected Result / Success Condition", "prompt": "事前に設定する条件はどれですか？", "options": [{ "id": "expected_measurable", "label": "開始が早まり、7日平均学習時間が比較期間より10分以上増える" }, { "id": "expected_missing", "label": "結果を見てから成功条件を決める" }, { "id": "expected_vague", "label": "何となく良くなる" }] }
+    ],
+    "acceptableConnections": [{ "id": "hypothesis-experiment", "selections": { "experiment": "test_connected", "observation": "observe_relevant", "expectedResult": "expected_measurable" } }],
+    "weaknessRules": [
+      { "stepId": "experiment", "triggerOptionIds": ["test_none"], "code": "hypothesis_without_test", "message": "Hypothesisを検証せず確定しています。" },
+      { "stepId": "experiment", "triggerOptionIds": ["test_unrelated"], "code": "experiment_not_connected", "message": "ExperimentがHypothesis中の要因へ接続していません。" },
+      { "stepId": "observation", "triggerOptionIds": ["observe_irrelevant", "observe_judgement"], "code": "observation_not_relevant", "message": "Hypothesisの予測を判断できるObservationではありません。" },
+      { "stepId": "expectedResult", "triggerOptionIds": ["expected_missing", "expected_vague"], "code": "success_condition_missing", "message": "事前に確認可能なSuccess Conditionがありません。" }
+    ]
+  }
+}

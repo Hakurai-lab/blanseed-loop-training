@@ -1,0 +1,80 @@
+{
+  "id": "09", "title": "事実（Fact）と解釈（Interpretation）", "stageId": "CORE-STAGE-3", "tier": "CORE", "importance": "important", "questionCount": 5, "passScore": 5,
+  "conceptTags": [
+    { "id": "fact", "label": "Fact" }, { "id": "interpretation", "label": "Interpretation" },
+    { "id": "fact_interpretation_boundary", "label": "FactとInterpretationの境界" }, { "id": "ai_output_responsibility", "label": "AI Outputの責務" }
+  ],
+  "confusionTags": ["fact_vs_interpretation", "interpretation_as_fact", "unsupported_interpretation", "ai_output_as_fact"],
+  "content": {
+    "summary": "Observationから確認できるFactと、Factへ意味づけを加えたInterpretationを分離します。",
+    "objectives": ["FactとInterpretationを区別できる", "Observationで確認できる内容だけをFactとして扱える", "InterpretationをFactとして保存する危険性を理解する", "根拠のない意味づけを識別できる", "AIの説明を検証済みFactとして扱わない"],
+    "definition": "Factは確認可能なObservationや記録に支えられた内容です。InterpretationはFactに意味・評価・説明を加えたものです。",
+    "examples": ["Fact：問い合わせ件数が先週100件、今週130件。Interpretation：問い合わせが急増している。", "AIの『ユーザーがUIに不満』という説明は、裏づけがなければFactではありません。"],
+    "commonMistakes": ["『増えた』という比較Factと『急増した』という評価を同一視する。", "InterpretationをFact欄へ保存し、後続判断の前提にする。", "AIが自然に説明した内容を検証せずFactへ昇格する。"],
+    "keyPoints": ["誰が見ても同じ記録を確認できる範囲をFactとする", "意味づけや評価語はInterpretationとして分離する", "AIは整理や解釈案に有効だがAI OutputはVerified Factではない", "Fact→Interpretation→Hypothesis→Learning Candidate→Human Review→Reusable Knowledgeの順に確認する"],
+    "flow": [{ "label": "Observation", "caption": "取得された記録" }, { "label": "Fact", "caption": "確認可能な内容" }, { "label": "Interpretation", "caption": "意味づけを分離" }]
+  },
+  "quiz": { "questions": [
+    {
+      "id": "q01", "conceptId": "fact_interpretation_boundary", "questionType": "single_choice", "assessmentFocus": "Recognition", "prompt": "FactとInterpretationの関係として最も適切なものはどれですか？",
+      "options": [
+        { "id": "a", "label": "Factは確認可能な内容、InterpretationはFactへ意味づけを加えた内容", "feedback": "記録と意味づけを責務で分離しています。" },
+        { "id": "b", "label": "Factは人の意見、Interpretationは測定値", "feedback": "役割が逆です。" },
+        { "id": "c", "label": "説得力があればInterpretationも自動的にFactになる", "feedback": "説得力ではなくEvidenceによる確認が必要です。" },
+        { "id": "d", "label": "FactとInterpretationは区別せず保存してよい", "feedback": "後続判断が未確認の意味づけに依存します。" }
+      ], "correctOptionId": "a", "explanation": "Factと意味づけを分離すると、判断根拠を追跡できます。"
+    },
+    {
+      "id": "q02", "conceptId": "fact", "questionType": "classification", "assessmentFocus": "Example / Classification", "prompt": "問い合わせ記録から直接確認できるFactはどれですか？",
+      "options": [
+        { "id": "a", "label": "先週100件、今週130件の問い合わせが記録されている", "feedback": "記録から件数を確認できます。" },
+        { "id": "b", "label": "問い合わせが危険なほど急増している", "feedback": "『危険』『急増』は基準を伴うInterpretationです。" },
+        { "id": "c", "label": "ユーザーが新UIに怒っている", "feedback": "感情や原因のEvidenceがありません。" },
+        { "id": "d", "label": "サポート品質が悪化した", "feedback": "件数だけから品質悪化は確認できません。" }
+      ], "correctOptionId": "a", "explanation": "元記録から直接確認できる範囲だけをFactとして表します。"
+    },
+    {
+      "id": "q03", "conceptId": "interpretation", "questionType": "single_choice", "assessmentFocus": "Discrimination", "prompt": "Fact『平均応答時間が3.2時間から4.1時間へ変化』に対するInterpretationはどれですか？",
+      "options": [
+        { "id": "a", "label": "平均応答時間は0.9時間増えた", "feedback": "値から計算できる比較Factです。" },
+        { "id": "b", "label": "応答品質が許容できないほど悪化した", "feedback": "『許容できない』『悪化』という基準依存の意味づけです。" },
+        { "id": "c", "label": "平均応答時間は4.1時間", "feedback": "記録されたFactです。" },
+        { "id": "d", "label": "3.2時間と4.1時間が記録されている", "feedback": "記録内容のFactです。" }
+      ], "correctOptionId": "b", "explanation": "評価語や意味づけが加わった内容はInterpretationとして扱います。"
+    },
+    {
+      "id": "q04", "conceptId": "ai_output_responsibility", "questionType": "error_detection", "assessmentFocus": "Error Detection", "prompt": "AIが『売上低下は価格への不満が原因です』と回答したため、その文をFact欄へ保存しました。問題は何ですか？",
+      "options": [
+        { "id": "a", "label": "AIを分析補助に使ったこと", "feedback": "AIによる整理や仮説生成は有用です。" },
+        { "id": "b", "label": "Evidence未確認のAI説明をVerified Factとして保存したこと", "feedback": "説明はInterpretationまたはHypothesisとして検証対象にします。" },
+        { "id": "c", "label": "売上という数値を扱ったこと", "feedback": "売上記録はFactとして利用できます。" },
+        { "id": "d", "label": "文章で保存したこと", "feedback": "形式ではなく確認状態が問題です。" }
+      ], "correctOptionId": "b", "explanation": "AI OutputとVerified Factを分離し、必要なObservationで確認します。"
+    },
+    {
+      "id": "q05", "conceptId": "interpretation", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement", "prompt": "アンケート回答が200件中40件で『操作が難しい』を選びました。次の保存方法として適切なのはどれですか？",
+      "options": [
+        { "id": "a", "label": "Fact：40/200件が選択。Interpretation：操作性に課題がある可能性", "feedback": "観測値と意味づけを分離しています。" },
+        { "id": "b", "label": "Fact：全ユーザーが操作に不満を持っている", "feedback": "回答範囲を超えて一般化しています。" },
+        { "id": "c", "label": "Fact：UIが失敗作である", "feedback": "評価をFactとして扱っています。" },
+        { "id": "d", "label": "Interpretationは不要なので40件という値も保存しない", "feedback": "意味づけの根拠となるFactを失います。" }
+      ], "correctOptionId": "a", "explanation": "Factを保持した上でInterpretationを別フィールドとして関連づけます。"
+    }
+  ] },
+  "miniBuilder": {
+    "theme": "問い合わせ増加の記録を分類する", "title": "FactとInterpretationを分離する", "builderType": "guided", "mode": "constrained",
+    "intro": "同じ状況について書かれたカードをFactまたはInterpretationとして分類してください。",
+    "steps": [
+      { "id": "countCard", "type": "single_choice", "label": "① 先週100件、今週130件", "prompt": "どちらとして扱いますか？", "options": [{ "id": "fact", "label": "Fact" }, { "id": "interpretation", "label": "Interpretation" }] },
+      { "id": "surgeCard", "type": "single_choice", "label": "② 問い合わせが危険なほど急増", "prompt": "どちらとして扱いますか？", "options": [{ "id": "fact", "label": "Fact" }, { "id": "interpretation", "label": "Interpretation" }] },
+      { "id": "aiCard", "type": "single_choice", "label": "③ AI：ユーザーがUIに不満", "prompt": "Evidence未確認のAI説明をどちらとして扱いますか？", "options": [{ "id": "fact", "label": "Fact" }, { "id": "interpretation", "label": "Interpretation / 検証候補" }] }
+    ],
+    "acceptableConnections": [{ "id": "fact-interpretation", "selections": { "countCard": "fact", "surgeCard": "interpretation", "aiCard": "interpretation" } }],
+    "weaknessRules": [
+      { "stepId": "countCard", "triggerOptionIds": ["interpretation"], "code": "fact_vs_interpretation", "message": "確認可能な件数記録をInterpretationとして分類しています。" },
+      { "stepId": "surgeCard", "triggerOptionIds": ["fact"], "code": "interpretation_as_fact", "message": "評価語を含むInterpretationをFactとして分類しています。" },
+      { "stepId": "aiCard", "triggerOptionIds": ["fact"], "code": "ai_output_as_fact", "message": "Evidence未確認のAI OutputをFactとして分類しています。" },
+      { "stepId": "surgeCard", "triggerOptionIds": ["fact"], "code": "unsupported_interpretation", "message": "基準のない『危険な急増』を確認済み内容として扱っています。" }
+    ]
+  }
+}

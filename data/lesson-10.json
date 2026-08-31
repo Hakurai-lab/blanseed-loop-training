@@ -1,0 +1,83 @@
+{
+  "id": "10", "title": "事実（Fact）と仮説（Hypothesis）", "stageId": "CORE-STAGE-3", "tier": "CORE", "importance": "important", "questionCount": 5, "passScore": 5,
+  "conceptTags": [
+    { "id": "fact", "label": "Fact" }, { "id": "hypothesis", "label": "Hypothesis" },
+    { "id": "testable_hypothesis", "label": "検証可能なHypothesis" }, { "id": "ai_output_responsibility", "label": "AI Hypothesisの責務" }
+  ],
+  "confusionTags": ["fact_vs_hypothesis", "hypothesis_as_fact", "untestable_hypothesis", "ai_hypothesis_as_fact"],
+  "content": {
+    "summary": "確認されたFactと、原因・仕組みについて検証すべきHypothesisを分離します。",
+    "objectives": ["FactとHypothesisを区別できる", "原因についての推測をHypothesisとして扱える", "検証可能なHypothesisを選べる", "AIの推論をFactへ昇格させない", "Evidenceなしの原因断定を識別できる"],
+    "definition": "Hypothesisは、観測されたFactを説明する検証可能な推測です。原因を述べていても、Evidenceで確認されるまではFactではありません。",
+    "examples": ["Fact：離脱率が20%から32%へ上昇。Hypothesis：フォームが長くなったため離脱率が上昇した。", "AIはHypothesis生成や検証案作成に有効ですが、AI OutputはVerified Factではありません。"],
+    "commonMistakes": ["時間的に先に起きた変更を原因Factとして保存する。", "反証できない説明をHypothesisとして採用する。", "AIが示したもっともらしい原因をEvidenceなしに確定する。"],
+    "keyPoints": ["Factは何が起きたか、Hypothesisはなぜ起きたかの検証候補", "Hypothesisには確認に使うObservationやTestを設計できる必要がある", "支持されたHypothesisもHuman Review前にReusable Knowledgeへ自動昇格しない", "Fact→Interpretation→Hypothesis→Learning Candidate→Human Review→Reusable Knowledgeを維持する"],
+    "flow": [{ "label": "Fact", "caption": "確認された変化" }, { "label": "Hypothesis", "caption": "原因の検証候補" }, { "label": "Test", "caption": "Evidenceで確認" }]
+  },
+  "quiz": { "questions": [
+    {
+      "id": "q01", "conceptId": "hypothesis", "questionType": "single_choice", "assessmentFocus": "Recognition", "prompt": "FactとHypothesisの違いとして最も適切なものはどれですか？",
+      "options": [
+        { "id": "a", "label": "Factは確認された内容、Hypothesisは原因などを説明する検証可能な推測", "feedback": "確認状態と検証責務を分離しています。" },
+        { "id": "b", "label": "Hypothesisは詳しく書かれたFactである", "feedback": "詳しさではFactになりません。" },
+        { "id": "c", "label": "原因を述べた文は常にFactである", "feedback": "原因には追加Evidenceが必要です。" },
+        { "id": "d", "label": "FactはAI出力、Hypothesisは人の出力である", "feedback": "生成者ではなく確認状態で区別します。" }
+      ], "correctOptionId": "a", "explanation": "HypothesisはFactから生まれる説明候補で、検証対象です。"
+    },
+    {
+      "id": "q02", "conceptId": "fact", "questionType": "classification", "assessmentFocus": "Example / Classification", "prompt": "フォーム変更後の記録についてFactはどれですか？",
+      "options": [
+        { "id": "a", "label": "離脱率が20%から32%へ上昇した", "feedback": "測定記録から確認できるFactです。" },
+        { "id": "b", "label": "フォームが長くなったことが上昇原因である", "feedback": "原因についてのHypothesisです。" },
+        { "id": "c", "label": "ユーザーは入力を面倒に感じた", "feedback": "感情のEvidenceがなければHypothesisです。" },
+        { "id": "d", "label": "設計チームの能力不足が原因だ", "feedback": "確認されていない原因断定です。" }
+      ], "correctOptionId": "a", "explanation": "測定された変化と、その変化を説明する原因候補を分けます。"
+    },
+    {
+      "id": "q03", "conceptId": "testable_hypothesis", "questionType": "single_choice", "assessmentFocus": "Discrimination", "prompt": "検証可能なHypothesisとして最も適切なのはどれですか？",
+      "options": [
+        { "id": "a", "label": "運が悪かったため離脱した", "feedback": "何を観測すれば支持・棄却できるか不明です。" },
+        { "id": "b", "label": "必須入力項目の増加が離脱率上昇に寄与し、項目を戻すと離脱率が低下する", "feedback": "変更と期待Resultを観測して検証できます。" },
+        { "id": "c", "label": "ユーザーは本質的に気まぐれである", "feedback": "条件と反証方法がありません。" },
+        { "id": "d", "label": "原因は原因である", "feedback": "説明にも検証候補にもなっていません。" }
+      ], "correctOptionId": "b", "explanation": "Test ActionとExpected Resultへ接続できるHypothesisを選びます。"
+    },
+    {
+      "id": "q04", "conceptId": "ai_output_responsibility", "questionType": "error_detection", "assessmentFocus": "Error Detection", "prompt": "AIが『価格変更が売上低下の原因でしょう』と回答し、システムが原因Factとして確定しました。問題は何ですか？",
+      "options": [
+        { "id": "a", "label": "AIに原因候補を生成させたこと", "feedback": "AIはHypothesis生成に有効です。" },
+        { "id": "b", "label": "AIの推論を検証せずFactへ昇格させたこと", "feedback": "Hypothesisとして保存し必要なObservationやTestを設計します。" },
+        { "id": "c", "label": "価格を分析対象にしたこと", "feedback": "妥当な原因候補になり得ます。" },
+        { "id": "d", "label": "売上データを使ったこと", "feedback": "売上記録はFactとして必要です。" }
+      ], "correctOptionId": "b", "explanation": "AI Outputの責務は候補生成であり、Verified Factの確定ではありません。"
+    },
+    {
+      "id": "q05", "conceptId": "hypothesis", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement", "prompt": "Fact『夜間のエラー率が昼間より高い』から次に保存する内容として適切なのはどれですか？",
+      "options": [
+        { "id": "a", "label": "Fact：夜勤担当者の能力不足が原因", "feedback": "原因は確認されていません。" },
+        { "id": "b", "label": "Hypothesis：夜間バッチの負荷がエラー率を高めている。負荷とエラー時刻で検証する", "feedback": "Factと分離され、Observationで検証できます。" },
+        { "id": "c", "label": "Knowledge：夜は必ずエラーが増える", "feedback": "限られた記録から恒久的Knowledgeへ一般化しています。" },
+        { "id": "d", "label": "Evidenceは不要なので原因を決めない", "feedback": "候補を作らないのではなく、Hypothesisとして検証します。" }
+      ], "correctOptionId": "b", "explanation": "原因候補、観測対象、検証可能性を明示してHypothesisとして保存します。"
+    }
+  ] },
+  "miniBuilder": {
+    "theme": "離脱率上昇の原因候補を扱う", "title": "Factから検証可能なHypothesisを選ぶ", "builderType": "guided", "mode": "constrained",
+    "intro": "Fact『フォーム変更後、離脱率が20%から32%へ上昇』に対するHypothesis候補を選んでください。",
+    "steps": [
+      { "id": "hypothesis", "type": "single_choice", "label": "① Hypothesis", "prompt": "Factと区別され、Testへ接続できる候補はどれですか？", "options": [
+        { "id": "hypothesis_testable", "label": "必須項目の増加が離脱率上昇に寄与した。項目数を戻した期間と比較する" },
+        { "id": "hypothesis_fact", "label": "Fact：必須項目の増加が原因である" },
+        { "id": "hypothesis_untestable", "label": "ユーザーの気分が原因で、確認する方法はない" },
+        { "id": "hypothesis_ai_fact", "label": "AIもそう述べたので、フォームが原因というFactである" }
+      ] }
+    ],
+    "acceptableConnections": [{ "id": "fact-testable-hypothesis", "selections": { "hypothesis": "hypothesis_testable" } }],
+    "weaknessRules": [
+      { "stepId": "hypothesis", "triggerOptionIds": ["hypothesis_fact"], "code": "fact_vs_hypothesis", "message": "原因候補を確認済みFactとして扱っています。" },
+      { "stepId": "hypothesis", "triggerOptionIds": ["hypothesis_fact"], "code": "hypothesis_as_fact", "message": "Hypothesisの検証前に原因を確定しています。" },
+      { "stepId": "hypothesis", "triggerOptionIds": ["hypothesis_untestable"], "code": "untestable_hypothesis", "message": "支持・棄却に使うObservationやTestを設計できません。" },
+      { "stepId": "hypothesis", "triggerOptionIds": ["hypothesis_ai_fact"], "code": "ai_hypothesis_as_fact", "message": "AIが生成したHypothesisをEvidenceなしにFactへ昇格しています。" }
+    ]
+  }
+}

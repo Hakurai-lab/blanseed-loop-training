@@ -1,0 +1,81 @@
+{
+  "id": "12", "title": "相関（Correlation）と因果（Causation）", "stageId": "CORE-STAGE-3", "tier": "CORE", "importance": "important", "questionCount": 5, "passScore": 5,
+  "conceptTags": [
+    { "id": "correlation", "label": "Correlation" }, { "id": "causation", "label": "Causation" },
+    { "id": "confounder", "label": "Confounder" }, { "id": "causal_evidence", "label": "因果Evidence" }
+  ],
+  "confusionTags": ["correlation_vs_causation", "causation_without_evidence", "confounder_ignored", "temporal_order_as_causation"],
+  "content": {
+    "summary": "2つの値が一緒に変化するCorrelationと、一方が他方を変えるCausationを区別します。",
+    "objectives": ["CorrelationとCausationを区別できる", "共通要因Confounderの可能性を考えられる", "時間順序だけで因果を確定しない", "因果主張に必要な追加Evidenceを判断できる", "AIの因果説明を未検証Hypothesisとして扱える"],
+    "definition": "Correlationは複数の値が関連して変化する関係です。Causationは一方の変化が他方の変化を生む関係で、相関だけでは確定できません。",
+    "examples": ["夏にアイス売上と水難事故が増えても、アイスが事故原因とは限らず気温というConfounderが考えられます。", "新UI公開後に売上が増えても、季節・広告・価格変更を分離するまでは因果未確認です。"],
+    "commonMistakes": ["相関係数が高いだけで因果を断定する。", "先に起きた出来事を原因と確定する。", "AIが生成した因果説明をEvidenceなしにFactへ保存する。"],
+    "keyPoints": ["Correlationは因果Hypothesisを作る手がかりになる", "Causationには時間順序だけでなく代替説明の検討や比較Evidenceが必要", "Confounderが両方を変えている可能性を確認する", "AIの因果候補はExperiment設計に有用だがVerified Factではない", "支持結果もLearning Candidate→Human Reviewを経てKnowledgeへ昇格する"],
+    "flow": [{ "label": "Correlation", "caption": "一緒に変化" }, { "label": "Hypothesis", "caption": "因果候補とConfounder" }, { "label": "Evidence", "caption": "比較・Experimentで検証" }]
+  },
+  "quiz": { "questions": [
+    {
+      "id": "q01", "conceptId": "correlation", "questionType": "single_choice", "assessmentFocus": "Recognition", "prompt": "Correlationから直接言えることはどれですか？",
+      "options": [
+        { "id": "a", "label": "2つの値が関連して変化しているが、因果はまだ確定しない", "feedback": "相関を因果Hypothesisの手がかりとして扱います。" },
+        { "id": "b", "label": "一方が必ず他方の原因である", "feedback": "第三要因や逆方向の可能性があります。" },
+        { "id": "c", "label": "時間的に先の値が常に原因である", "feedback": "時間順序だけでは不十分です。" },
+        { "id": "d", "label": "相関があればExperimentは不要である", "feedback": "因果確認には追加Evidenceが必要です。" }
+      ], "correctOptionId": "a", "explanation": "Correlationは関係を示しますが因果方向や第三要因を確定しません。"
+    },
+    {
+      "id": "q02", "conceptId": "confounder", "questionType": "classification", "assessmentFocus": "Example / Classification", "prompt": "夏にアイス売上と水難事故が増えました。最も適切な扱いはどれですか？",
+      "options": [
+        { "id": "a", "label": "アイスが事故を起こすCausationが確認された", "feedback": "相関だけで因果を断定しています。" },
+        { "id": "b", "label": "Correlationがあり、気温が両方へ影響するConfounder候補", "feedback": "代替説明を含めて因果未確認として扱っています。" },
+        { "id": "c", "label": "事故がアイス売上を増やすFactである", "feedback": "逆因果もEvidenceなしの断定です。" },
+        { "id": "d", "label": "同時期の変化なので無関係と確定できる", "feedback": "相関はありますが関係の仕組みが未確認です。" }
+      ], "correctOptionId": "b", "explanation": "気温など両方へ影響する第三要因を検討します。"
+    },
+    {
+      "id": "q03", "conceptId": "causal_evidence", "questionType": "single_choice", "assessmentFocus": "Discrimination", "prompt": "新UIが売上を増やしたというCausationを最も強く支持するEvidenceはどれですか？",
+      "options": [
+        { "id": "a", "label": "公開翌月に売上が増えた", "feedback": "時間順序だけで広告や季節要因を分離できません。" },
+        { "id": "b", "label": "同期間に条件を揃えた比較群より新UI群の購入率が一貫して高い", "feedback": "他条件を揃えた比較が因果主張を強くします。" },
+        { "id": "c", "label": "AIが新UIの効果だと説明した", "feedback": "因果HypothesisでありEvidenceではありません。" },
+        { "id": "d", "label": "チーム全員が新UIを好んでいる", "feedback": "売上への因果Evidenceではありません。" }
+      ], "correctOptionId": "b", "explanation": "代替要因を抑えた比較やExperimentが因果Evidenceを強めます。"
+    },
+    {
+      "id": "q04", "conceptId": "causation", "questionType": "error_detection", "assessmentFocus": "Error Detection", "prompt": "AIが『広告開始後に売上が増えたので広告が原因です』と説明し、原因Factとして保存しました。問題は何ですか？",
+      "options": [
+        { "id": "a", "label": "AIに説明候補を作らせた", "feedback": "AIはHypothesis生成や比較整理に有効です。" },
+        { "id": "b", "label": "時間順序と相関だけで因果を断定し、他施策や季節要因を確認していない", "feedback": "AI説明は因果Hypothesisとして追加検証します。" },
+        { "id": "c", "label": "広告と売上を同時に分析した", "feedback": "分析対象として妥当です。" },
+        { "id": "d", "label": "売上が増えたFactを保存した", "feedback": "測定された増加自体はFactです。" }
+      ], "correctOptionId": "b", "explanation": "Temporal orderとCorrelationは必要な手がかりですがCausation確定には不足します。"
+    },
+    {
+      "id": "q05", "conceptId": "causal_evidence", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement", "prompt": "在宅勤務日が多い社員ほど成果指標が高い相関を見つけました。次の判断として適切なのはどれですか？",
+      "options": [
+        { "id": "a", "label": "在宅勤務が全員の成果を高めるCausationが確定", "feedback": "職種や経験などのConfounderを確認していません。" },
+        { "id": "b", "label": "因果Hypothesisとして保存し、職種・経験を揃えた比較や段階的Experimentを設計する", "feedback": "相関を検証可能な因果候補へ進めています。" },
+        { "id": "c", "label": "相関なので分析価値はない", "feedback": "相関はHypothesis生成に有用です。" },
+        { "id": "d", "label": "成果が高いことが在宅勤務日を増やす逆因果をFactとする", "feedback": "逆方向も候補の一つで、まだFactではありません。" }
+      ], "correctOptionId": "b", "explanation": "Confounderと逆因果を含む代替説明を比較Evidenceで検証します。"
+    }
+  ] },
+  "miniBuilder": {
+    "theme": "データ関係を因果Evidenceの強さで判断する", "title": "CorrelationとCausationを分類する", "builderType": "guided", "mode": "constrained",
+    "intro": "各ケースについて、現在のEvidenceから適切な扱いを選択してください。",
+    "steps": [
+      { "id": "seasonCase", "type": "single_choice", "label": "① アイス売上と水難事故が夏に増加", "prompt": "どの扱いが適切ですか？", "options": [{ "id": "correlation_confounder", "label": "Correlation。気温などConfounderを確認" }, { "id": "causation_confirmed", "label": "アイスが事故原因というCausation確認済み" }, { "id": "temporal_cause", "label": "先に売れたため原因と確定" }] },
+      { "id": "uiCase", "type": "single_choice", "label": "② 新UI公開後に売上増加", "prompt": "どの扱いが適切ですか？", "options": [{ "id": "causation_unconfirmed", "label": "Causation未確認。広告・季節等を分離して比較" }, { "id": "causation_confirmed", "label": "公開後なので新UIが原因" }, { "id": "ai_confirmed", "label": "AIがそう説明すれば因果Fact" }] },
+      { "id": "experimentCase", "type": "single_choice", "label": "③ 条件を揃えた比較群で新UI群のみ購入率上昇", "prompt": "どの扱いが適切ですか？", "options": [{ "id": "causal_support", "label": "Causationを支持するEvidenceあり。再現性と限界を確認" }, { "id": "correlation_only", "label": "比較Evidenceがあっても単なる同時変化だけ" }, { "id": "knowledge_final", "label": "1回で普遍的Knowledgeとして確定" }] }
+    ],
+    "acceptableConnections": [{ "id": "causal-evidence-classification", "selections": { "seasonCase": "correlation_confounder", "uiCase": "causation_unconfirmed", "experimentCase": "causal_support" } }],
+    "weaknessRules": [
+      { "stepId": "seasonCase", "triggerOptionIds": ["causation_confirmed"], "code": "correlation_vs_causation", "message": "CorrelationをCausationとして扱っています。" },
+      { "stepId": "uiCase", "triggerOptionIds": ["causation_confirmed", "ai_confirmed"], "code": "causation_without_evidence", "message": "比較EvidenceなしにCausationを確定しています。" },
+      { "stepId": "seasonCase", "triggerOptionIds": ["temporal_cause", "causation_confirmed"], "code": "confounder_ignored", "message": "気温などの第三要因を検討していません。" },
+      { "stepId": "uiCase", "triggerOptionIds": ["causation_confirmed"], "code": "temporal_order_as_causation", "message": "公開後という時間順序だけで原因を確定しています。" },
+      { "stepId": "experimentCase", "triggerOptionIds": ["knowledge_final"], "code": "causation_without_evidence", "message": "限定的Evidenceから普遍的Knowledgeへ過剰昇格しています。" }
+    ]
+  }
+}

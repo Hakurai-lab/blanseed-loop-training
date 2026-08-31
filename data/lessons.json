@@ -14,6 +14,12 @@
       "tier": "CORE",
       "lessonIds": ["05", "06", "07", "08"],
       "path": "./data/stage-02.json"
+    },
+    {
+      "id": "CORE-STAGE-3",
+      "title": "事実・仮説・学習",
+      "tier": "CORE",
+      "lessonIds": ["09", "10", "11", "12"]
     }
   ],
   "lessons": [
@@ -48,6 +54,22 @@
     {
       "id": "08",
       "path": "./data/lesson-08.json"
+    },
+    {
+      "id": "09",
+      "path": "./data/lesson-09.json"
+    },
+    {
+      "id": "10",
+      "path": "./data/lesson-10.json"
+    },
+    {
+      "id": "11",
+      "path": "./data/lesson-11.json"
+    },
+    {
+      "id": "12",
+      "path": "./data/lesson-12.json"
     }
   ]
 }
