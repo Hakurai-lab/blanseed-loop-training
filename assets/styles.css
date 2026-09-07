@@ -310,16 +310,14 @@ hr { margin: 20px 0; border: 0; border-top: 1px solid var(--line); }
 .footer-inner > small { grid-column: 1 / -1; color: rgba(226,240,232,.46); font-size: .7rem; letter-spacing: .12em; }
 
 @media (max-width: 700px) {
-  html { scroll-padding-top: 156px; }
-  .site-header { height: 64px; }
-  .site-header .primary-nav, .site-header .version { display: none; }
+  html { scroll-padding-top: 144px; }
+  .site-header { height: auto; min-height: 124px; flex-direction: column; align-items: stretch; justify-content: center; gap: 10px; padding: 12px 14px; }
+  .site-header .version { display: none; }
   .brand-mark { width: 36px; height: 36px; }
-  .mobile-nav { position: fixed; z-index: 30; right: 12px; top: 74px; bottom: auto; left: 12px; display: grid; grid-template-columns: repeat(3, 1fr); padding: 6px; border: 1px solid rgba(163,214,188,.28); border-radius: 14px; background: rgba(3,14,21,.93) url("images/cosmic-terrarium-chrome-bromeliad.png") right 52% / cover no-repeat; box-shadow: 0 8px 28px rgba(3,12,18,.28); backdrop-filter: blur(14px); }
-  .mobile-nav a { display: grid; justify-items: center; gap: 1px; padding: 5px; border-radius: 9px; color: rgba(225,240,232,.7); text-decoration: none; }
-  .mobile-nav a[aria-current="page"] { background: rgba(139,204,171,.17); color: #fff; }
-  .mobile-nav .nav-icon { width: 18px; height: 18px; }
-  .mobile-nav small { font-size: .68rem; font-weight: 750; }
-  #app { min-height: calc(100vh - 64px); padding-top: 82px; }
+  .site-header .primary-nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+  .primary-nav a { justify-content: center; gap: 5px; min-height: 44px; padding: 8px 2px; font-size: .75rem; white-space: nowrap; }
+  .primary-nav .nav-icon { flex-shrink: 0; width: 17px; height: 17px; }
+  #app { min-height: calc(100vh - 124px); }
   .screen, .screen.narrow { width: min(100% - 28px, 720px); padding: 34px 0 56px; }
   .hero, .card, .question { padding: 22px; border-radius: 17px; }
   .cosmic-home-hero { min-height: 570px; justify-content: end; padding: 220px 22px 26px; background-position: 65% center; }
