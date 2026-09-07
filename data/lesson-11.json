@@ -7,6 +7,11 @@
   ],
   "confusionTags": ["hypothesis_without_test", "experiment_not_connected", "observation_not_relevant", "success_condition_missing"],
   "content": {
+    "simpleFlow": [
+      {"label":"何を確かめるか決める","term":"Hypothesis","caption":"開始前に通知すれば学習時間が増える、と予測します。"},
+      {"label":"比べられる条件で試す","term":"Experiment","caption":"通知以外の条件をなるべく揃え、学習時間を記録します。"},
+      {"label":"予測と結果を比べる","term":"Evaluate","caption":"予測を支持するか、支持しないか、まだ判断できないかを考えます。"}
+    ],
     "summary": "仮説（Hypothesis）を、試す行動・観測する内容・期待する結果へつなぎ、支持・棄却・保留を判断します。",
     "objectives": ["Hypothesisを検証対象として扱える", "HypothesisからTest Actionを作れる", "Expected Resultを設定できる", "Success ConditionとObservationを接続できる", "未検証HypothesisをKnowledgeへ昇格させない"],
     "definition": "Experiment（実験）はHypothesis（仮説）を確かめるためのTest Action（試す行動）です。実験前にObservation（何を観測するか）、Expected Result（期待する結果）、Success Condition（成功と判断する条件）を決めます。",

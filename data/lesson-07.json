@@ -7,6 +7,11 @@
   ],
   "confusionTags": ["result_vs_evaluation", "missing_re_observation", "feedback_loop_missing", "result_not_observable"],
   "content": {
+    "simpleFlow": [
+      {"label":"決めた行動を実行する","term":"Action","caption":"学習の開始時刻を30分早めます。"},
+      {"label":"行動後の結果を確認する","term":"Re-Observation","caption":"翌日の実際の勉強時間を測り、増えたか確かめます。"},
+      {"label":"結果を次の判断へ戻す","term":"Feedback","caption":"増えたなら続ける、増えなければ別の方法を考える材料にします。"}
+    ],
     "summary": "行動（Action）後の結果（Result）をもう一度観測し、次の判断へ戻すFeedback（結果を次へ返す接続）を学びます。",
     "objectives": ["Action後のResultを観察可能な情報として扱える", "Resultと成功・失敗のEvaluationを区別できる", "ResultをRe-Observationへ接続できる", "FeedbackがLoop成立に必要な理由を理解する", "一方向Workflowとの違いを確認できる"],
     "definition": "Result（結果）はAction（行動）後に生じた変化や出来事です。Feedback（結果を次へ返す接続）は、その結果をRe-Observation（再観測）し、次のState（現在の状態）と判断へ戻すことです。",

@@ -15,6 +15,11 @@
   ],
   "confusionTags": ["current_target_confusion", "target_not_observable", "goal_as_action", "assumption_as_fact"],
   "content": {
+    "simpleFlow": [
+      {"label":"今の状態を記録する","term":"Current State","caption":"今は1日に何分勉強しているか、実際の記録で確かめます。"},
+      {"label":"目指す状態を決める","term":"Target State","caption":"1日60分など、今の状態と同じ単位で目標を決めます。"},
+      {"label":"どれだけ足りないか比べる","term":"Gap","caption":"今が35分、目標が60分なら、差は25分です。"}
+    ],
     "summary": "現在起きていることと、望む状態を分けて表現し、比較できる形にします。",
     "objectives": [
       "Current StateとTarget Stateを区別できる",

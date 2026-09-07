@@ -15,6 +15,11 @@
   ],
   "confusionTags": ["state_vs_evaluation", "evaluation_without_rule", "evaluation_not_reproducible", "unsupported_threshold"],
   "content": {
+    "simpleFlow": [
+      {"label":"今の状態を確かめる","term":"State","caption":"現在の7日平均学習時間が35分だと確認します。"},
+      {"label":"比べ方を決める","term":"Evaluation Rule","caption":"目標の60分以上なら達成、未満なら未達と決めます。"},
+      {"label":"同じ基準で判断する","term":"Evaluation","caption":"35分は60分未満なので未達です。同じ値なら原則同じ判断になります。"}
+    ],
     "summary": "現在の状態（State）を目標の状態（Target）や基準と比較し、同じ入力なら原則として同じ判断になる評価ルール（Evaluation Rule）を設計します。",
     "objectives": [
       "StateとEvaluationを区別できる",

@@ -7,6 +7,11 @@
   ],
   "confusionTags": ["evaluation_vs_action", "action_not_executable", "action_not_connected", "unnecessary_intervention"],
   "content": {
+    "simpleFlow": [
+      {"label":"何を変える必要があるか確かめる","term":"Evaluation","caption":"勉強時間が目標より短い、という判断を確認します。"},
+      {"label":"次にすることを選ぶ","term":"Action","caption":"不足を改善するため、開始時刻を早めるなどの行動を選びます。"},
+      {"label":"実際に状態へ働きかける","term":"Intervention","caption":"学習の開始時刻を30分早め、勉強できる時間を増やします。"}
+    ],
     "summary": "評価（Evaluation）を受けて次の行動（Action）を選び、状態へ直接働きかける介入（Intervention）と区別します。",
     "objectives": ["EvaluationとActionを区別できる", "ActionとInterventionの違いを理解する", "Evaluation結果に対応する実行可能なActionを選べる", "ObservationだけをActionと誤認しない", "不必要に強いInterventionを避ける"],
     "definition": "Action（行動）は、Evaluation（評価）の結果を受けて次に実行する処理です。Intervention（介入）はActionのうち、対象の状態を変えるために直接働きかける行動です。",

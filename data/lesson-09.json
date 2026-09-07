@@ -7,6 +7,11 @@
   ],
   "confusionTags": ["fact_vs_interpretation", "interpretation_as_fact", "unsupported_interpretation", "ai_output_as_fact"],
   "content": {
+    "simpleFlow": [
+      {"label":"記録を確認する","term":"Observation","caption":"学習ツールに残っている日時や利用回数を確認します。"},
+      {"label":"確認できることを取り出す","term":"Fact","caption":"昨日の利用回数は10回、など記録から確かめられる内容を示します。"},
+      {"label":"意味づけを別にする","term":"Interpretation","caption":"意欲が高まった、という読み取りは事実と分けて扱います。"}
+    ],
     "summary": "観測（Observation）から確認できる事実（Fact）と、事実へ意味づけを加えた解釈（Interpretation）を分けます。",
     "objectives": ["FactとInterpretationを区別できる", "Observationで確認できる内容だけをFactとして扱える", "InterpretationをFactとして保存する危険性を理解する", "根拠のない意味づけを識別できる", "AIの説明を検証済みFactとして扱わない"],
     "definition": "Fact（事実）は、確認できるObservation（観測）や記録に支えられた内容です。Interpretation（解釈）は、その事実に意味・評価・説明を加えたものです。",

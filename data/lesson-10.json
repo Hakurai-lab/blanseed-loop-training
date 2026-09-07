@@ -7,6 +7,11 @@
   ],
   "confusionTags": ["fact_vs_hypothesis", "hypothesis_as_fact", "untestable_hypothesis", "ai_hypothesis_as_fact"],
   "content": {
+    "simpleFlow": [
+      {"label":"確かめられた変化を見る","term":"Fact","caption":"学習時間が増えた、という記録を確認します。"},
+      {"label":"理由の候補を考える","term":"Hypothesis","caption":"通知が開始を促したのではないか、と確かめられる形で考えます。"},
+      {"label":"証拠で確かめる","term":"Test","caption":"通知の有無を比べるなど、仮説を確かめる方法を選びます。"}
+    ],
     "summary": "確認された事実（Fact）と、原因や仕組みについて検証する仮説（Hypothesis）を分けます。",
     "objectives": ["FactとHypothesisを区別できる", "原因についての推測をHypothesisとして扱える", "検証可能なHypothesisを選べる", "AIの推論をFactへ昇格させない", "Evidenceなしの原因断定を識別できる"],
     "definition": "Hypothesis（仮説）は、観測されたFact（事実）がなぜ起きたかを説明する、確かめることのできる推測です。原因らしく見えても、Evidence（証拠）で確認されるまでは事実ではありません。",

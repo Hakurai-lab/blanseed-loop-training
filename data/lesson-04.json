@@ -15,6 +15,11 @@
   ],
   "confusionTags": ["observation_vs_state", "state_not_evaluable", "state_as_raw_log", "overcomplicated_state"],
   "content": {
+    "simpleFlow": [
+      {"label":"必要な情報を集める","term":"Observations","caption":"毎日の勉強時間など、判断に使う記録を集めます。"},
+      {"label":"判断に使える形にまとめる","term":"State Update","caption":"7日間の記録から平均時間を計算します。"},
+      {"label":"今の状態を表す","term":"State","caption":"7日平均35分のように、目標と比べられる値を用意します。"}
+    ],
     "summary": "Observationを整理・加工し、Evaluationに使える現在の状態として表現します。",
     "objectives": [
       "ObservationとStateを区別できる",

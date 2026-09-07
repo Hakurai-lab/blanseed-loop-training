@@ -60,7 +60,15 @@ const CONCEPT_JAPANESE = new Map([
   ["Test", "検証"],
   ["Gap", "差"],
   ["Rule", "ルール"],
-  ["Loop", "循環"]
+  ["Loop", "循環"],
+  ["Observations", "観測した情報"],
+  ["Concept", "概念"],
+  ["Guided Builder", "設計練習"],
+  ["Stage Exam", "ステージ確認テスト"],
+  ["Lesson", "レッスン"],
+  ["Quiz", "理解確認"],
+  ["Builder", "設計練習"],
+  ["Step", "手順"]
 ]);
 
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -214,7 +222,7 @@ function renderHome() {
   const stageLessons = stage ? stage.lessonIds.map((id) => lessons.get(id)).filter(Boolean) : availableLessons;
   const currentLesson = stageLessons.find((lesson) => !getProgress(state, lesson.id).quizPassed);
   const displayLesson = currentLesson || stageLessons.at(-1) || availableLessons.at(-1);
-  if (!displayLesson) return renderError("利用可能なLessonがありません");
+  if (!displayLesson) return renderError("利用可能なレッスン（Lesson）がありません");
 
   const progress = getProgress(state, displayLesson.id);
   const passedLessons = availableLessons.filter((lesson) => getProgress(state, lesson.id).quizPassed).length;
@@ -229,8 +237,8 @@ function renderHome() {
   });
   const lessonStatusLabel = (lesson) => {
     const itemProgress = getProgress(state, lesson.id);
-    if (itemProgress.quizPassed) return "Pass";
-    if (itemProgress.lessonStatus === "completed") return "Quiz再挑戦";
+    if (itemProgress.quizPassed) return "合格（Pass）";
+    if (itemProgress.lessonStatus === "completed") return "理解確認（Quiz）再挑戦";
     if (itemProgress.lessonStatus === "learning") return "学習中";
     return "未着手";
   };
@@ -246,8 +254,8 @@ function renderHome() {
           <div><p class="eyebrow">${escapeHtml(item.tier)} · ${escapeHtml(item.stageId)}</p><h3>${escapeHtml(item.title)}</h3></div>
           <span class="tag ${completed ? "" : isCurrent ? "current" : "muted-tag"}">${completed ? "完了" : isCurrent ? "現在地" : "未着手"}</span>
         </div>
-        <p class="muted">Lesson ${passedCount} / ${itemLessons.length} Pass · Stage Exam ${["passed", "passed_with_review"].includes(itemProgress.examStatus) ? "Pass" : "未完了"}</p>
-        <div class="dashboard-lesson-list">${itemLessons.map((lesson) => `<a class="dashboard-lesson-link ${getProgress(state, lesson.id).quizPassed ? "is-passed" : currentLesson?.id === lesson.id ? "is-current" : ""}" href="#/lesson/${lesson.id}"><span>Lesson ${lesson.id}</span><strong>${escapeHtml(lesson.title)}</strong><small>${lessonStatusLabel(lesson)}</small></a>`).join("")}</div>
+        <p class="muted">レッスン（Lesson） ${passedCount} / ${itemLessons.length} 合格（Pass） · ステージ確認テスト（Stage Exam） ${["passed", "passed_with_review"].includes(itemProgress.examStatus) ? "合格（Pass）" : "未完了"}</p>
+        <div class="dashboard-lesson-list">${itemLessons.map((lesson) => `<a class="dashboard-lesson-link ${getProgress(state, lesson.id).quizPassed ? "is-passed" : currentLesson?.id === lesson.id ? "is-current" : ""}" href="#/lesson/${lesson.id}"><span>レッスン（Lesson） ${lesson.id}</span><strong>${escapeHtml(lesson.title)}</strong><small>${lessonStatusLabel(lesson)}</small></a>`).join("")}</div>
       </article>`;
   }).join("");
   const remainingLessonCount = Math.max(0, curriculum.curriculumSize - availableLessons.length);
@@ -255,9 +263,9 @@ function renderHome() {
     ? startedLessons.map((lesson) => {
       const itemProgress = getProgress(state, lesson.id);
       const hasBuilder = state.builderProjects.some((project) => project.lessonId === lesson.id);
-      return `<article class="history-item"><div><p class="eyebrow">LESSON ${lesson.id}</p><h3>${escapeHtml(lesson.title)}</h3><p class="muted">${lessonStatusLabel(lesson)} · Quiz Best ${itemProgress.bestScore}/${lesson.questionCount}</p></div><div class="history-actions"><a href="#/lesson/${lesson.id}">学習を見直す</a>${itemProgress.lastAttemptId ? `<a href="#/result/${lesson.id}">Quiz結果</a>` : ""}${hasBuilder ? `<a href="#/builder/${lesson.id}">Builder</a>` : ""}</div></article>`;
+      return `<article class="history-item"><div><p class="eyebrow">レッスン（Lesson） ${lesson.id}</p><h3>${escapeHtml(lesson.title)}</h3><p class="muted">${lessonStatusLabel(lesson)} · 理解確認の最高点（Quiz Best） ${itemProgress.bestScore}/${lesson.questionCount}</p></div><div class="history-actions"><a href="#/lesson/${lesson.id}">学習を見直す</a>${itemProgress.lastAttemptId ? `<a href="#/result/${lesson.id}">理解確認（Quiz）結果</a>` : ""}${hasBuilder ? `<a href="#/builder/${lesson.id}">設計練習（Builder）</a>` : ""}</div></article>`;
     }).join("")
-    : `<p class="empty-state">学習を開始すると、ここから過去のLessonへ戻れるようになります。</p>`;
+    : `<p class="empty-state">学習を開始すると、ここから過去のレッスン（Lesson）へ戻れるようになります。</p>`;
   const examPassed = ["passed", "passed_with_review"].includes(stageProgress?.examStatus);
   const stageComplete = examPassed && stageProgress?.builderStatus === "completed";
   let nextTitle;
@@ -267,64 +275,64 @@ function renderHome() {
     const currentProgress = getProgress(state, currentLesson.id);
     nextTitle = currentProgress.lessonStatus === "completed" ? `${currentLesson.title}を復習して再挑戦する` : `${currentLesson.title}を学ぶ`;
     nextDescription = currentProgress.lessonStatus === "completed"
-      ? `Quiz Passには${currentLesson.passScore}/${currentLesson.questionCount}以上が必要です。`
-      : `${currentLesson.tier} Lesson ${currentLesson.id}から始めます。`;
+      ? `理解確認の合格（Quiz Pass）には${currentLesson.passScore}/${currentLesson.questionCount}以上が必要です。`
+      : `${currentLesson.tier} レッスン（Lesson） ${currentLesson.id}から始めます。`;
     nextHref = `#/lesson/${currentLesson.id}`;
   } else if (stage && !stage.exam) {
-    nextTitle = `${stage.title} Stage Examは未実装`;
-    nextDescription = "このStageのLesson学習は完了しています。Stage Examは次工程で追加します。";
+    nextTitle = `${stage.title} ステージ確認テスト（Stage Exam）は未実装`;
+    nextDescription = "このステージ（Stage）のレッスン（Lesson）学習は完了しています。ステージ確認テスト（Stage Exam）は次工程で追加します。";
     nextHref = null;
   } else if (stage && !examPassed) {
-    nextTitle = stageProgress.examStatus === "review_required" ? `${stage.title} Stage Examを再受験する` : `${stage.title} Stage Examに進む`;
+    nextTitle = stageProgress.examStatus === "review_required" ? `${stage.title} ステージ確認テスト（Stage Exam）を再受験する` : `${stage.title} ステージ確認テスト（Stage Exam）に進む`;
     nextDescription = `${stage.title}の概念を横断して確認します。`;
     nextHref = `#/stage/${stage.stageId}/exam`;
   } else if (stage && stageProgress.builderStatus !== "completed") {
-    nextTitle = `${stage.title} Guided Builderに進む`;
-    nextDescription = "PurposeからStateまでを1つのテーマで接続します。";
+    nextTitle = `${stage.title} 設計練習（Guided Builder）に進む`;
+    nextDescription = "このステージで学んだ要素を、1つの題材でつなぎます。";
     nextHref = `#/stage/${stage.stageId}/builder`;
   } else {
-    nextTitle = `${stage.title} Stage 完了`;
-    nextDescription = "次のStageは未実装です。Retention Stableとは別に記録されています。";
+    nextTitle = `${stage.title} ステージ（Stage） 完了`;
+    nextDescription = "次のステージ（Stage）は未実装です。知識の定着（Retention Stable）とは別に記録されています。";
     nextHref = null;
   }
 
   setScreen(`
     <section class="screen">
       <div class="hero cosmic-home-hero">
-        <p class="eyebrow">FOUNDATION TRAINING</p>
-        <h1>Loopを設計できる力を、ひとつずつ。</h1>
-        <p class="lead">Lessonで理解し、Quizで確かめ、Builderで使う。Training Loopをひとつずつ完成させましょう。</p>
-        <div class="button-row">${nextHref ? `<a class="button" href="${nextHref}">${escapeHtml(nextTitle)}</a>` : `<span class="tag">Stage Complete</span>`}</div>
+        <p class="eyebrow">基礎学習（Foundation Training）</p>
+        <h1>循環（Loop）を設計できる力を、ひとつずつ。</h1>
+        <p class="lead">レッスン（Lesson）で理解し、理解確認（Quiz）で確かめ、設計練習（Builder）で使う。学習の循環（Training Loop）をひとつずつ完成させましょう。</p>
+        <div class="button-row">${nextHref ? `<a class="button" href="${nextHref}">${escapeHtml(nextTitle)}</a>` : `<span class="tag">ステージ完了（Stage Complete）</span>`}</div>
       </div>
 
       <div class="grid">
         <section class="card">
-          <p class="eyebrow">NEXT ACTION</p>
+          <p class="eyebrow">次にすること（Next Action）</p>
           <h2>${escapeHtml(nextTitle)}</h2>
           <p class="muted">${escapeHtml(nextDescription)}</p>
-          ${weakConcepts.length ? `<p class="muted">Review候補</p><div>${weakConcepts.map((name) => `<span class="tag weak">${escapeHtml(name)}</span>`).join("")}</div>` : ""}
+          ${weakConcepts.length ? `<p class="muted">復習（Review）候補</p><div>${weakConcepts.map((name) => `<span class="tag weak">${escapeHtml(name)}</span>`).join("")}</div>` : ""}
           ${nextHref ? `<div class="button-row"><a class="button button-secondary" href="${nextHref}">確認する</a></div>` : ""}
-          ${prototypeLesson ? `<div class="reference-link"><p class="muted">用語を確認したいとき</p><a class="button button-secondary" href="#/concepts" target="_blank" rel="noopener">Concept用語集を別画面で開く</a></div>` : ""}
+          ${prototypeLesson ? `<div class="reference-link"><p class="muted">用語を確認したいとき</p><a class="button button-secondary" href="#/concepts" target="_blank" rel="noopener">概念（Concept）用語集を別画面で開く</a></div>` : ""}
         </section>
 
         <section class="card card-accent">
-          <p class="eyebrow">CURRENT POSITION</p>
-          <div class="stat"><strong>${passedLessons}</strong><span>/ ${curriculum.curriculumSize} Lessons Passed</span></div>
-          <div class="progress" aria-label="CORE Lesson進捗"><span style="width:${Math.round((passedLessons / curriculum.curriculumSize) * 100)}%"></span></div>
-          <p class="muted">${stage ? `${escapeLiteral(stage.stageId)}｜${escapeHtml(stage.title)}<br>` : ""}Current: ${currentLesson ? `Lesson ${currentLesson.id}` : stageComplete ? "Stage Complete" : "Stage Assessment"}<br>Quiz Best: ${progress.bestScore} / ${displayLesson.questionCount}</p>
-          ${stage ? `<hr><p><strong>${escapeHtml(stage.tier)}｜${escapeHtml(stage.title)}</strong><br>Lessons：${stage.lessonIds.filter((id) => getProgress(state, id).quizPassed).length} / ${stage.lessonIds.length}<br>Stage Exam：${stageProgress.examStatus === "passed" ? "Passed" : stageProgress.examStatus === "passed_with_review" ? "Passed with Review" : stageProgress.examStatus === "review_required" ? "Review" : stageProgress.examStatus === "learning" ? "Learning" : "Pending"}<br>Stage Builder：${stageProgress.builderStatus === "completed" ? "Completed" : "Pending"}</p>` : ""}
-          ${stageComplete ? `<p><strong>次のStageは未実装です。</strong></p>` : ""}
+          <p class="eyebrow">現在地（Current Position）</p>
+          <div class="stat"><strong>${passedLessons}</strong><span>/ ${curriculum.curriculumSize} レッスン合格数（Lessons Passed）</span></div>
+          <div class="progress" aria-label="CORE レッスン（Lesson）進捗"><span style="width:${Math.round((passedLessons / curriculum.curriculumSize) * 100)}%"></span></div>
+          <p class="muted">${stage ? `${escapeLiteral(stage.stageId)}｜${escapeHtml(stage.title)}<br>` : ""}現在（Current）: ${currentLesson ? `レッスン（Lesson） ${currentLesson.id}` : stageComplete ? "ステージ完了（Stage Complete）" : "ステージの理解確認（Stage Assessment）"}<br>理解確認の最高点（Quiz Best）: ${progress.bestScore} / ${displayLesson.questionCount}</p>
+          ${stage ? `<hr><p><strong>${escapeHtml(stage.tier)}｜${escapeHtml(stage.title)}</strong><br>レッスン（Lessons）：${stage.lessonIds.filter((id) => getProgress(state, id).quizPassed).length} / ${stage.lessonIds.length}<br>ステージ確認テスト（Stage Exam）：${stageProgress.examStatus === "passed" ? "合格（Passed）" : stageProgress.examStatus === "passed_with_review" ? "要復習で合格（Passed with Review）" : stageProgress.examStatus === "review_required" ? "復習（Review）" : stageProgress.examStatus === "learning" ? "学習中（Learning）" : "未完了（Pending）"}<br>ステージ設計練習（Stage Builder）：${stageProgress.builderStatus === "completed" ? "完了（Completed）" : "未完了（Pending）"}</p>` : ""}
+          ${stageComplete ? `<p><strong>次のステージ（Stage）は未実装です。</strong></p>` : ""}
         </section>
       </div>
 
       <section class="dashboard-section" aria-labelledby="curriculum-overview-title">
-        <div class="section-heading"><div><p class="eyebrow">CURRICULUM MAP</p><h2 id="curriculum-overview-title">セクション全体と現在地</h2></div><p class="muted">各Lessonを選ぶと、いつでも内容を確認できます。</p></div>
+        <div class="section-heading"><div><p class="eyebrow">学習の全体像（Curriculum Map）</p><h2 id="curriculum-overview-title">セクション全体と現在地</h2></div><p class="muted">各レッスン（Lesson）を選ぶと、いつでも内容を確認できます。</p></div>
         <div class="dashboard-stage-list">${stageOverview}</div>
-        ${remainingLessonCount ? `<div class="dashboard-planned"><strong>今後のセクション</strong><span>Lesson ${String(availableLessons.length + 1).padStart(2, "0")}〜${curriculum.curriculumSize}（${remainingLessonCount} Lessons）は未実装です。</span></div>` : ""}
+        ${remainingLessonCount ? `<div class="dashboard-planned"><strong>今後のセクション</strong><span>レッスン（Lesson） ${String(availableLessons.length + 1).padStart(2, "0")}〜${curriculum.curriculumSize}（残り${remainingLessonCount}レッスン）は未実装です。</span></div>` : ""}
       </section>
 
       <section class="dashboard-section" aria-labelledby="training-history-title">
-        <div class="section-heading"><div><p class="eyebrow">REVIEW & HISTORY</p><h2 id="training-history-title">過去のトレーニングを復習する</h2></div><p class="muted">学習内容、Quiz結果、作成済みBuilderへ戻れます。</p></div>
+        <div class="section-heading"><div><p class="eyebrow">復習と履歴（Review / History）</p><h2 id="training-history-title">過去のトレーニングを復習する</h2></div><p class="muted">学習内容、理解確認（Quiz）結果、作成済み設計練習（Builder）へ戻れます。</p></div>
         <div class="history-list">${historyMarkup}</div>
       </section>
     </section>
@@ -349,7 +357,7 @@ function renderConceptReference() {
     });
   setScreen(`
     <section class="screen narrow concept-library">
-      <p class="eyebrow">CONCEPT REFERENCE</p>
+      <p class="eyebrow">用語の確認（Concept Reference）</p>
       <h1>用語・機能・接続を確認する</h1>
       <p class="lead">用語名、意味、機能、接続、例から検索できます。現在実装済みのLessonを横断して確認できます。</p>
       <label class="concept-search"><span>用語を検索</span><input id="concept-search" type="search" placeholder="例：Observation、観測、Action"></label>
@@ -363,7 +371,7 @@ function renderConceptReference() {
         </article>
       `).join("")}</div>
       <p class="notice notice-warning" id="concept-empty" hidden>一致するConceptがありません。</p>
-      <div class="button-row"><a class="button button-secondary" href="#/home">Homeへ戻る</a></div>
+      <div class="button-row"><a class="button button-secondary" href="#/home">ホーム（Home）へ戻る</a></div>
     </section>
   `);
   const input = document.querySelector("#concept-search");
@@ -442,7 +450,7 @@ function renderDesignLab() {
       </section>
 
       <section class="specimen-section"><div class="specimen-heading"><span>04</span><div><h2>Actions</h2><p>行動の強さに合わせた4種類</p></div></div>
-        <div class="action-specimens"><button class="prototype-button primary">学習を続ける <span>→</span></button><button class="prototype-button secondary">Lessonを見直す</button><button class="prototype-button reference">◇ 用語を確認する</button><button class="prototype-button review">育て直す</button></div>
+        <div class="action-specimens"><button class="prototype-button primary">学習を続ける <span>→</span></button><button class="prototype-button secondary">レッスン（Lesson）を見直す</button><button class="prototype-button reference">◇ 用語を確認する</button><button class="prototype-button review">育て直す</button></div>
       </section>
       <p class="design-lab-note">このページは比較用です。選定後にHome・Lesson・Quizへ段階的に反映します。</p>
     </section>
@@ -482,19 +490,19 @@ function renderLesson(lesson) {
     : `<ul>${content.examples.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
   setScreen(`
     <article class="screen narrow">
-      <p class="eyebrow">${escapeHtml(lesson.tier)} LESSON ${escapeLiteral(lesson.id)}</p>
+      <p class="eyebrow">${escapeHtml(lesson.tier) } レッスン（Lesson） ${escapeLiteral(lesson.id)}</p>
       <h1>${escapeHtml(lesson.title)}</h1>
       <p class="lead">${escapeHtml(content.summary)}</p>
       <section class="lesson-body"><h2>学習目標</h2><ul>${content.objectives.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>
       ${usesGuidedReference ? coreFlow : ""}
       <section class="lesson-body"><h2>まず知っておくこと</h2><p>${escapeHtml(content.definition)}</p>${usesGuidedReference ? `<h3>何のために使うか</h3><p>${escapeHtml(content.purpose || content.summary)}</p>${simpleFlow}` : ""}</section>
-      ${usesGuidedReference ? `<section class="lesson-body"><h2>どのように動くか</h2>${mechanics}<h3>Conceptの接続</h3><p>${connectionMarkup}</p></section>` : coreFlow}
+      ${usesGuidedReference ? `<section class="lesson-body"><h2>どのように動くか</h2>${mechanics}<h3>概念（Concept）の接続</h3><p>${connectionMarkup}</p></section>` : coreFlow}
       <section class="lesson-body lesson-do"><h2>学習ツールでの使い方</h2>${exampleFlow}</section>
       <section class="lesson-body"><h2>学習のポイント（Key Points）</h2><ul>${content.keyPoints.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>
-      ${usesGuidedReference ? `<section class="concept-reference-link"><p class="eyebrow">CONCEPT REFERENCE</p><h2>用語・機能・接続を確認する</h2><p class="muted">用語集は別画面で開き、名前や説明から検索できます。</p><a class="button button-secondary" href="#/concepts" target="_blank" rel="noopener">検索できるConcept用語集を開く</a></section>` : ""}
+      ${usesGuidedReference ? `<section class="concept-reference-link"><p class="eyebrow">用語の確認（Concept Reference）</p><h2>用語・機能・接続を確認する</h2><p class="muted">用語集は別画面で開き、名前や説明から検索できます。</p><a class="button button-secondary" href="#/concepts" target="_blank" rel="noopener">検索できる概念（Concept）用語集を開く</a></section>` : ""}
       <aside class="lesson-dont"><h2>避ける例</h2><ul>${content.commonMistakes.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></aside>
-      ${usesGuidedReference && content.applicationTip ? `<aside class="application-tip"><strong>応用Tips</strong><p>${escapeHtml(content.applicationTip)}</p></aside>` : ""}
-      <div class="button-row"><button class="button" id="start-quiz">${lesson.questionCount}問Quizへ進む</button><a class="button button-secondary" href="#/home">Homeへ戻る</a></div>
+      ${usesGuidedReference && content.applicationTip ? `<aside class="application-tip"><strong>応用のヒント（Tips）</strong><p>${escapeHtml(content.applicationTip)}</p></aside>` : ""}
+      <div class="button-row"><button class="button" id="start-quiz">${lesson.questionCount}問の理解確認（Quiz）へ進む</button><a class="button button-secondary" href="#/home">ホーム（Home）へ戻る</a></div>
     </article>
   `);
   document.querySelector("#start-quiz").addEventListener("click", () => {
@@ -516,7 +524,7 @@ function renderQuiz(lesson) {
   setScreen(`
     <section class="screen narrow">
       <p class="eyebrow">レッスン（Lesson） ${escapeLiteral(lesson.id)} · 理解確認（Quiz）</p>
-      <div class="step-indicator">Question ${quizSession.index + 1} / ${lesson.questionCount}</div>
+      <div class="step-indicator">問題（Question） ${quizSession.index + 1} / ${lesson.questionCount}</div>
       <form class="question" id="quiz-form">
         <h1>${escapeHtml(question.prompt)}</h1>
         <div class="options">${question.options.map((option) => `<label class="option"><input type="radio" name="answer" value="${escapeLiteral(option.id)}" required><span>${escapeHtml(option.label)}</span></label>`).join("")}</div>
@@ -556,8 +564,8 @@ function renderImmediateFeedback(question, selectedId) {
 function getQuizHint(question) {
   if (question.hint) return question.hint;
   const focusHints = {
-    Recognition: "定義だけでなく、そのConceptが何のために使われるかを確認してください。",
-    Discrimination: "選択肢ごとに、Conceptの役割と接続先が一致しているかを比べてください。",
+    Recognition: "定義だけでなく、その概念（Concept）が何のために使われるかを確認してください。",
+    Discrimination: "選択肢ごとに、概念（Concept）の役割と接続先が一致しているかを比べてください。",
     "Error Detection": "書かれている要素と、不足・混同している要素を分けて確認してください。",
     "Scenario Judgement": "現在の情報、判断、次に必要な処理を順番に整理してください。",
     "Example / Classification": "各例を定義へ当てはめ、同じ基準で分類してください。"
@@ -565,8 +573,8 @@ function getQuizHint(question) {
   return {
     title: `${getConceptLabel(question.conceptId)}の確認ポイント`,
     items: [
-      { label: "問題の見方", text: focusHints[question.assessmentFocus] || "用語の定義と、前後のConceptとの接続を確認してください。" },
-      { label: "選ぶ前に", text: "正しそうな単語ではなく、説明全体がLessonの定義と一致しているかを確認しましょう。", highlight: true }
+      { label: "問題の見方", text: focusHints[question.assessmentFocus] || "用語の定義と、前後の概念（Concept）との接続を確認してください。" },
+      { label: "選ぶ前に", text: "正しそうな単語ではなく、説明全体がレッスン（Lesson）の定義と一致しているかを確認しましょう。", highlight: true }
     ]
   };
 }
@@ -581,15 +589,15 @@ function renderPrototypeQuiz(lesson) {
     <section class="screen quiz-sheet">
       <p class="eyebrow">レッスン（Lesson） ${escapeLiteral(lesson.id)} · 理解確認（Quiz）</p>
       <h1>${escapeHtml(lesson.title)}｜理解確認</h1>
-      <p class="lead">5問をこのページで確認します。回答を選ぶと、その問題の解説がすぐに表示されます。最初に選んだ回答が採点対象です。</p>
+      <p class="lead">${lesson.questionCount}問をこのページで確認します。回答を選ぶと、その問題の解説がすぐに表示されます。最初に選んだ回答が採点対象です。</p>
       <form id="prototype-quiz-form">
         <div class="quiz-question-list">${questions.map((question, index) => {
           const hint = getQuizHint(question);
           return `
           <fieldset class="question question-card" data-question-id="${escapeLiteral(question.id)}">
-            <legend>Question ${index + 1} / ${lesson.questionCount}</legend>
+            <legend>問題（Question） ${index + 1} / ${lesson.questionCount}</legend>
             <h2>${escapeHtml(question.prompt)}</h2>
-            <button class="hint-button" type="button" data-hint-button="${escapeLiteral(question.id)}" aria-expanded="false">Hintを見る</button><div class="quiz-hint" data-hint-for="${escapeLiteral(question.id)}" hidden><strong>＜${escapeHtml(hint.title)}＞</strong>${hint.items.map((item) => `<p class="${item.highlight ? "hint-missing" : ""}"><b>${escapeHtml(item.label)}：</b>${escapeHtml(item.text)}</p>`).join("")}</div>
+            <button class="hint-button" type="button" data-hint-button="${escapeLiteral(question.id)}" aria-expanded="false">ヒント（Hint）を見る</button><div class="quiz-hint" data-hint-for="${escapeLiteral(question.id)}" hidden><strong>＜${escapeHtml(hint.title)}＞</strong>${hint.items.map((item) => `<p class="${item.highlight ? "hint-missing" : ""}"><b>${escapeHtml(item.label)}：</b>${escapeHtml(item.text)}</p>`).join("")}</div>
             <div class="options">${question.options.map((option) => `<label class="option"><input type="radio" name="answer-${escapeLiteral(question.id)}" value="${escapeLiteral(option.id)}"><span>${escapeHtml(option.label)}</span></label>`).join("")}</div>
             <div class="immediate-feedback" data-feedback-for="${escapeLiteral(question.id)}" aria-live="polite" hidden></div>
           </fieldset>
@@ -606,7 +614,7 @@ function renderPrototypeQuiz(lesson) {
     const willOpen = hint.hidden;
     hint.hidden = !willOpen;
     button.setAttribute("aria-expanded", String(willOpen));
-    button.textContent = willOpen ? "Hintを閉じる" : "Hintを見る";
+    button.textContent = willOpen ? "ヒント（Hint）を閉じる" : "ヒント（Hint）を見る";
   });
   form.addEventListener("change", (event) => {
     const input = event.target.closest('input[type="radio"]');
@@ -651,17 +659,17 @@ function renderResult(lesson) {
   setScreen(`
     <section class="screen narrow">
       <p class="eyebrow">レッスン（Lesson） ${escapeLiteral(lesson.id)} · 結果（Quiz Result）</p>
-      <h1>${result.passed ? "Pass — 基本を理解しています" : "Reviewして、もう一度つなげよう"}</h1>
+      <h1>${result.passed ? "合格（Pass）— 基本を理解しています" : "復習（Review）して、もう一度つなげよう"}</h1>
       <div class="score-ring"><div><strong>${result.score}</strong><span> / ${lesson.questionCount}</span></div></div>
-      <p class="notice ${result.passed ? "notice-success" : "notice-warning"}">${lesson.questionCount}問回答完了によりLesson ${escapeLiteral(lesson.id)}はcompletedです。${result.passed ? `${lesson.passScore}/${lesson.questionCount}以上のためQuiz Passです。` : `Quiz Passには${lesson.passScore}/${lesson.questionCount}以上が必要です。`}</p>
-      <p class="muted">Conceptの状態（Concept State）を更新しました。正答Conceptは初回理解、誤答Conceptは復習候補（Retention Review / weak / R0）として記録されています。理解確認（Quiz）だけでstableにはなりません。</p>
+      <p class="notice ${result.passed ? "notice-success" : "notice-warning"}">${lesson.questionCount}問回答完了によりレッスン（Lesson） ${escapeLiteral(lesson.id)}は完了（completed）です。${result.passed ? `${lesson.passScore}/${lesson.questionCount}以上のため理解確認に合格（Quiz Pass）です。` : `理解確認の合格（Quiz Pass）には${lesson.passScore}/${lesson.questionCount}以上が必要です。`}</p>
+      <p class="muted">概念の状態（Concept State）を更新しました。正答した概念は初回理解、誤答した概念は復習候補（Retention Review）・要復習（weak）・復習開始段階（R0）として記録されています。理解確認（Quiz）だけで定着済み（stable）にはなりません。</p>
       <ul class="result-list">${result.results.map(({ question, selected, correct }) => {
         const selectedOption = question.options.find((option) => option.id === selected);
         const correctOption = question.options.find((option) => option.id === question.correctOptionId);
         const showCorrectAnswer = lesson.experience?.showCorrectAnswerAlways;
-        return `<li class="result-item ${correct ? "correct" : "incorrect"}"><p><strong>${correct ? "正解" : "要Review"}：</strong>${escapeHtml(question.prompt)}</p><p><strong>選んだ回答：</strong>${escapeHtml(selectedOption?.label || "未回答")}</p>${showCorrectAnswer ? `<p><strong>正しい回答：</strong>${escapeHtml(correctOption?.label || "")}</p>` : ""}<p class="muted">${escapeHtml(selectedOption?.feedback || "")}</p>${correct ? "" : `<p><strong>正解理由：</strong>${escapeHtml(question.explanation)}</p>`}</li>`;
+        return `<li class="result-item ${correct ? "correct" : "incorrect"}"><p><strong>${correct ? "正解" : "要復習（Review）"}：</strong>${escapeHtml(question.prompt)}</p><p><strong>選んだ回答：</strong>${escapeHtml(selectedOption?.label || "未回答")}</p>${showCorrectAnswer ? `<p><strong>正しい回答：</strong>${escapeHtml(correctOption?.label || "")}</p>` : ""}<p class="muted">${escapeHtml(selectedOption?.feedback || "")}</p>${correct ? "" : `<p><strong>正解理由：</strong>${escapeHtml(question.explanation)}</p>`}</li>`;
       }).join("")}</ul>
-      <div class="button-row"><a class="button" href="#/builder/${lesson.id}">Guided Builderへ進む</a><a class="button button-secondary" href="#/lesson/${lesson.id}">Lessonを見直す</a></div>
+      <div class="button-row"><a class="button" href="#/builder/${lesson.id}">設計練習（Guided Builder）へ進む</a><a class="button button-secondary" href="#/lesson/${lesson.id}">レッスン（Lesson）を見直す</a></div>
     </section>
   `);
 }
@@ -677,10 +685,10 @@ function renderBuilder(lesson) {
       <h1>${escapeHtml(builder.title)}</h1>
       ${lesson.experience?.lessonLayout === "guided_reference" || lesson.experience?.prototypeV2
         ? `<div class="card card-accent"><p>${escapeHtml(builder.intro)}</p></div>`
-        : `<div class="card card-accent"><p class="eyebrow">THEME</p><h2>${escapeHtml(builder.theme)}</h2><p>${escapeHtml(builder.intro)}</p></div>`}
+        : `<div class="card card-accent"><p class="eyebrow">題材（Theme）</p><h2>${escapeHtml(builder.theme)}</h2><p>${escapeHtml(builder.intro)}</p></div>`}
       <form id="builder-form" class="card">
         ${builder.steps.map((step) => renderBuilderStep(step, fields[step.id])).join("")}
-        <button class="button button-block" type="submit">Loopを確認する</button>
+        <button class="button button-block" type="submit">循環（Loop）を確認する</button>
       </form>
     </section>
   `);
@@ -700,7 +708,7 @@ function renderBuilder(lesson) {
 
 function renderBuilderStep(step, selectedValue) {
   if (step.type !== "single_choice") {
-    return `<p class="notice notice-warning">このBuilder Step形式はまだ利用できません。</p>`;
+    return `<p class="notice notice-warning">この設計手順（Builder Step）形式はまだ利用できません。</p>`;
   }
   return `<fieldset class="builder-step"><legend>${escapeHtml(step.label)}</legend><p class="muted">${escapeHtml(step.prompt)}</p><div class="options">${step.options.map((option) => `<label class="option"><input type="radio" name="${escapeLiteral(step.id)}" value="${escapeLiteral(option.id)}" ${selectedValue === option.id ? "checked" : ""} required><span>${escapeHtml(option.label)}</span></label>`).join("")}</div></fieldset>`;
 }
@@ -721,10 +729,10 @@ function renderWeakness(lesson) {
   setScreen(`
     <section class="screen narrow">
       <p class="eyebrow">レッスン（Lesson） ${escapeLiteral(lesson.id)} · 弱点確認（Weakness Detection）</p>
-      <h1>${completed ? "Guided Builderが成立しています" : "設計に不足があります"}</h1>
-      <p class="notice ${completed ? "notice-success" : "notice-danger"}">${completed ? `すべてのStepが適切に接続され、Lesson ${escapeLiteral(lesson.id)} Guided Builderはcompletedです。` : `${weaknesses.length}件のWeaknessを記録しました。`}</p>
+      <h1>${completed ? "設計練習（Guided Builder）が成立しています" : "設計に不足があります"}</h1>
+      <p class="notice ${completed ? "notice-success" : "notice-danger"}">${completed ? `すべての手順（Step）が適切に接続され、レッスン（Lesson） ${escapeLiteral(lesson.id)} 設計練習（Guided Builder）は完了（completed）です。` : `${weaknesses.length}件の弱点（Weakness）を記録しました。`}</p>
       ${completed ? completedFlow : `<ul class="review-list">${weaknesses.map((item) => `<li><span class="tag weak">${escapeHtml(item.code)}</span><p>${escapeHtml(item.message)}</p></li>`).join("")}</ul>`}
-      <div class="button-row"><a class="button" href="#/home">Homeへ戻る</a><a class="button button-secondary" href="#/builder/${lesson.id}">Builderを修正する</a></div>
+      <div class="button-row"><a class="button" href="#/home">ホーム（Home）へ戻る</a><a class="button button-secondary" href="#/builder/${lesson.id}">設計練習（Builder）を修正する</a></div>
     </section>
   `);
 }
@@ -753,8 +761,8 @@ function renderStageExam(stage) {
   const question = stage.exam.questions[stageExamSession.index];
   setScreen(`
     <section class="screen narrow">
-      <p class="eyebrow">${escapeLiteral(stage.stageId)} · STAGE EXAM</p>
-      <div class="step-indicator">Question ${stageExamSession.index + 1} / ${stage.exam.questionCount}</div>
+      <p class="eyebrow">${escapeLiteral(stage.stageId)} · ステージ確認テスト（Stage Exam）</p>
+      <div class="step-indicator">問題（Question） ${stageExamSession.index + 1} / ${stage.exam.questionCount}</div>
       <form class="question" id="stage-exam-form">
         <h1>${escapeHtml(question.prompt)}</h1>
         <div class="options">${question.options.map((option) => `<label class="option"><input type="radio" name="answer" value="${escapeLiteral(option.id)}" required><span>${escapeHtml(option.label)}</span></label>`).join("")}</div>
@@ -793,24 +801,24 @@ function renderStageExamResult(stage) {
     : getLatestStageExamResult(stage);
   if (!result) return navigate(`#/stage/${stage.stageId}/exam`);
   const statusLabels = {
-    passed: "Passed — Stageの概念を区別できています",
-    passed_with_review: "Passed with Review — Critical Conceptを確認しましょう",
-    review_required: "Review Required — Stage Lessonを復習しましょう"
+    passed: "合格（Passed）— このステージの概念を区別できています",
+    passed_with_review: "要復習で合格（Passed with Review）— 重要な概念を確認しましょう",
+    review_required: "要復習（Review Required）— このステージのレッスンを復習しましょう"
   };
   const canBuild = ["passed", "passed_with_review"].includes(result.status);
   setScreen(`
     <section class="screen narrow">
-      <p class="eyebrow">${escapeLiteral(stage.stageId)} · EXAM RESULT</p>
+      <p class="eyebrow">${escapeLiteral(stage.stageId)} · テスト結果（Exam Result）</p>
       <h1>${escapeHtml(statusLabels[result.status])}</h1>
       <div class="score-ring"><div><strong>${result.score}</strong><span> / ${stage.exam.questionCount}</span></div></div>
-      <p class="notice ${result.status === "passed" ? "notice-success" : "notice-warning"}">Status：${escapeHtml(result.status)}。基本合格は${stage.exam.passScore}/${stage.exam.questionCount}以上です。</p>
-      ${result.missedCriticalConcepts.length ? `<p class="notice notice-warning">Critical Concept Review：${result.missedCriticalConcepts.map((id) => escapeHtml(stage.exam.criticalConcepts.find((concept) => concept.id === id)?.label || id)).join("、")}</p>` : ""}
-      <p class="muted">Stage ExamはLesson CompletionおよびRetention Stateとは別に保存されます。</p>
+      <p class="notice ${result.status === "passed" ? "notice-success" : "notice-warning"}">判定（Status）：${escapeHtml(statusLabels[result.status])}。基本合格は${stage.exam.passScore}/${stage.exam.questionCount}以上です。</p>
+      ${result.missedCriticalConcepts.length ? `<p class="notice notice-warning">重要な概念の復習（Critical Concept Review）：${result.missedCriticalConcepts.map((id) => escapeHtml(stage.exam.criticalConcepts.find((concept) => concept.id === id)?.label || id)).join("、")}</p>` : ""}
+      <p class="muted">ステージ確認テスト（Stage Exam）は、レッスン完了（Lesson Completion）や知識の定着状態（Retention State）とは別に保存されます。</p>
       <ul class="result-list">${result.results.map(({ question, selected, correct }) => {
         const selectedOption = question.options.find((option) => option.id === selected);
-        return `<li class="result-item ${correct ? "correct" : "incorrect"}"><p><strong>${correct ? "正解" : "要Review"}：</strong>${escapeHtml(question.prompt)}</p><p><strong>選んだ回答：</strong>${escapeHtml(selectedOption?.label || "未回答")}</p><p class="muted">${escapeHtml(selectedOption?.feedback || "")}</p>${correct ? "" : `<p><strong>正解理由：</strong>${escapeHtml(question.explanation)}</p>`}</li>`;
+        return `<li class="result-item ${correct ? "correct" : "incorrect"}"><p><strong>${correct ? "正解" : "要復習（Review）"}：</strong>${escapeHtml(question.prompt)}</p><p><strong>選んだ回答：</strong>${escapeHtml(selectedOption?.label || "未回答")}</p><p class="muted">${escapeHtml(selectedOption?.feedback || "")}</p>${correct ? "" : `<p><strong>正解理由：</strong>${escapeHtml(question.explanation)}</p>`}</li>`;
       }).join("")}</ul>
-      <div class="button-row">${canBuild ? `<a class="button" href="#/stage/${stage.stageId}/builder">Stage Guided Builderへ進む</a>` : `<a class="button" href="#/stage/${stage.stageId}/exam">再受験する</a>`}<a class="button button-secondary" href="#/home">Homeへ戻る</a></div>
+      <div class="button-row">${canBuild ? `<a class="button" href="#/stage/${stage.stageId}/builder">ステージ（Stage）設計練習（Guided Builder）へ進む</a>` : `<a class="button" href="#/stage/${stage.stageId}/exam">再受験する</a>`}<a class="button button-secondary" href="#/home">ホーム（Home）へ戻る</a></div>
     </section>
   `);
 }
@@ -822,9 +830,9 @@ function renderStageBuilder(stage) {
   const fields = existingBuilder?.fields || {};
   setScreen(`
     <section class="screen narrow">
-      <p class="eyebrow">${escapeLiteral(stage.stageId)} · GUIDED BUILDER</p>
+      <p class="eyebrow">${escapeLiteral(stage.stageId)} · 設計練習（Guided Builder）</p>
       <h1>${escapeHtml(builder.title)}</h1>
-      <div class="card card-accent"><p class="eyebrow">THEME</p><h2>${escapeHtml(builder.theme)}</h2><p>${escapeHtml(builder.intro)}</p></div>
+      <div class="card card-accent"><p class="eyebrow">題材（Theme）</p><h2>${escapeHtml(builder.theme)}</h2><p>${escapeHtml(builder.intro)}</p></div>
       <form id="stage-builder-form" class="card">
         ${builder.steps.map((step) => renderBuilderStep(step, fields[step.id])).join("")}
         <button class="button button-block" type="submit">構造を確認する</button>
@@ -853,25 +861,25 @@ function renderStageBuilderWeakness(stage) {
   const completed = project.status === "completed";
   setScreen(`
     <section class="screen narrow">
-      <p class="eyebrow">${escapeLiteral(stage.stageId)} · BUILDER RESULT</p>
-      <h1>${completed ? `${escapeHtml(stage.title)} Guided Builderが完成しました` : "構造にReview項目があります"}</h1>
-      <p class="notice ${completed ? "notice-success" : "notice-danger"}">${completed ? "PurposeからStateまでの5要素が適切に接続されています。" : `${weaknesses.length}件のWeaknessを保存しました。`}</p>
-      ${completed ? `<div class="loop-flow stage-flow">${stage.guidedBuilder.steps.map((step) => `<div class="loop-node">${escapeHtml(step.label.replace(/^Step \d+｜/, ""))}</div>`).join("")}</div><p class="muted">Stage CompleteはRetention Stableとは別の状態です。</p>` : `<ul class="review-list">${weaknesses.map((item) => `<li><span class="tag weak">${escapeHtml(item.code)}</span><p>${escapeHtml(item.message)}</p></li>`).join("")}</ul>`}
-      <div class="button-row"><a class="button" href="#/home">Homeへ戻る</a><a class="button button-secondary" href="#/stage/${stage.stageId}/builder">Builderを修正する</a></div>
+      <p class="eyebrow">${escapeLiteral(stage.stageId)} · 設計練習の結果（Builder Result）</p>
+      <h1>${completed ? `${escapeHtml(stage.title)} 設計練習（Guided Builder）が完成しました` : "つなぎ方に復習（Review）が必要な項目があります"}</h1>
+      <p class="notice ${completed ? "notice-success" : "notice-danger"}">${completed ? "このステージの設計要素が適切につながっています。" : `${weaknesses.length}件の弱点（Weakness）を保存しました。`}</p>
+      ${completed ? `<div class="loop-flow stage-flow">${stage.guidedBuilder.steps.map((step) => `<div class="loop-node">${escapeHtml(step.label.replace(/^Step \d+｜/, ""))}</div>`).join("")}</div><p class="muted">ステージ完了（Stage Complete）と知識の定着（Retention Stable）は、別々に記録されます。</p>` : `<ul class="review-list">${weaknesses.map((item) => `<li><span class="tag weak">${escapeHtml(item.code)}</span><p>${escapeHtml(item.message)}</p></li>`).join("")}</ul>`}
+      <div class="button-row"><a class="button" href="#/home">ホーム（Home）へ戻る</a><a class="button button-secondary" href="#/stage/${stage.stageId}/builder">設計練習（Builder）を修正する</a></div>
     </section>
   `);
 }
 
 function renderStageNotFound(stageId) {
-  setScreen(`<section class="screen narrow"><p class="eyebrow">STAGE NOT FOUND</p><h1>${escapeLiteral(stageId)}は未実装です</h1><p>現在利用できるStageから続けてください。</p><div class="button-row"><a class="button" href="#/home">Homeへ戻る</a></div></section>`);
+  setScreen(`<section class="screen narrow"><p class="eyebrow">STAGE NOT FOUND</p><h1>${escapeLiteral(stageId)}は未実装です</h1><p>現在利用できるStageから続けてください。</p><div class="button-row"><a class="button" href="#/home">ホーム（Home）へ戻る</a></div></section>`);
 }
 
 function renderStageFeatureNotFound(stage, feature) {
-  setScreen(`<section class="screen narrow"><p class="eyebrow">${escapeLiteral(stage.stageId)} · NOT IMPLEMENTED</p><h1>${escapeHtml(stage.title)} ${escapeHtml(feature)}は未実装です</h1><p>このStageで利用可能なLesson学習を続けてください。</p><div class="button-row"><a class="button" href="#/home">Homeへ戻る</a></div></section>`);
+  setScreen(`<section class="screen narrow"><p class="eyebrow">${escapeLiteral(stage.stageId)} · NOT IMPLEMENTED</p><h1>${escapeHtml(stage.title)} ${escapeHtml(feature)}は未実装です</h1><p>このStageで利用可能なLesson学習を続けてください。</p><div class="button-row"><a class="button" href="#/home">ホーム（Home）へ戻る</a></div></section>`);
 }
 
 function renderLessonNotFound(lessonId) {
-  setScreen(`<section class="screen narrow"><p class="eyebrow">LESSON NOT FOUND</p><h1>Lesson ${escapeLiteral(lessonId)}は未実装です</h1><p>現在利用できるLessonから学習を続けてください。</p><div class="button-row"><a class="button" href="#/home">Homeへ戻る</a></div></section>`);
+  setScreen(`<section class="screen narrow"><p class="eyebrow">LESSON NOT FOUND</p><h1>Lesson ${escapeLiteral(lessonId)}は未実装です</h1><p>現在利用できるLessonから学習を続けてください。</p><div class="button-row"><a class="button" href="#/home">ホーム（Home）へ戻る</a></div></section>`);
 }
 
 function renderError(message = "コンテンツを読み込めませんでした") {

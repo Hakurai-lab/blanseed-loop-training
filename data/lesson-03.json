@@ -14,6 +14,11 @@
   ],
   "confusionTags": ["observation_vs_evaluation", "judgement_as_observation", "missing_evaluation_rule"],
   "content": {
+    "simpleFlow": [
+      {"label":"起きたことを記録する","term":"Observation","caption":"今日は35分勉強した、という確認できる情報を集めます。"},
+      {"label":"比べる基準を確認する","term":"Evaluation Rule","caption":"目標の60分以上なら達成、と判断する条件を決めます。"},
+      {"label":"基準に沿って判断する","term":"Evaluation","caption":"35分は60分より短いため、目標未達と判断します。"}
+    ],
     "summary": "観測された情報と、その情報に対する判断を分離します。",
     "objectives": [
       "ObservationとEvaluationを区別できる",

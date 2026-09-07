@@ -7,6 +7,11 @@
   ],
   "confusionTags": ["observation_vs_state_update", "state_not_updated", "history_vs_state", "missing_re_evaluation"],
   "content": {
+    "simpleFlow": [
+      {"label":"新しい結果を集める","term":"New Observation","caption":"行動後の勉強時間を記録します。"},
+      {"label":"今の状態を更新する","term":"State Update","caption":"新しい記録を含めて7日平均を計算し直します。"},
+      {"label":"更新した状態で判断し直す","term":"Re-Evaluation","caption":"新しい平均時間を目標と比べ、次の行動を決めます。"}
+    ],
     "summary": "新しい観測（Observation）を現在の状態（State）へ反映し、更新後の状態からもう一度評価（Evaluation）します。",
     "objectives": ["新しいObservationからStateを更新できる", "古いStateを使い続ける問題を理解する", "State Update後に再Evaluationする流れを理解する", "履歴追加とState Updateを区別できる", "Loopが継続する構造を理解する"],
     "definition": "State Update（状態の更新）は、新しいObservation（観測）を決められた整理・集計ルールで現在のState（状態）へ反映し、Evaluation（評価）に使える最新状態を作る処理です。",
