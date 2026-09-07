@@ -4,6 +4,14 @@
 
 This project is **BLANSEED Loop Training v1**.
 
+## Canonical Repository
+
+- The sole update destination for this project is `https://github.com/Hakurai-lab/blanseed-loop-training`.
+- Do not update `blanseed-loop-training-web` or any other repository for this project unless the user explicitly changes this rule.
+- Before pushing or publishing, verify that the Git remote targets `Hakurai-lab/blanseed-loop-training`. If it differs, stop and report the mismatch; do not silently overwrite the remote.
+- The public application URL is `https://hakurai-lab.github.io/blanseed-loop-training/`.
+- This destination rule does not itself authorize a push or publication; follow the user's authorization for the current task.
+
 ## Core Principles
 
 - Do not change the design specification without explicit approval.
