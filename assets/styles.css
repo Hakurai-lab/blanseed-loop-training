@@ -327,7 +327,8 @@ hr { margin: 20px 0; border: 0; border-top: 1px solid var(--line); }
   .loop-flow { grid-template-columns: 1fr; }
   .loop-flow.stage-flow { grid-template-columns: 1fr; }
   .concept-grid { grid-template-columns: 1fr; }
-  .quiz-submit-bar { align-items: stretch; flex-direction: column; }
+  /* Keep submission above the fixed mobile navigation, including its gap. */
+  .quiz-submit-bar { bottom: 88px; align-items: stretch; flex-direction: column; }
   .button-row { display: grid; }
   .button { width: 100%; }
   .section-heading, .history-item, .dashboard-planned { align-items: stretch; flex-direction: column; }

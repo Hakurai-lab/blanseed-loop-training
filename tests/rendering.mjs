@@ -65,5 +65,16 @@ vm.runInContext(`
   assert.equal(localizeConcepts('現在の状態（State）'), '現在の状態（State）');
   assert.equal(localizeConcepts('Observation(状態を観測)'), '状態を観測（Observation）');
   assert.equal(escapeLiteral('State_option'), 'State_option');
+  const resumedLesson = data[0];
+  quizSession = {lessonId: resumedLesson.id, answers: {[resumedLesson.quiz.questions[0].id]: resumedLesson.quiz.questions[0].correctOptionId}, attemptId: 'resume-test'};
+  latestQuizResult = null;
+  renderQuiz(resumedLesson);
+  assert.ok(app.innerHTML.includes('1 / 5問 回答済み'));
+  assert.ok(app.innerHTML.includes('disabled checked'));
+  assert.ok(app.innerHTML.includes('正しい回答：'));
+  for (const question of resumedLesson.quiz.questions) quizSession.answers[question.id] = question.correctOptionId;
+  renderQuiz(resumedLesson);
+  assert.ok(app.innerHTML.includes('5 / 5問 回答済み'));
+  assert.ok(app.innerHTML.includes('type="submit" >結果を見る'));
 `, context);
 console.log('PASS: Home, 3 stage result statuses per stage, stage builder completion, 12 lesson/quiz/builder renderers, Japanese-first conversion');

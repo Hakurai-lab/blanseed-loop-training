@@ -598,11 +598,11 @@ function renderPrototypeQuiz(lesson) {
             <legend>問題（Question） ${index + 1} / ${lesson.questionCount}</legend>
             <h2>${escapeHtml(question.prompt)}</h2>
             <button class="hint-button" type="button" data-hint-button="${escapeLiteral(question.id)}" aria-expanded="false">ヒント（Hint）を見る</button><div class="quiz-hint" data-hint-for="${escapeLiteral(question.id)}" hidden><strong>＜${escapeHtml(hint.title)}＞</strong>${hint.items.map((item) => `<p class="${item.highlight ? "hint-missing" : ""}"><b>${escapeHtml(item.label)}：</b>${escapeHtml(item.text)}</p>`).join("")}</div>
-            <div class="options">${question.options.map((option) => `<label class="option"><input type="radio" name="answer-${escapeLiteral(question.id)}" value="${escapeLiteral(option.id)}"><span>${escapeHtml(option.label)}</span></label>`).join("")}</div>
-            <div class="immediate-feedback" data-feedback-for="${escapeLiteral(question.id)}" aria-live="polite" hidden></div>
+            <div class="options">${question.options.map((option) => `<label class="option ${quizSession.answers[question.id] === option.id ? (option.id === question.correctOptionId ? "selected-correct" : "selected-incorrect") : ""}"><input type="radio" name="answer-${escapeLiteral(question.id)}" value="${escapeLiteral(option.id)}" ${quizSession.answers[question.id] ? "disabled" : ""} ${quizSession.answers[question.id] === option.id ? "checked" : ""}><span>${escapeHtml(option.label)}</span></label>`).join("")}</div>
+            <div class="immediate-feedback" data-feedback-for="${escapeLiteral(question.id)}" aria-live="polite" ${quizSession.answers[question.id] ? "" : "hidden"}>${quizSession.answers[question.id] ? renderImmediateFeedback(question, quizSession.answers[question.id]) : ""}</div>
           </fieldset>
         `;}).join("")}</div>
-        <div class="quiz-submit-bar"><p id="quiz-progress">0 / ${lesson.questionCount}問 回答済み</p><button class="button" type="submit" disabled>結果を見る</button></div>
+        <div class="quiz-submit-bar"><p id="quiz-progress">${Object.keys(quizSession.answers).length} / ${lesson.questionCount}問 回答済み</p><button class="button" type="submit" ${Object.keys(quizSession.answers).length === lesson.questionCount ? "" : "disabled"}>結果を見る</button></div>
       </form>
     </section>
   `);
