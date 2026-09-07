@@ -1,5 +1,6 @@
 {
   "id": "05",
+  "experience": { "lessonLayout": "guided_reference", "quizLayout": "all_questions", "immediateFeedback": true, "lockAnswerOnSelection": true, "showCorrectAnswerAlways": true },
   "title": "評価ルール（Evaluation Rule）",
   "stageId": "CORE-STAGE-2",
   "tier": "CORE",
@@ -14,7 +15,7 @@
   ],
   "confusionTags": ["state_vs_evaluation", "evaluation_without_rule", "evaluation_not_reproducible", "unsupported_threshold"],
   "content": {
-    "summary": "StateをTargetや基準と比較し、同じ入力なら原則同じ判断になるEvaluation Ruleを設計します。",
+    "summary": "現在の状態（State）を目標の状態（Target）や基準と比較し、同じ入力なら原則として同じ判断になる評価ルール（Evaluation Rule）を設計します。",
     "objectives": [
       "StateとEvaluationを区別できる",
       "何を基準に判断するかを説明できる",
@@ -22,7 +23,8 @@
       "曖昧な主観だけのEvaluationを避けられる",
       "Thresholdの根拠と観測Factを分離できる"
     ],
-    "definition": "Evaluation Ruleは、StateをTarget・Threshold・基準と比較し、どの条件でどの判断にするかを定めるRuleです。",
+    "definition": "Evaluation Rule（評価ルール）は、State（現在の状態）をTarget（目標の状態）やThreshold（判定の境目となる値）と比較し、どの条件ならどの判断にするかをあらかじめ決めたルールです。",
+    "purpose": "担当者やそのときの感覚に左右されず、同じ状態を同じ基準で判断するために使います。",
     "examples": ["State：7日平均学習時間35分。Target：60分。Rule：35分 < 60分ならTarget未達。"],
     "commonMistakes": [
       "Stateそのものを『良い』『悪い』というEvaluationとして保存する。",

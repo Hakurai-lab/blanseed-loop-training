@@ -1,14 +1,16 @@
 {
   "id": "11", "title": "仮説（Hypothesis）と実験（Experiment）", "stageId": "CORE-STAGE-3", "tier": "CORE", "importance": "normal", "questionCount": 5, "passScore": 4,
+  "experience": { "lessonLayout": "guided_reference", "quizLayout": "all_questions", "immediateFeedback": true, "lockAnswerOnSelection": true, "showCorrectAnswerAlways": true },
   "conceptTags": [
     { "id": "hypothesis", "label": "Hypothesis" }, { "id": "experiment", "label": "Experiment" },
     { "id": "expected_result", "label": "Expected Result" }, { "id": "hypothesis_evaluation", "label": "支持・棄却・保留" }
   ],
   "confusionTags": ["hypothesis_without_test", "experiment_not_connected", "observation_not_relevant", "success_condition_missing"],
   "content": {
-    "summary": "HypothesisをTest Action・Observation・Expected Resultへ接続し、支持・棄却・保留を判断します。",
+    "summary": "仮説（Hypothesis）を、試す行動・観測する内容・期待する結果へつなぎ、支持・棄却・保留を判断します。",
     "objectives": ["Hypothesisを検証対象として扱える", "HypothesisからTest Actionを作れる", "Expected Resultを設定できる", "Success ConditionとObservationを接続できる", "未検証HypothesisをKnowledgeへ昇格させない"],
-    "definition": "ExperimentはHypothesisを検証するためのTest Actionです。事前にObservation、Expected Result、Success Conditionを定め、結果から支持・棄却・保留を判断します。",
+    "definition": "Experiment（実験）はHypothesis（仮説）を確かめるためのTest Action（試す行動）です。実験前にObservation（何を観測するか）、Expected Result（期待する結果）、Success Condition（成功と判断する条件）を決めます。",
+    "purpose": "思いついた仮説を感覚だけで正しいとせず、結果を観測できる小さな試し方に変えるために使います。",
     "examples": ["Hypothesis：開始が遅いことが学習時間不足の主因。Experiment：1週間、開始を30分早める。Observation：開始時刻と総学習時間。Expected Result：平均学習時間が増える。"],
     "commonMistakes": ["Hypothesisと無関係なActionをExperimentと呼ぶ。", "結果を見てからSuccess Conditionを変更する。", "1回支持されたHypothesisをHuman ReviewなしにReusable Knowledgeへ昇格する。"],
     "keyPoints": ["ExperimentはHypothesisの予測を変化として観測できるようにする", "Expected ResultとSuccess Conditionは実験前に定める", "結果は支持・棄却・保留であり絶対的証明とは限らない", "支持結果はLearning CandidateとしてHuman Reviewへ渡す"],

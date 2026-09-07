@@ -6,6 +6,12 @@
   "importance": "normal",
   "questionCount": 5,
   "passScore": 4,
+  "experience": {
+    "prototypeV2": true,
+    "quizLayout": "all_questions",
+    "feedbackTiming": "immediate_locked",
+    "showCorrectAnswerAlways": true
+  },
   "conceptTags": [
     { "id": "loop_structure", "label": "Loopの構造" },
     { "id": "observation", "label": "Observation" },
@@ -20,15 +26,41 @@
     "missing_re_observation"
   ],
   "content": {
-    "summary": "観測し、行動し、その結果をもう一度観測する。Loopを成立させる最小構造を学びます。",
+    "summary": "学習の状態を観測し、結果に応じて行動を変え、その効果をもう一度観測する。改善を続けるための最小構造を学びます。",
     "objectives": [
       "Loopを構成する3つの要素を説明できる",
       "Loopと一方向のWorkflowを区別できる",
       "Feedback Loopに欠けている接続を発見できる"
     ],
-    "definition": "Loopとは、状態を観測し、その結果をもとにActionを行い、Action後の状態を再観測して次の判断へ戻す構造です。",
+    "definition": "Loop（結果を次の判断へ戻す循環）とは、現在の状態を観測し、その結果をもとにAction（行動）を選び、行動後の状態をRe-Observation（再観測）して、次の判断へつなげる構造です。単に同じ作業を繰り返すことではありません。",
+    "purpose": "Loopは、行動して終わるのではなく、その行動が目的に近づく結果を生んだか確かめ、次の行動を調整するために使います。",
+    "simpleFlow": [
+      { "label": "見る", "term": "Observation", "caption": "今の状態を知る" },
+      { "label": "何かする", "term": "Action", "caption": "状態を変えるために行動する" },
+      { "label": "もう一度見る", "term": "Re-Observation", "caption": "行動後の結果を確かめる" },
+      { "label": "次にどうするか決める", "term": "Next Decision", "caption": "結果を次の判断へ戻す" }
+    ],
+    "mechanics": [
+      { "before": "状態を", "term": "観測（Observation）", "after": "し、判断に必要な現在の情報を得ます。" },
+      { "before": "観測結果を基準と比べ、必要な", "term": "Action", "after": "を選びます。" },
+      { "before": "Action後に同じ対象の", "term": "結果を再観測（Re-Observation）", "after": "し、変化を確かめます。" },
+      { "before": "新しい観測結果を", "term": "次の判断へ戻す", "after": "ことで、改善を続けられます。" }
+    ],
+    "connection": {
+      "observation": "状態を観測",
+      "action": "状態へ変化を働きかける",
+      "reObservation": "結果を再観測",
+      "decision": "勉強時間がまだ短ければ、別のActionを選ぶ",
+      "note": "どれかが欠けると、観測だけ、実行だけ、または一方向のWorkflowになります。"
+    },
     "examples": [
-      "在庫数を確認し、少なければ発注し、納品後の在庫数を再確認する。"
+      "毎日の勉強時間を確認し、目標より短ければ翌日の開始時刻を30分早め、翌日の勉強時間をもう一度確認する。"
+    ],
+    "exampleFlow": [
+      { "label": "Observation", "caption": "毎日の勉強時間を確認する" },
+      { "label": "Action", "caption": "目標より短ければ、翌日の開始時刻を30分早める" },
+      { "label": "Re-Observation", "caption": "翌日の勉強時間をもう一度確認する" },
+      { "label": "次の判断", "caption": "まだ短ければ、次の改善方法を選ぶ" }
     ],
     "commonMistakes": [
       "決められた処理を順番に実行して終了するだけのWorkflowをLoopと考える。",
@@ -39,6 +71,15 @@
       "Action後に同じ対象をRe-Observationする",
       "Re-Observationの結果を次の判断へ戻す"
     ],
+    "conceptCards": [
+      { "term": "Loop", "meaning": "結果を次の判断へ戻し、行動を調整できる構造。", "function": "一度の実行で終わらず、改善を継続できるようにする。", "connection": "Observation → Action → Re-Observation → 次の判断", "example": "勉強時間を測り、開始時刻を変え、変更後の勉強時間を測る。" },
+      { "term": "Observation", "meaning": "現在の状態を知るために、事実を観測・記録すること。", "function": "Actionを選ぶための判断材料を作る。", "connection": "Loopの入口。結果がActionの選択につながる。", "example": "今日の実際の勉強時間は35分だった。" },
+      { "term": "Action", "meaning": "観測結果を受けて、状態へ働きかけること。", "function": "目的に近づく変化を起こす。", "connection": "Observationの後、Re-Observationの前。", "example": "翌日の勉強開始を30分早める。" },
+      { "term": "Re-Observation", "meaning": "Action後の対象を、もう一度観測すること。", "function": "Actionが期待した変化を生んだか確かめる。", "connection": "Actionの結果を次の判断へ戻す。", "example": "開始時刻を変えた翌日の勉強時間を記録する。" },
+      { "term": "Feedback Loop", "meaning": "Re-Observationで得た結果が、次の判断とActionへ戻るLoop。", "function": "結果に応じて行動を修正できるようにする。", "connection": "Re-Observation → 次の判断 → 次のAction", "example": "勉強時間がまだ短ければ、次の改善策を選ぶ。" },
+      { "term": "Workflow", "meaning": "決められた処理を順番に進める流れ。", "function": "作業を一定の順序で完了させる。", "connection": "通常は開始 → 処理 → 完了。結果が次の判断へ戻るとは限らない。", "example": "教材を開き、動画を見て、完了ボタンを押す。" }
+    ],
+    "applicationTip": "同じ考え方は、情報比較・提案ツール、電話対応改善ツール、配送品質改善ツール、購入率向上ツールなどでも使えます。観測対象とActionは変わっても、Action後の結果を次の判断へ戻す構造は共通です。",
     "flow": [
       { "label": "Observation", "caption": "状態を観測" },
       { "label": "Action", "caption": "状態へ働きかける" },
@@ -52,7 +93,16 @@
       "conceptId": "loop_structure",
       "questionType": "single_choice",
       "assessmentFocus": "Recognition",
-      "prompt": "BLANSEED Loopにおける「Loop」の説明として、最も適切なものはどれですか？",
+      "prompt": "「Loop」の説明として適切なものはどれですか？",
+      "hint": {
+        "title": "Loopの最小構造",
+        "items": [
+          { "label": "Observation", "text": "現在の状態を見る" },
+          { "label": "Action", "text": "観測結果に応じて何かする" },
+          { "label": "Re-Observation", "text": "Action後の結果をもう一度見る" },
+          { "label": "確認ポイント", "text": "結果を次の判断へ戻せているか？", "highlight": true }
+        ]
+      },
       "options": [
         { "id": "a", "label": "決められた作業を、結果に関係なく繰り返すこと", "feedback": "繰り返しだけでは、観測結果が次のActionに反映されないためFeedback Loopとはいえません。" },
         { "id": "b", "label": "状態を観測し、その結果をもとに行動し、行動後の状態を再び観測すること", "feedback": "Observation・Action・Re-Observationがつながり、結果を次の判断に利用できる説明です。" },
@@ -67,12 +117,20 @@
       "conceptId": "feedback_loop",
       "questionType": "classification",
       "assessmentFocus": "Discrimination",
-      "prompt": "次のうち、一方向のWorkflowではなくFeedback Loopになっている例はどれですか？",
+      "prompt": "学習時間を増やす仕組みとして、Feedback Loopになっているものはどれですか？",
+      "hint": {
+        "title": "Feedback Loopの見分け方",
+        "items": [
+          { "label": "Observation", "text": "最初の状態を確認しているか" },
+          { "label": "Action", "text": "観測結果に応じて行動を変えているか" },
+          { "label": "Re-Observation", "text": "行動後の同じ対象をもう一度確認しているか", "highlight": true }
+        ]
+      },
       "options": [
-        { "id": "a", "label": "申請書を作成し、上司が承認し、保管して終了する", "feedback": "処理は順番に進みますが、結果を再観測して次の処理を変える接続がありません。" },
-        { "id": "b", "label": "在庫数を確認し、少なければ発注し、納品後の在庫数を再確認する", "feedback": "観測結果に応じてActionを行い、その結果を再観測しているためFeedback Loopです。" },
-        { "id": "c", "label": "朝にタスクリストを作り、上から順に実行して、すべて終えたら終了する", "feedback": "完了までのWorkflowであり、実行結果を観測して次のActionを調整していません。" },
-        { "id": "d", "label": "売上データを毎日ダッシュボードへ表示する", "feedback": "Observationはありますが、観測結果を受けたActionとその後のRe-Observationがありません。" }
+        { "id": "a", "label": "教材を開き、動画を見て、完了ボタンを押して終了する", "feedback": "決められた順序で終わるWorkflowです。学習結果を再観測して次のActionを変えていません。" },
+        { "id": "b", "label": "勉強時間を確認し、目標より短ければ開始を早め、翌日の勉強時間を再確認する", "feedback": "Observationの結果でActionを選び、その結果をRe-ObservationしているためFeedback Loopです。" },
+        { "id": "c", "label": "毎日、決めた問題集を同じ順番で解き、終わったら記録せず終了する", "feedback": "同じ作業を繰り返していますが、結果を観測して次のActionを調整していません。" },
+        { "id": "d", "label": "毎日の勉強時間をグラフに表示するだけにする", "feedback": "Observationはありますが、結果を受けたActionと、その後のRe-Observationがありません。" }
       ],
       "correctOptionId": "b",
       "explanation": "具体例をLoopとして分類するには、Observation・結果に応じたAction・Re-Observationの3つが接続されているかを確認します。"
@@ -82,12 +140,20 @@
       "conceptId": "re_observation",
       "questionType": "error_detection",
       "assessmentFocus": "Error Detection",
-      "prompt": "室温を測定し、28℃以上ならエアコンをつけて処理を終了する設計があります。この構造の最も重要な問題は何ですか？",
+      "prompt": "勉強時間を測り、30分未満なら開始時刻を早めて終了する設計があります。Loopとして不足しているものは何ですか？",
+      "hint": {
+        "title": "現在ある接続",
+        "items": [
+          { "label": "Observation", "text": "勉強時間を測った" },
+          { "label": "Action", "text": "30分未満なら開始時刻を早めた" },
+          { "label": "Re-Observation", "text": "Action後の結果確認はある？", "highlight": true }
+        ]
+      },
       "options": [
-        { "id": "a", "label": "室温という数値を観測していること", "feedback": "室温は状態判断に使える具体的なObservationであり、問題ではありません。" },
-        { "id": "b", "label": "28℃以上という条件でActionを選んでいること", "feedback": "観測結果をもとにActionを選ぶことはLoopに必要であり、問題ではありません。" },
-        { "id": "c", "label": "エアコンをつけた後、室温が下がったか再観測していないこと", "feedback": "Actionの結果を確認できず、次の判断へ戻れないためFeedback Loopが閉じていません。" },
-        { "id": "d", "label": "エアコンという機器をActionに使用していること", "feedback": "具体的な機器の使用自体は問題ではありません。欠けているのはAction後のRe-Observationです。" }
+        { "id": "a", "label": "勉強時間を数値で観測していること", "feedback": "勉強時間はActionを選ぶための具体的なObservationです。" },
+        { "id": "b", "label": "30分未満という条件でActionを選んでいること", "feedback": "観測結果を基準と比べてActionを選ぶことは、Loopに必要です。" },
+        { "id": "c", "label": "開始時刻を変えた後、勉強時間が増えたか再観測していないこと", "feedback": "Actionの結果を確認できず、次の判断へ戻れないためFeedback Loopが成立しません。" },
+        { "id": "d", "label": "開始時刻を変えるActionを選んだこと", "feedback": "Actionの選択自体ではなく、Action後のRe-Observationがないことが問題です。" }
       ],
       "correctOptionId": "c",
       "explanation": "Action後の状態をRe-Observationしなければ、Actionが有効だったか判断できず、一方向の処理で終わります。"
@@ -97,22 +163,38 @@
       "conceptId": "loop_structure",
       "questionType": "single_choice",
       "assessmentFocus": "Discrimination",
-      "prompt": "次の設計例のうち、Loopとして成立しているものはどれですか？",
+      "prompt": "学習ツールの設計として、Loopが成立しているものはどれですか？",
+      "hint": {
+        "title": "Loop成立チェック",
+        "items": [
+          { "label": "Observation", "text": "測定・記録がある" },
+          { "label": "Action", "text": "観測結果に応じた行動がある" },
+          { "label": "Re-Observation", "text": "行動後の結果が次の判断へ戻る", "highlight": true }
+        ]
+      },
       "options": [
-        { "id": "a", "label": "問い合わせを受信 → 担当者へ転送 → 対応完了として閉じる", "feedback": "処理完了までのWorkflowで、対応結果の観測が次のActionへ戻っていません。" },
-        { "id": "b", "label": "歩数を測定 → 目標未達なら散歩時間を増やす → 翌日の歩数を再測定する", "feedback": "Observation・結果に応じたAction・Re-Observationが接続されています。" },
-        { "id": "c", "label": "歩数目標を設定 → 毎日同じ散歩をする → 30日後に終了する", "feedback": "途中の結果を観測してActionを変える接続がなく、決められた反復です。" },
-        { "id": "d", "label": "歩数を測定 → グラフへ保存 → 毎日同じ方法で保存する", "feedback": "Observationと保存はありますが、結果に応じたActionがありません。" }
+        { "id": "a", "label": "教材を選ぶ → 動画を見る → 視聴済みにして終了する", "feedback": "処理完了までのWorkflowで、学習結果が次のActionへ戻っていません。" },
+        { "id": "b", "label": "勉強時間を測る → 目標未達なら開始を早める → 翌日の勉強時間を再測定する", "feedback": "Observation・結果に応じたAction・Re-Observationが接続されています。" },
+        { "id": "c", "label": "問題集を決める → 毎日同じページ数を解く → 30日後に終了する", "feedback": "途中の結果を観測してActionを変える接続がなく、決められた反復です。" },
+        { "id": "d", "label": "正答率を測る → グラフへ保存 → 毎日同じ方法で保存する", "feedback": "Observationと保存はありますが、結果に応じたActionがありません。" }
       ],
       "correctOptionId": "b",
       "explanation": "Loop成立の判断では、観測、観測結果に応じた行動、行動後の再観測が一続きになっている必要があります。"
     },
-    {
-      "id": "q05",
+      {
+        "id": "q05",
       "conceptId": "feedback_loop",
       "questionType": "scenario_judgement",
       "assessmentFocus": "Scenario Judgement",
-      "prompt": "毎日の勉強時間を記録したところ目標より短かったため、翌日の開始時刻を30分早めました。Feedback Loopにするため、次に行うべきことはどれですか？",
+        "prompt": "毎日の勉強時間を記録したところ目標より短かったため、翌日の開始時刻を30分早めました。Feedback Loopにするため、次に行うべきことはどれですか？",
+        "hint": {
+          "title": "Feedback Loop",
+          "items": [
+            { "label": "Observation", "text": "毎日の勉強時間を記録" },
+            { "label": "Action", "text": "翌日の開始時刻を30分早めた" },
+            { "label": "Re-Observation", "text": "次に必要な確認は？", "highlight": true }
+          ]
+        },
       "options": [
         { "id": "a", "label": "開始時刻を早めたという事実だけを記録して終了する", "feedback": "Actionの記録だけでは、勉強時間が実際に増えたか確認できません。" },
         { "id": "b", "label": "翌日の実際の勉強時間を再び記録し、目標との差を確認する", "feedback": "Action後の同じ状態を再観測でき、結果を次の判断へ利用できます。" },
@@ -126,15 +208,20 @@
   },
   "miniBuilder": {
     "theme": "勉強時間を増やす",
-    "title": "Loopを成立させる",
+    "title": "Feedback Loop:勉強時間を増やす",
     "builderType": "guided",
     "mode": "constrained",
-    "intro": "候補を選び、Observation・Action・Re-Observationをつないでください。",
+    "intro": "候補を選び、Observation(状態を観測)・Action(状態へ働きかける)・Re-Observation(結果を再観測)をつないでください。",
+    "resultFlow": [
+      { "lead": "見る", "term": "Observation", "caption": "状態を観測" },
+      { "lead": "何かする", "term": "Action", "caption": "状態へ働きかける" },
+      { "lead": "もう一度見る", "term": "Re-Observation", "caption": "結果を再確認" }
+    ],
     "steps": [
       {
         "id": "observation",
         "type": "single_choice",
-        "label": "① Observation",
+        "label": "① Observation(状態を観測)",
         "prompt": "Loopの最初に、何を観測しますか？",
         "correctOptionId": "daily_study_minutes",
         "options": [
@@ -146,7 +233,7 @@
       {
         "id": "action",
         "type": "single_choice",
-        "label": "② Action",
+        "label": "② Action(状態へ働きかける)",
         "prompt": "勉強時間が目標より短かった場合、何をしますか？",
         "correctOptionId": "start_earlier",
         "options": [
@@ -158,7 +245,7 @@
       {
         "id": "reObservation",
         "type": "single_choice",
-        "label": "③ Re-Observation",
+        "label": "③ Re-Observation(結果を再観測)",
         "prompt": "Action後に、何をもう一度観測しますか？",
         "correctOptionId": "next_day_study_minutes",
         "options": [

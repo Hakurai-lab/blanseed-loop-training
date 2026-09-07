@@ -1,0 +1,224 @@
+{
+  "stageId": "CORE-STAGE-3",
+  "title": "事実・仮説・学習",
+  "tier": "CORE",
+  "lessonIds": ["09", "10", "11", "12"],
+  "exam": {
+    "title": "CORE Stage 3 Exam｜事実・仮説・学習",
+    "questionCount": 10,
+    "passScore": 8,
+    "criticalConcepts": [
+      { "id": "fact_vs_hypothesis", "label": "Fact vs Hypothesis" },
+      { "id": "ai_output_as_fact", "label": "AI Output vs Verified Fact" },
+      { "id": "correlation_vs_causation", "label": "Correlation vs Causation" }
+    ],
+    "questions": [
+      {
+        "id": "q01", "conceptId": "fact_interpretation_boundary", "questionType": "single_choice", "assessmentFocus": "Recognition",
+        "prompt": "確認可能なFactとInterpretationの関係として最も適切なものはどれですか？",
+        "options": [
+          { "id": "a", "label": "Factは確認可能な記録で、Interpretationはその記録への意味づけ", "feedback": "記録と意味づけを分離しています。" },
+          { "id": "b", "label": "Factは原因の推測で、Interpretationは測定値", "feedback": "原因の推測はHypothesisであり、測定値がFact候補です。" },
+          { "id": "c", "label": "専門家のInterpretationは自動的にFactになる", "feedback": "発言者ではなくEvidenceでFactかを判断します。" },
+          { "id": "d", "label": "FactとInterpretationは同じ欄へ保存すれば区別不要", "feedback": "混在すると後続判断が推測をFactとして利用します。" }
+        ],
+        "correctOptionId": "a", "explanation": "Factと意味づけを分離すると、後からEvidenceと判断過程を確認できます。"
+      },
+      {
+        "id": "q02", "conceptId": "hypothesis_experiment", "questionType": "single_choice", "assessmentFocus": "Recognition",
+        "prompt": "Hypothesisに対するExperimentの役割はどれですか？",
+        "options": [
+          { "id": "a", "label": "Hypothesisを正しいKnowledgeとして登録する", "feedback": "検証前にはKnowledgeへ確定できません。" },
+          { "id": "b", "label": "条件を変え、予測に対応するObservationを得て支持・棄却・保留を判断する", "feedback": "Hypothesisを確認可能なTestへ変換しています。" },
+          { "id": "c", "label": "Factを読みやすい表現へ言い換える", "feedback": "言い換えは検証ではありません。" },
+          { "id": "d", "label": "期待する結果だけをObservationとして残す", "feedback": "選択的な記録では検証になりません。" }
+        ],
+        "correctOptionId": "b", "explanation": "ExperimentはHypothesisの予測を確認可能なObservationへ接続します。"
+      },
+      {
+        "id": "q03", "conceptId": "fact_interpretation_boundary", "questionType": "classification", "assessmentFocus": "Discrimination",
+        "prompt": "サーバー監視記録についてInterpretationに当たるものはどれですか？",
+        "options": [
+          { "id": "a", "label": "12時から13時にHTTP 500を84件記録", "feedback": "ログから確認できるFactです。" },
+          { "id": "b", "label": "同時間帯のリクエストは12,400件", "feedback": "集計から確認できるFactです。" },
+          { "id": "c", "label": "障害は顧客の信頼を大きく損ねた", "feedback": "影響への意味づけであり、別のEvidenceが必要です。" },
+          { "id": "d", "label": "監視対象は本番API", "feedback": "設定から確認できるFactです。" }
+        ],
+        "correctOptionId": "c", "explanation": "『大きく損ねた』は測定記録ではなく影響へのInterpretationです。"
+      },
+      {
+        "id": "q04", "conceptId": "fact_vs_hypothesis", "criticalConceptId": "fact_vs_hypothesis", "questionType": "classification", "assessmentFocus": "Discrimination",
+        "prompt": "問い合わせ件数が増えた原因について、Factと分離されたHypothesisはどれですか？",
+        "options": [
+          { "id": "a", "label": "今週の問い合わせは先週より42件多い", "feedback": "件数記録から確認できるFactです。" },
+          { "id": "b", "label": "新しい請求画面の説明不足が問い合わせ増加に寄与した可能性があり、画面利用者別に比較する", "feedback": "原因候補と確認方法を持つHypothesisです。" },
+          { "id": "c", "label": "新しい請求画面が原因であることは確定した", "feedback": "比較Evidenceなしに原因をFact化しています。" },
+          { "id": "d", "label": "問い合わせ増加は良くない", "feedback": "評価であり、原因についての検証可能なHypothesisではありません。" }
+        ],
+        "correctOptionId": "b", "explanation": "原因候補はFactと分け、支持・棄却に使えるTestへ接続します。"
+      },
+      {
+        "id": "q05", "conceptId": "testable_hypothesis", "questionType": "single_choice", "assessmentFocus": "Discrimination",
+        "prompt": "Fact『倉庫Aでは誤出荷率が他倉庫より高い』から作る検証可能なHypothesisはどれですか？",
+        "options": [
+          { "id": "a", "label": "倉庫Aの担当者は注意力がない", "feedback": "定義も確認方法もなく個人属性へ飛躍しています。" },
+          { "id": "b", "label": "倉庫Aだけ異なる棚ラベルが誤選択に寄与している。共通ラベルへ変えた期間と比較する", "feedback": "要因、変更、比較Observationが明確です。" },
+          { "id": "c", "label": "誤出荷は必ず起こるので原因は調べられない", "feedback": "支持・棄却可能な予測がありません。" },
+          { "id": "d", "label": "倉庫Aの誤出荷率が高いことが原因である", "feedback": "結果を原因として繰り返しています。" }
+        ],
+        "correctOptionId": "b", "explanation": "検証可能なHypothesisは要因を変えた比較とObservationを設計できます。"
+      },
+      {
+        "id": "q06", "conceptId": "experiment_observation", "questionType": "single_choice", "assessmentFocus": "Discrimination",
+        "prompt": "Hypothesis『通知頻度を下げるとアプリ削除率が下がる』を検証するObservationはどれですか？",
+        "options": [
+          { "id": "a", "label": "通知頻度を変えた担当者名", "feedback": "Hypothesisの予測を判断できません。" },
+          { "id": "b", "label": "通知頻度を変えた群と維持した群の削除率を、同じ期間・定義で観測", "feedback": "変更要因と予測結果を比較できます。" },
+          { "id": "c", "label": "通知文を作った時間", "feedback": "削除率への予測と接続していません。" },
+          { "id": "d", "label": "Experimentは成功したという担当者の感想", "feedback": "観測値ではなく結果への評価です。" }
+        ],
+        "correctOptionId": "b", "explanation": "Experimentでは操作した条件と予測対象を比較可能な方法で観測します。"
+      },
+      {
+        "id": "q07", "conceptId": "knowledge_handling", "questionType": "error_detection", "assessmentFocus": "Error Detection",
+        "prompt": "1回の小規模Experimentで仮説を支持する結果が出たため、全サービス共通のReusable Knowledgeとして自動登録しました。問題は何ですか？",
+        "options": [
+          { "id": "a", "label": "Experimentを実施したこと", "feedback": "検証自体は必要です。" },
+          { "id": "b", "label": "結果をLearning Candidateとして保持せず、Human Reviewや適用範囲確認なしに昇格したこと", "feedback": "Evidenceの限界を確認する段階が抜けています。" },
+          { "id": "c", "label": "結果を保存したこと", "feedback": "結果の保存ではなくKnowledgeへの過剰昇格が問題です。" },
+          { "id": "d", "label": "小規模なTestを選んだことだけ", "feedback": "小規模Testは有効ですが一般化の限界を扱う必要があります。" }
+        ],
+        "correctOptionId": "b", "explanation": "支持結果はまずLearning Candidateとし、Human Reviewと必要Evidenceの確認を経て扱います。"
+      },
+      {
+        "id": "q08", "conceptId": "ai_output_responsibility", "criticalConceptId": "ai_output_as_fact", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement",
+        "prompt": "AIが『返品増加は梱包材の変更が原因でしょう』と説明しました。確認済みFactは返品率上昇と同時期の梱包材変更だけです。どう扱いますか？",
+        "options": [
+          { "id": "a", "label": "AIが説明したため原因Factとして保存する", "feedback": "AI OutputはEvidenceではなく原因候補です。" },
+          { "id": "b", "label": "検証可能なHypothesisとして保存し、破損種類や比較条件を観測する", "feedback": "AIをHypothesis生成に利用しつつFactと分離しています。" },
+          { "id": "c", "label": "AI Outputはすべて削除して利用しない", "feedback": "候補生成には有効であり、検証責務を分ければ利用できます。" },
+          { "id": "d", "label": "返品率上昇というFactも削除する", "feedback": "確認済みFactまで失う必要はありません。" }
+        ],
+        "correctOptionId": "b", "explanation": "AIの説明はFactではなく、Evidenceで検証するHypothesisとして扱います。"
+      },
+      {
+        "id": "q09", "conceptId": "correlation_causation", "criticalConceptId": "correlation_vs_causation", "questionType": "error_detection", "assessmentFocus": "Error Detection",
+        "prompt": "AIが『新しい検索機能の公開後に継続率が上がったので、検索機能が原因です』と報告しました。問題は何ですか？",
+        "options": [
+          { "id": "a", "label": "継続率を観測したこと", "feedback": "継続率は有効なObservationです。" },
+          { "id": "b", "label": "時間順序と相関だけでCausationを断定し、同時期の施策や比較群を確認していないこと", "feedback": "他要因を分離するEvidenceが不足しています。" },
+          { "id": "c", "label": "AIを分析に利用したこと自体", "feedback": "AI利用ではなくEvidenceを超えた断定が問題です。" },
+          { "id": "d", "label": "検索機能を公開したこと", "feedback": "機能公開ではなく因果推論の方法が問題です。" }
+        ],
+        "correctOptionId": "b", "explanation": "公開後の変化はCorrelationを示しても、比較Evidenceなしに原因とは確定できません。"
+      },
+      {
+        "id": "q10", "conceptId": "confounder", "questionType": "scenario_judgement", "assessmentFocus": "Scenario Judgement",
+        "prompt": "研修参加者は不参加者より昇進率が高いという相関が見つかりました。次の判断として最も適切なものはどれですか？",
+        "options": [
+          { "id": "a", "label": "研修が昇進の原因だと確定する", "feedback": "参加者の選抜条件などを分離していません。" },
+          { "id": "b", "label": "元の評価や経験年数などのConfounderを確認し、条件を揃えた比較Evidenceを集める", "feedback": "第三要因を考慮してCausationを検討します。" },
+          { "id": "c", "label": "相関があるため全社員へ同じ研修を義務化する", "feedback": "因果未確認のまま大きなActionへ進んでいます。" },
+          { "id": "d", "label": "相関は無意味なので記録を削除する", "feedback": "相関はHypothesis生成に利用できます。" }
+        ],
+        "correctOptionId": "b", "explanation": "CorrelationからCausationを検討するときはConfounderと比較条件を確認します。"
+      }
+    ]
+  },
+  "guidedBuilder": {
+    "builderId": "core-stage-3-guided-builder",
+    "title": "Stage 3 Guided Builder｜事実・仮説・学習",
+    "theme": "Webサービスの離脱率が上昇した",
+    "builderType": "guided",
+    "mode": "constrained",
+    "intro": "Known Facts：先月の離脱率20%、今月32%。今月はUI変更と広告流入チャネル変更があった。同じケースをFactからLearning Candidateの扱いまで接続してください。UI変更が原因とはまだ確定していません。",
+    "steps": [
+      {
+        "id": "fact", "competencyId": "fact_hypothesis", "type": "single_choice", "label": "Step 1｜Fact",
+        "prompt": "現在確認済みのFactとして保持する内容はどれですか？",
+        "options": [
+          { "id": "fact_verified", "label": "離脱率は20%から32%へ変化し、同じ月にUIと広告流入チャネルが変更された" },
+          { "id": "fact_ui_cause", "label": "UI変更が離脱率上昇の原因である" },
+          { "id": "fact_ai", "label": "AIがUI原因と説明すれば、その説明も確認済みFactである" }
+        ]
+      },
+      {
+        "id": "interpretation", "competencyId": "fact_hypothesis", "type": "single_choice", "label": "Step 2｜Interpretation",
+        "prompt": "このFactへの意味づけとして、Factと分離して保持するものはどれですか？",
+        "options": [
+          { "id": "interpretation_separate", "label": "離脱状況は悪化しており原因調査が必要。ただし原因は未確定" },
+          { "id": "interpretation_as_fact", "label": "UI変更によって離脱状況が悪化したことはFact" },
+          { "id": "interpretation_ignore_ads", "label": "広告流入チャネルは原因候補から除外できる" }
+        ]
+      },
+      {
+        "id": "hypothesis", "competencyId": "fact_hypothesis", "type": "single_choice", "label": "Step 3｜Hypothesis",
+        "prompt": "Known FactsとInterpretationから、検証へ接続できるHypothesisはどれですか？",
+        "options": [
+          { "id": "hypothesis_testable", "label": "新UIの入力Step増加が離脱率上昇に寄与した。流入チャネルを揃えて旧UIと比較する" },
+          { "id": "hypothesis_confirmed", "label": "UI変更が原因であることは確定した" },
+          { "id": "hypothesis_untestable", "label": "ユーザーの気分が原因だが確認方法はない" }
+        ]
+      },
+      {
+        "id": "experiment", "competencyId": "action", "type": "single_choice", "label": "Step 4｜Experiment",
+        "prompt": "選んだHypothesisを検証するTestはどれですか？",
+        "options": [
+          { "id": "experiment_connected", "label": "同じ流入条件で旧UI群と新UI群を分け、一定期間比較する" },
+          { "id": "experiment_unrelated", "label": "サイトのロゴ色だけを変更する" },
+          { "id": "experiment_none", "label": "原因は確定したとして全ユーザーを新UIへ移行する" }
+        ]
+      },
+      {
+        "id": "observation", "competencyId": "observation", "type": "single_choice", "label": "Step 5｜Observation",
+        "prompt": "Experimentから取得するObservationはどれですか？",
+        "options": [
+          { "id": "observation_relevant", "label": "各群のStep別離脱率、完了率、流入チャネルを同じ定義で記録する" },
+          { "id": "observation_action", "label": "A/B Testを開始した事実だけ記録する" },
+          { "id": "observation_irrelevant", "label": "担当者が好むUIを記録する" }
+        ]
+      },
+      {
+        "id": "evaluation", "competencyId": "evaluation", "type": "single_choice", "label": "Step 6｜Evaluation",
+        "prompt": "新UI群だけ入力Stepで離脱が増え、流入条件を揃えても差が残りました。どう評価しますか？",
+        "options": [
+          { "id": "evaluation_supported", "label": "Hypothesisを支持するEvidenceが得られたが、適用範囲と再現性は未確認" },
+          { "id": "evaluation_certain", "label": "UIがすべての離脱の唯一の原因だと確定" },
+          { "id": "evaluation_ignore", "label": "1回の結果なのでEvidenceとして保存しない" }
+        ]
+      },
+      {
+        "id": "knowledgeHandling", "competencyId": "fact_hypothesis", "type": "single_choice", "label": "Step 7｜Knowledge Handling",
+        "prompt": "このEvaluation Resultを次にどう扱いますか？",
+        "options": [
+          { "id": "knowledge_review", "label": "Learning CandidateとしてEvidenceと適用範囲を添え、Human Review後にReusable Knowledgeへの昇格を判断する" },
+          { "id": "knowledge_direct", "label": "1回支持されたため、UI変更は離脱原因というReusable Knowledgeへ自動昇格する" },
+          { "id": "knowledge_fact", "label": "Hypothesis文をVerified Factへ書き換えて保存する" }
+        ]
+      }
+    ],
+    "acceptableConnections": [{
+      "id": "stage-3-churn-learning",
+      "selections": {
+        "fact": "fact_verified",
+        "interpretation": "interpretation_separate",
+        "hypothesis": "hypothesis_testable",
+        "experiment": "experiment_connected",
+        "observation": "observation_relevant",
+        "evaluation": "evaluation_supported",
+        "knowledgeHandling": "knowledge_review"
+      }
+    }],
+    "weaknessRules": [
+      { "stepId": "fact", "triggerOptionIds": ["fact_ui_cause", "fact_ai"], "code": "fact_vs_hypothesis", "message": "原因候補またはAI Outputを確認済みFactとして扱っています。" },
+      { "stepId": "interpretation", "triggerOptionIds": ["interpretation_as_fact"], "code": "interpretation_as_fact", "message": "意味づけと原因推測をFactへ混在させています。" },
+      { "stepId": "interpretation", "triggerOptionIds": ["interpretation_ignore_ads"], "code": "confounder_ignored", "message": "同時に変化した広告流入チャネルを原因候補から除外しています。" },
+      { "stepId": "hypothesis", "triggerOptionIds": ["hypothesis_confirmed"], "code": "hypothesis_as_fact", "message": "検証前のHypothesisを確定しています。" },
+      { "stepId": "hypothesis", "triggerOptionIds": ["hypothesis_untestable"], "code": "untestable_hypothesis", "message": "支持・棄却に使えるTestやObservationへ接続できません。" },
+      { "stepId": "experiment", "triggerOptionIds": ["experiment_unrelated", "experiment_none"], "code": "experiment_not_connected", "message": "ExperimentがHypothesisの要因へ接続していません。" },
+      { "stepId": "observation", "triggerOptionIds": ["observation_action", "observation_irrelevant"], "code": "observation_not_relevant", "message": "Hypothesisの予測を評価できるObservationではありません。" },
+      { "stepId": "evaluation", "triggerOptionIds": ["evaluation_certain"], "code": "causation_without_evidence", "message": "限定的Evidenceから唯一のCausationを断定しています。" },
+      { "stepId": "knowledgeHandling", "triggerOptionIds": ["knowledge_direct", "knowledge_fact"], "code": "knowledge_without_review", "message": "Learning CandidateをHuman ReviewなしにFactまたはReusable Knowledgeへ昇格しています。" }
+    ]
+  }
+}

@@ -1,14 +1,16 @@
 {
   "id": "07", "title": "Result / Feedback", "stageId": "CORE-STAGE-2", "tier": "CORE", "importance": "normal", "questionCount": 5, "passScore": 4,
+  "experience": { "lessonLayout": "guided_reference", "quizLayout": "all_questions", "immediateFeedback": true, "lockAnswerOnSelection": true, "showCorrectAnswerAlways": true },
   "conceptTags": [
     { "id": "result", "label": "Result" }, { "id": "result_vs_evaluation", "label": "ResultとEvaluation" },
     { "id": "re_observation", "label": "Re-Observation" }, { "id": "feedback_loop", "label": "Feedback Loop" }
   ],
   "confusionTags": ["result_vs_evaluation", "missing_re_observation", "feedback_loop_missing", "result_not_observable"],
   "content": {
-    "summary": "Action後のResultを再観測し、判断可能な情報としてLoopへ戻すFeedbackを学びます。",
+    "summary": "行動（Action）後の結果（Result）をもう一度観測し、次の判断へ戻すFeedback（結果を次へ返す接続）を学びます。",
     "objectives": ["Action後のResultを観察可能な情報として扱える", "Resultと成功・失敗のEvaluationを区別できる", "ResultをRe-Observationへ接続できる", "FeedbackがLoop成立に必要な理由を理解する", "一方向Workflowとの違いを確認できる"],
-    "definition": "ResultはAction後に生じた変化や出来事です。FeedbackはResultをRe-Observationし、次のStateと判断へ戻す接続です。",
+    "definition": "Result（結果）はAction（行動）後に生じた変化や出来事です。Feedback（結果を次へ返す接続）は、その結果をRe-Observation（再観測）し、次のState（現在の状態）と判断へ戻すことです。",
+    "purpose": "行動して終わりにせず、その行動がどのような変化を生んだかを確かめ、次の行動を調整するために使います。",
     "examples": ["Intervention：開始を30分早める。Result：翌週の平均学習時間52分。Evaluation：35分から改善したがTarget 60分未達。"],
     "commonMistakes": ["『改善した』というEvaluationをResultそのものとして保存する。", "Action実行を記録して終了し、結果を再観測しない。", "元のPurposeと無関係な結果だけを観測する。"],
     "keyPoints": ["Resultは観測可能なAction後の情報である", "成功・失敗はResultへのEvaluationである", "Re-ObservationがResultを次のStateへ戻す", "Actionで終了すると一方向Workflowになる"],

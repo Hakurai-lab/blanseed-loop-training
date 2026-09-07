@@ -19,7 +19,8 @@
       "id": "CORE-STAGE-3",
       "title": "事実・仮説・学習",
       "tier": "CORE",
-      "lessonIds": ["09", "10", "11", "12"]
+      "lessonIds": ["09", "10", "11", "12"],
+      "path": "./data/stage-03.json"
     }
   ],
   "lessons": [

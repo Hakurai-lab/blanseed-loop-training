@@ -62,6 +62,19 @@ Keep this slice functional, local, and end-to-end. Do not broaden implementation
 - Run the most relevant available checks before handoff and report anything that could not be verified.
 - Never commit secrets, credentials, local environment files, or machine-specific artifacts.
 
+## Confirmed Decisions
+
+- The current approved specification is the product baseline, not a temporary prototype. The language and learning-content rules below are mandatory for existing and future lessons, quizzes, and builders. Change them only on the user's explicit request.
+- Always present learner-facing English terminology as `日本語（English）`, including headings, instructions, choices, hints, explanations, and results. Keep internal identifiers and saved values unchanged.
+- Break learning points into plain Japanese actions and short explanations: what it is for, what to do, and what to check next. Use the approved step-by-step flow where applicable; adding a translation alone is not sufficient.
+- Before reporting a content change complete, verify these rules in the affected rendered learning, quiz, and builder screens. Preserve approved explanations during refactoring and expansion.
+- The current cosmic terrarium visual design is approved and locked. Do not change the header, footer, Home hero, cards, buttons, icons, imagery, palette, spacing, or visual direction unless the user explicitly requests a design change.
+- Preserve every explicitly approved learning-flow and content decision. Do not silently remove or replace approved explanations during later refactors or lesson expansion.
+- Show learner-facing Concepts in Japanese-first form everywhere: `日本語（English）`, such as `現在の状態（State）` and `目標の状態（Target）`. Apply this to lessons, quizzes, results, builders, weakness feedback, and review screens.
+- The “何のために使うか” explanation must be understandable in simple Japanese without requiring the learner to already know the English terminology.
+- Present each lesson's core flow as a plain Japanese action, its English Concept in parentheses, and one short explanation of what happens at that step.
+- Prefer natural, direct Japanese. Avoid sentences that force the learner to translate several English terms before understanding the point.
+
 ## Current Status
 
-The repository is an empty project scaffold. Do not begin application implementation until the user explicitly requests it.
+The data-driven Training Engine, Lessons 01–12, Stage 01–03 data, dashboard, Concept reference, learning records, and the approved cosmic terrarium visual system are implemented. Preserve the working Vertical Slice and confirmed decisions while extending the project.

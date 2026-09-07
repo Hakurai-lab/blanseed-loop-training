@@ -1,14 +1,16 @@
 {
   "id": "09", "title": "事実（Fact）と解釈（Interpretation）", "stageId": "CORE-STAGE-3", "tier": "CORE", "importance": "important", "questionCount": 5, "passScore": 5,
+  "experience": { "lessonLayout": "guided_reference", "quizLayout": "all_questions", "immediateFeedback": true, "lockAnswerOnSelection": true, "showCorrectAnswerAlways": true },
   "conceptTags": [
     { "id": "fact", "label": "Fact" }, { "id": "interpretation", "label": "Interpretation" },
     { "id": "fact_interpretation_boundary", "label": "FactとInterpretationの境界" }, { "id": "ai_output_responsibility", "label": "AI Outputの責務" }
   ],
   "confusionTags": ["fact_vs_interpretation", "interpretation_as_fact", "unsupported_interpretation", "ai_output_as_fact"],
   "content": {
-    "summary": "Observationから確認できるFactと、Factへ意味づけを加えたInterpretationを分離します。",
+    "summary": "観測（Observation）から確認できる事実（Fact）と、事実へ意味づけを加えた解釈（Interpretation）を分けます。",
     "objectives": ["FactとInterpretationを区別できる", "Observationで確認できる内容だけをFactとして扱える", "InterpretationをFactとして保存する危険性を理解する", "根拠のない意味づけを識別できる", "AIの説明を検証済みFactとして扱わない"],
-    "definition": "Factは確認可能なObservationや記録に支えられた内容です。InterpretationはFactに意味・評価・説明を加えたものです。",
+    "definition": "Fact（事実）は、確認できるObservation（観測）や記録に支えられた内容です。Interpretation（解釈）は、その事実に意味・評価・説明を加えたものです。",
+    "purpose": "実際に確認できたことと、自分がそう考えたことを混ぜず、次の判断の根拠を明確にするために使います。",
     "examples": ["Fact：問い合わせ件数が先週100件、今週130件。Interpretation：問い合わせが急増している。", "AIの『ユーザーがUIに不満』という説明は、裏づけがなければFactではありません。"],
     "commonMistakes": ["『増えた』という比較Factと『急増した』という評価を同一視する。", "InterpretationをFact欄へ保存し、後続判断の前提にする。", "AIが自然に説明した内容を検証せずFactへ昇格する。"],
     "keyPoints": ["誰が見ても同じ記録を確認できる範囲をFactとする", "意味づけや評価語はInterpretationとして分離する", "AIは整理や解釈案に有効だがAI OutputはVerified Factではない", "Fact→Interpretation→Hypothesis→Learning Candidate→Human Review→Reusable Knowledgeの順に確認する"],

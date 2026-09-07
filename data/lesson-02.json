@@ -1,5 +1,6 @@
 {
   "id": "02",
+  "experience": { "lessonLayout": "guided_reference", "quizLayout": "all_questions", "immediateFeedback": true, "lockAnswerOnSelection": true, "showCorrectAnswerAlways": true },
   "title": "現在状態と目標状態",
   "stageId": "CORE-STAGE-1",
   "tier": "CORE",
@@ -21,7 +22,8 @@
       "比較可能で観測可能なTarget Stateを選べる",
       "根拠のない数値をFactとして扱わない"
     ],
-    "definition": "Current Stateは現在観測できる状態、Target Stateは到達したい比較可能な状態です。両者の差が、次のActionを考える基礎になります。",
+    "definition": "Current State（現在の状態）は今観測できる状態、Target State（目標の状態）は到達したい状態です。同じ尺度で両者を比べた差が、次のAction（行動）を考える基礎になります。",
+    "purpose": "今と目標を分けて明確にすることで、何をどれだけ変える必要があるかを判断するために使います。",
     "examples": [
       "Current：直近7日間の平均学習時間は25分。Target：4週間後に直近7日平均を45分にする。",
       "Current：月間の問い合わせ初回応答中央値は6時間。Target：次月は3時間以内にする。"

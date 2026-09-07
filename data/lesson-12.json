@@ -1,14 +1,16 @@
 {
   "id": "12", "title": "相関（Correlation）と因果（Causation）", "stageId": "CORE-STAGE-3", "tier": "CORE", "importance": "important", "questionCount": 5, "passScore": 5,
+  "experience": { "lessonLayout": "guided_reference", "quizLayout": "all_questions", "immediateFeedback": true, "lockAnswerOnSelection": true, "showCorrectAnswerAlways": true },
   "conceptTags": [
     { "id": "correlation", "label": "Correlation" }, { "id": "causation", "label": "Causation" },
     { "id": "confounder", "label": "Confounder" }, { "id": "causal_evidence", "label": "因果Evidence" }
   ],
   "confusionTags": ["correlation_vs_causation", "causation_without_evidence", "confounder_ignored", "temporal_order_as_causation"],
   "content": {
-    "summary": "2つの値が一緒に変化するCorrelationと、一方が他方を変えるCausationを区別します。",
+    "summary": "2つの値が一緒に変化する相関（Correlation）と、一方がもう一方を変化させる因果関係（Causation）を区別します。",
     "objectives": ["CorrelationとCausationを区別できる", "共通要因Confounderの可能性を考えられる", "時間順序だけで因果を確定しない", "因果主張に必要な追加Evidenceを判断できる", "AIの因果説明を未検証Hypothesisとして扱える"],
-    "definition": "Correlationは複数の値が関連して変化する関係です。Causationは一方の変化が他方の変化を生む関係で、相関だけでは確定できません。",
+    "definition": "Correlation（相関）は複数の値が関連して変化する関係です。Causation（因果関係）は一方の変化がもう一方の変化を生む関係です。一緒に変化しただけでは、原因と結果は確定できません。",
+    "purpose": "2つの変化が同時に起きたという理由だけで原因を決めつけず、他の原因や比較方法を検討するために使います。",
     "examples": ["夏にアイス売上と水難事故が増えても、アイスが事故原因とは限らず気温というConfounderが考えられます。", "新UI公開後に売上が増えても、季節・広告・価格変更を分離するまでは因果未確認です。"],
     "commonMistakes": ["相関係数が高いだけで因果を断定する。", "先に起きた出来事を原因と確定する。", "AIが生成した因果説明をEvidenceなしにFactへ保存する。"],
     "keyPoints": ["Correlationは因果Hypothesisを作る手がかりになる", "Causationには時間順序だけでなく代替説明の検討や比較Evidenceが必要", "Confounderが両方を変えている可能性を確認する", "AIの因果候補はExperiment設計に有用だがVerified Factではない", "支持結果もLearning Candidate→Human Reviewを経てKnowledgeへ昇格する"],

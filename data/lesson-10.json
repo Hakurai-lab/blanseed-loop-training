@@ -1,14 +1,16 @@
 {
   "id": "10", "title": "事実（Fact）と仮説（Hypothesis）", "stageId": "CORE-STAGE-3", "tier": "CORE", "importance": "important", "questionCount": 5, "passScore": 5,
+  "experience": { "lessonLayout": "guided_reference", "quizLayout": "all_questions", "immediateFeedback": true, "lockAnswerOnSelection": true, "showCorrectAnswerAlways": true },
   "conceptTags": [
     { "id": "fact", "label": "Fact" }, { "id": "hypothesis", "label": "Hypothesis" },
     { "id": "testable_hypothesis", "label": "検証可能なHypothesis" }, { "id": "ai_output_responsibility", "label": "AI Hypothesisの責務" }
   ],
   "confusionTags": ["fact_vs_hypothesis", "hypothesis_as_fact", "untestable_hypothesis", "ai_hypothesis_as_fact"],
   "content": {
-    "summary": "確認されたFactと、原因・仕組みについて検証すべきHypothesisを分離します。",
+    "summary": "確認された事実（Fact）と、原因や仕組みについて検証する仮説（Hypothesis）を分けます。",
     "objectives": ["FactとHypothesisを区別できる", "原因についての推測をHypothesisとして扱える", "検証可能なHypothesisを選べる", "AIの推論をFactへ昇格させない", "Evidenceなしの原因断定を識別できる"],
-    "definition": "Hypothesisは、観測されたFactを説明する検証可能な推測です。原因を述べていても、Evidenceで確認されるまではFactではありません。",
+    "definition": "Hypothesis（仮説）は、観測されたFact（事実）がなぜ起きたかを説明する、確かめることのできる推測です。原因らしく見えても、Evidence（証拠）で確認されるまでは事実ではありません。",
+    "purpose": "確認済みの事実と、これから確かめる原因の候補を混ぜず、何を検証すべきか明確にするために使います。",
     "examples": ["Fact：離脱率が20%から32%へ上昇。Hypothesis：フォームが長くなったため離脱率が上昇した。", "AIはHypothesis生成や検証案作成に有効ですが、AI OutputはVerified Factではありません。"],
     "commonMistakes": ["時間的に先に起きた変更を原因Factとして保存する。", "反証できない説明をHypothesisとして採用する。", "AIが示したもっともらしい原因をEvidenceなしに確定する。"],
     "keyPoints": ["Factは何が起きたか、Hypothesisはなぜ起きたかの検証候補", "Hypothesisには確認に使うObservationやTestを設計できる必要がある", "支持されたHypothesisもHuman Review前にReusable Knowledgeへ自動昇格しない", "Fact→Interpretation→Hypothesis→Learning Candidate→Human Review→Reusable Knowledgeを維持する"],

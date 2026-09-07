@@ -1,14 +1,16 @@
 {
   "id": "08", "title": "State Update", "stageId": "CORE-STAGE-2", "tier": "CORE", "importance": "normal", "questionCount": 5, "passScore": 4,
+  "experience": { "lessonLayout": "guided_reference", "quizLayout": "all_questions", "immediateFeedback": true, "lockAnswerOnSelection": true, "showCorrectAnswerAlways": true },
   "conceptTags": [
     { "id": "state_update", "label": "State Update" }, { "id": "observation_vs_state_update", "label": "ObservationとState Update" },
     { "id": "history_vs_state", "label": "HistoryとState" }, { "id": "re_evaluation", "label": "Re-Evaluation" }
   ],
   "confusionTags": ["observation_vs_state_update", "state_not_updated", "history_vs_state", "missing_re_evaluation"],
   "content": {
-    "summary": "新しいObservationを既存Stateへ反映し、更新された現在状態からEvaluationへ戻します。",
+    "summary": "新しい観測（Observation）を現在の状態（State）へ反映し、更新後の状態からもう一度評価（Evaluation）します。",
     "objectives": ["新しいObservationからStateを更新できる", "古いStateを使い続ける問題を理解する", "State Update後に再Evaluationする流れを理解する", "履歴追加とState Updateを区別できる", "Loopが継続する構造を理解する"],
-    "definition": "State Updateは、新しいObservationを既定の集計・整理Ruleで現在のStateへ反映し、Evaluation可能な最新状態を作る処理です。",
+    "definition": "State Update（状態の更新）は、新しいObservation（観測）を決められた整理・集計ルールで現在のState（状態）へ反映し、Evaluation（評価）に使える最新状態を作る処理です。",
+    "purpose": "古い状態のまま判断せず、行動後に得た新しい情報を加えて、現在の状況に合った判断をするために使います。",
     "examples": ["Old State：7日平均35分。New Observations：今週の学習記録。Updated State：7日平均52分。次にTarget 60分と再Evaluation。"],
     "commonMistakes": ["新しいObservationを履歴へ追加するだけでStateを更新しない。", "一部の新しい値だけで、定義済みStateの集計Ruleを変える。", "State更新後にEvaluationへ戻らず終了する。"],
     "keyPoints": ["Observation追加とState Updateは別の処理である", "Stateは同じ定義・集計Ruleで更新する", "Updated StateをEvaluationへ入力する", "State UpdateがFeedbackを次の判断へ接続する"],

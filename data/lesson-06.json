@@ -1,14 +1,16 @@
 {
   "id": "06", "title": "Action / Intervention", "stageId": "CORE-STAGE-2", "tier": "CORE", "importance": "normal", "questionCount": 5, "passScore": 4,
+  "experience": { "lessonLayout": "guided_reference", "quizLayout": "all_questions", "immediateFeedback": true, "lockAnswerOnSelection": true, "showCorrectAnswerAlways": true },
   "conceptTags": [
     { "id": "action", "label": "Action" }, { "id": "intervention", "label": "Intervention" },
     { "id": "evaluation_vs_action", "label": "EvaluationとAction" }, { "id": "connected_action", "label": "Evaluationに接続したAction" }
   ],
   "confusionTags": ["evaluation_vs_action", "action_not_executable", "action_not_connected", "unnecessary_intervention"],
   "content": {
-    "summary": "Evaluationを受けて次に行うActionを選び、状態へ直接働きかけるInterventionと区別します。",
+    "summary": "評価（Evaluation）を受けて次の行動（Action）を選び、状態へ直接働きかける介入（Intervention）と区別します。",
     "objectives": ["EvaluationとActionを区別できる", "ActionとInterventionの違いを理解する", "Evaluation結果に対応する実行可能なActionを選べる", "ObservationだけをActionと誤認しない", "不必要に強いInterventionを避ける"],
-    "definition": "ActionはEvaluationを受けて実行する処理です。InterventionはActionのうち、対象の状態を変えるために直接働きかけるものです。",
+    "definition": "Action（行動）は、Evaluation（評価）の結果を受けて次に実行する処理です。Intervention（介入）はActionのうち、対象の状態を変えるために直接働きかける行動です。",
+    "purpose": "判断しただけで終わらず、目的に近づくために何を実行するかを明確にし、必要以上に強い介入を避けるために使います。",
     "examples": ["Evaluation：学習時間がTarget未達。Action：原因確認のため開始時刻を記録する。Intervention：翌週から開始時刻を30分早める。"],
     "commonMistakes": ["『未達である』というEvaluationをActionと呼ぶ。", "追加Observationを状態変更のInterventionと混同する。", "原因や影響を確認せず最も強い介入を選ぶ。"],
     "keyPoints": ["Evaluationは判断、Actionは実行である", "すべてのActionがInterventionではない", "ActionはEvaluation結果とPurposeへ接続する", "必要十分な強さのActionを選ぶ"],

@@ -1,5 +1,6 @@
 {
   "id": "03",
+  "experience": { "lessonLayout": "guided_reference", "quizLayout": "all_questions", "immediateFeedback": true, "lockAnswerOnSelection": true, "showCorrectAnswerAlways": true },
   "title": "ObservationとEvaluation",
   "stageId": "CORE-STAGE-1",
   "tier": "CORE",
@@ -20,7 +21,8 @@
       "同じObservationでも基準によりEvaluationが変わることを理解する",
       "Evaluationには比較対象やRuleが必要だと判断できる"
     ],
-    "definition": "Observationは取得された情報です。EvaluationはObservationやStateを基準と比較して行う判断です。",
+    "definition": "Observation（観測）は取得・記録した事実です。Evaluation（評価）は、その観測やState（現在の状態）を目標や基準と比べて行う判断です。観測した内容と、そこから下した判断は分けて扱います。",
+    "purpose": "事実と判断を混ぜず、同じ情報から同じ基準で判断できるようにするために使います。",
     "examples": [
       "Observation：体重75.0kg。Evaluation：目標58.0kgより17.0kg多い。",
       "Observation：初回応答まで6時間。Evaluation：目標3時間を超過している。"

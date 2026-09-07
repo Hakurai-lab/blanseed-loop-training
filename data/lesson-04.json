@@ -1,5 +1,6 @@
 {
   "id": "04",
+  "experience": { "lessonLayout": "guided_reference", "quizLayout": "all_questions", "immediateFeedback": true, "lockAnswerOnSelection": true, "showCorrectAnswerAlways": true },
   "title": "Stateとは何か",
   "stageId": "CORE-STAGE-1",
   "tier": "CORE",
@@ -21,7 +22,8 @@
       "新しいObservationによりStateが更新されることを理解する",
       "目的に不要な複雑さをStateへ持ち込まない"
     ],
-    "definition": "Stateは、Observationを目的に合わせて整理・加工し、Evaluation可能な形で表した現在状態です。",
+    "definition": "State（現在の状態）は、Observation（観測した個別の情報）を目的に合わせて整理・集計し、Evaluation（評価）に使える形で表したものです。",
+    "purpose": "集めた情報をそのまま並べるのではなく、現在どうなっているかを判断しやすい形にまとめるために使います。",
     "examples": [
       "Observation：今日の体重75.0kg。State：7日平均74.8kg、前週比+0.3kg、目標差+16.8kg。",
       "Observation：個々の応答時刻。State：直近7日の初回応答中央値4.2時間。"
